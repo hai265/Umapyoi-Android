@@ -1,6 +1,7 @@
 package com.example.uma.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -14,7 +15,7 @@ fun UmaApp() {
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
             HomeScreen(
-                contentPadding = it
+                modifier = Modifier.padding(top = it.calculateTopPadding())
             )
         }
     }

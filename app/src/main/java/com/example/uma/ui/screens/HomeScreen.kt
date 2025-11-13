@@ -15,11 +15,11 @@ import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, contentPadding: PaddingValues = PaddingValues(0.dp)) {
+fun HomeScreen(modifier: Modifier = Modifier) {
     val specialWeek = (UmaCharacter("Special Week", R.drawable.specialweek_icon))
     CharacterScreen(
         specialWeek,
-        modifier = modifier.padding(top = contentPadding.calculateTopPadding())
+        modifier = modifier
     )
 }
 
