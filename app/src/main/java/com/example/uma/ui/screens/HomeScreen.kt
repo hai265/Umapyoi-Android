@@ -8,11 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.uma.R
 import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
 @Composable
-fun HomeScreen(viewModel: UmaViewModel = UmaViewModel(), modifier: Modifier = Modifier) {
+fun HomeScreen(viewModel: UmaViewModel = viewModel(), modifier: Modifier = Modifier) {
     val umaUiState = viewModel.umaUiState
     Column(modifier = modifier) {
         when(umaUiState) {
