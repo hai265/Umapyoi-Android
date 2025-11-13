@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.uma.ui.UmaApp
 import com.example.uma.ui.theme.UmaTheme
 import com.example.uma.ui.screens.HomeScreen
 
@@ -17,8 +19,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             UmaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(modifier = Modifier.padding(innerPadding))
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    UmaApp()
                 }
             }
         }
