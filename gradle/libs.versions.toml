@@ -1,6 +1,7 @@
 [versions]
 agp = "8.9.1"
 coilCompose = "2.7.0"
+coilComposeVersion = "2.4.0"
 converterGson = "2.9.0"
 converterScalars = "2.9.0"
 kotlin = "2.0.21"
@@ -22,6 +23,7 @@ kotlinSerialization = "2.0.21"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-compose-v240 = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson" }
 converter-scalars = { module = "com.squareup.retrofit2:converter-scalars", version.ref = "converterScalars" }
 jetbrains-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json" }

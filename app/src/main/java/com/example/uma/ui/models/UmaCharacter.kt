@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 //TODO: Change to serializable?
 @Serializable
 data class UmaCharacter(
-    @SerialName("name_en")
-    val name: String,
-)
+    @SerialName("name_en") val name: String,
+    @SerialName("thumb_img") val image: String,
+
+    )
