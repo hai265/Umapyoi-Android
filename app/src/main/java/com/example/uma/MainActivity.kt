@@ -12,7 +12,10 @@ import androidx.compose.ui.Modifier
 import com.example.uma.ui.UmaApp
 import com.example.uma.ui.theme.UmaTheme
 import com.example.uma.ui.screens.HomeScreen
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
