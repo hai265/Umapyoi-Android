@@ -11,8 +11,14 @@ import javax.inject.Inject
 class NetworkUmaRepository @Inject constructor(
     private val umaApiService: UmaApiService
 ): UmaRepository {
+    private var cachedCharacters: List<UmaCharacter>? = null
+
     override suspend fun getAllCharacters(): List<UmaCharacter> {
-        return umaApiService.getAllCharacters()
+        cachedCharacters?.let { return it }
+
+        val result = umaApiService.getAllCharacters()
+        cachedCharacters = result
+        return result
     }
 }
 

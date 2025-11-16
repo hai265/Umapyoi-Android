@@ -31,8 +31,10 @@ class UmaViewModel @Inject constructor(
     }
 
     fun getRandomUma() : Unit {
-//        TODO: set currentUma to a random uma
-        umaUiState = UmaUiState.Loading
+       // Only show loading on first button press
+        if (umaUiState == UmaUiState.Initial) {
+            umaUiState = UmaUiState.Loading
+        }
 
         viewModelScope.launch {
             try {
