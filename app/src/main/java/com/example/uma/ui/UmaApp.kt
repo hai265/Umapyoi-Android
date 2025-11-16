@@ -7,14 +7,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.uma.ui.screens.HomeScreen
+import com.example.uma.ui.screens.UmaViewModel
 
 @Composable
-fun UmaApp() {
+fun UmaApp(umaViewModel: UmaViewModel) {
     Scaffold(
         modifier = Modifier
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
             HomeScreen(
+                umaViewModel.umaUiState,
+                umaViewModel::getRandomUma,
                 modifier = Modifier.padding(top = it.calculateTopPadding())
             )
         }

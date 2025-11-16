@@ -5,25 +5,33 @@ import retrofit2.Retrofit
 import retrofit2.http.GET
 import kotlinx.serialization.json.Json
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import dagger.Provides
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.MediaType.Companion.toMediaType
 
-private val json = Json {
-    ignoreUnknownKeys = true // required: API returns huge objects with extra fields
-}
-
 private const val BASE_URL = "https://umapyoi.net/api/v1/"
-private val retrofit = Retrofit.Builder()
-    .baseUrl(BASE_URL)
-    .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-    .build()
 
-interface UmaApiService{
+interface UmaApiService {
     @GET("character/info")
     suspend fun getAllCharacters(): List<UmaCharacter>
 }
 
-object UmaApi {
-    val retrofitService: UmaApiService by lazy {
-        retrofit.create(UmaApiService::class.java)
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class UmaNetworkModule {
+    companion object {
+        @Provides
+        fun providesUmaApiService(): UmaApiService {
+            val json = Json {
+                ignoreUnknownKeys = true // required: API returns huge objects with extra fields
+            }
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+                .build()
+                .create(UmaApiService::class.java)
+        }
     }
 }

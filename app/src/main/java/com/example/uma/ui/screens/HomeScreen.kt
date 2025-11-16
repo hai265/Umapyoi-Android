@@ -6,14 +6,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
-fun HomeScreen(viewModel: UmaViewModel = viewModel(), modifier: Modifier = Modifier) {
-    val umaUiState = viewModel.umaUiState
+fun HomeScreen(umaUiState: UmaUiState, buttonOnclick: () -> Unit, modifier: Modifier = Modifier) {
+    val umaUiState = umaUiState
     Column(modifier = modifier) {
         when (umaUiState) {
             UmaUiState.Error -> Text("Error. Please turn the internet")
@@ -23,7 +22,7 @@ fun HomeScreen(viewModel: UmaViewModel = viewModel(), modifier: Modifier = Modif
             UmaUiState.Initial -> Text("Do you want an Uma?")
         }
         if (umaUiState !is UmaUiState.Loading) {
-            Button(onClick = { viewModel.getRandomUma() }) {
+            Button(onClick =  buttonOnclick ) {
                 Text("Click to get a random uma")
             }
         }
@@ -57,6 +56,6 @@ fun CharacterScreenPreview() {
 @Composable
 fun HomeScreenPreview() {
     UmaTheme {
-        HomeScreen(modifier = Modifier)
+        HomeScreen(UmaUiState.Error, {}, modifier = Modifier)
     }
 }

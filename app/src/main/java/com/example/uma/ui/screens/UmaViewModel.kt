@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.R
-import com.example.uma.network.UmaApi
+import com.example.uma.data.UmaRepository
 import com.example.uma.ui.models.UmaCharacter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
+import javax.inject.Inject
 
 sealed interface UmaUiState {
     data class Success(val umaCharacter: UmaCharacter): UmaUiState
@@ -18,7 +19,10 @@ sealed interface UmaUiState {
     object Initial: UmaUiState
 }
 
-class UmaViewModel : ViewModel() {
+@HiltViewModel
+class UmaViewModel @Inject constructor(
+    private val umaRepository: UmaRepository
+) : ViewModel() {
     var umaUiState: UmaUiState by mutableStateOf(UmaUiState.Loading)
         private set
 
@@ -32,7 +36,7 @@ class UmaViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val allCharacters = UmaApi.retrofitService.getAllCharacters()
+                val allCharacters = umaRepository.getAllCharacters()
                 val randomUma = allCharacters.random()
                 umaUiState = UmaUiState.Success(randomUma)
             } catch (e: IOException) {
