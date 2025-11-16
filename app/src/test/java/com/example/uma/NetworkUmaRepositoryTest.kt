@@ -1,27 +1,32 @@
 package com.example.uma
 
 import com.example.uma.data.NetworkUmaRepository
-import com.example.uma.fakes.FakeUmaApi
+import com.example.uma.fakes.umaList
+import com.example.uma.network.UmaApiService
 import com.example.uma.ui.models.UmaCharacter
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
 class NetworkUmaRepositoryTest {
+    private val umaApiService: UmaApiService = mockk()
     private lateinit var subject: NetworkUmaRepository
-
-//    TODO: add mocks
 
     @Before
     fun setup() {
-        subject = NetworkUmaRepository(FakeUmaApi())
+        coEvery { umaApiService.getAllCharacters()} returns umaList
+        subject = NetworkUmaRepository(umaApiService)
     }
 
     @Test
     fun callgetAllCharacters_getCharacters() = runTest {
         val umaList = subject.getAllCharacters()
 
+        coVerify(exactly = 1) { umaApiService.getAllCharacters()}
         assertEquals(
             umaList, listOf<UmaCharacter>(
                 UmaCharacter("Special Week", ""),
