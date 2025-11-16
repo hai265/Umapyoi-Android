@@ -1,11 +1,14 @@
 package com.example.uma.ui.screens
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
@@ -21,16 +24,15 @@ fun HomeScreen(umaUiState: UmaUiState, buttonOnclick: () -> Unit, modifier: Modi
 
             UmaUiState.Initial -> Text("Do you want an Uma?")
         }
-        if (umaUiState !is UmaUiState.Loading) {
-            Button(onClick =  buttonOnclick ) {
-                Text("Click to get a random uma")
-            }
+        Button(onClick = buttonOnclick, enabled = umaUiState !is UmaUiState.Loading) {
+            Text("Click to get a random uma")
         }
     }
 
 }
 
-@Composable fun SuccessScreen(umaCharacter: UmaCharacter, modifier: Modifier = Modifier) {
+@Composable
+fun SuccessScreen(umaCharacter: UmaCharacter, modifier: Modifier = Modifier) {
     CharacterScreen(
         umaCharacter,
         modifier = modifier
@@ -42,7 +44,11 @@ fun HomeScreen(umaUiState: UmaUiState, buttonOnclick: () -> Unit, modifier: Modi
 fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(character.name)
-        AsyncImage(model = character.image, contentDescription = null)
+        AsyncImage(
+            model = character.image, contentDescription = null,
+            modifier
+                .height(300.dp)
+        )
     }
 }
 
