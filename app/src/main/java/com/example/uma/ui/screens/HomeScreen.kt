@@ -18,7 +18,7 @@ fun HomeScreen(umaUiState: UmaUiState, buttonOnclick: () -> Unit, modifier: Modi
     val umaUiState = umaUiState
     Column(modifier = modifier) {
         when (umaUiState) {
-            UmaUiState.Error -> Text("Error. Please turn the internet")
+            is UmaUiState.Error -> Text("Error: ${umaUiState.error}")
             UmaUiState.Loading -> Text("Loading...")
             is UmaUiState.Success -> SuccessScreen(umaUiState.umaCharacter)
 
@@ -62,6 +62,6 @@ fun CharacterScreenPreview() {
 @Composable
 fun HomeScreenPreview() {
     UmaTheme {
-        HomeScreen(UmaUiState.Error, {}, modifier = Modifier)
+        HomeScreen(UmaUiState.Error("error"), {}, modifier = Modifier)
     }
 }

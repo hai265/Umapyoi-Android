@@ -15,7 +15,7 @@ import javax.inject.Inject
 sealed interface UmaUiState {
     data class Success(val umaCharacter: UmaCharacter): UmaUiState
     object Loading: UmaUiState
-    object Error: UmaUiState
+    data class Error(val error: String): UmaUiState
     object Initial: UmaUiState
 }
 
@@ -42,7 +42,7 @@ class UmaViewModel @Inject constructor(
                 val randomUma = allCharacters.random()
                 umaUiState = UmaUiState.Success(randomUma)
             } catch (e: IOException) {
-
+                umaUiState = UmaUiState.Error("Error: $e")
             }
         }
     }
