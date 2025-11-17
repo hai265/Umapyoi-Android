@@ -1,4 +1,4 @@
-package com.example.uma.network
+package com.example.uma.data.network
 
 import com.example.uma.ui.models.UmaCharacter
 import retrofit2.Retrofit

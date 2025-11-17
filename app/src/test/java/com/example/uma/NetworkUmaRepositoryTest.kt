@@ -1,8 +1,8 @@
 package com.example.uma
 
-import com.example.uma.data.NetworkUmaRepository
+import com.example.uma.data.network.NetworkUmaRepository
 import com.example.uma.fakes.umaList
-import com.example.uma.network.UmaApiService
+import com.example.uma.data.network.UmaApiService
 import com.example.uma.ui.models.UmaCharacter
 import io.mockk.coEvery
 import io.mockk.coVerify

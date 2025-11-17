@@ -9,5 +9,4 @@ import kotlinx.serialization.Serializable
 data class UmaCharacter(
     @SerialName("name_en") val name: String,
     @SerialName("thumb_img") val image: String,
-
     )
