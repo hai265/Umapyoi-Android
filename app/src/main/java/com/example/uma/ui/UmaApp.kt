@@ -15,6 +15,7 @@ fun UmaApp(umaViewModel: UmaViewModel) {
         modifier = Modifier
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
+            //TODO: Change to navigationController class (to display character list and random uma page)
             HomeScreen(
                 umaViewModel.umaUiState,
                 umaViewModel::getRandomUma,
