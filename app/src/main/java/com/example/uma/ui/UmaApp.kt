@@ -8,9 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.uma.ui.screens.HomeScreen
 import com.example.uma.ui.screens.UmaViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
-fun UmaApp(umaViewModel: UmaViewModel) {
+fun UmaApp() {
+    val umaViewModel: UmaViewModel = hiltViewModel()
     Scaffold(
         modifier = Modifier
     ) {
