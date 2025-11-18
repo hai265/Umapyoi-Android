@@ -6,21 +6,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.uma.ui.screens.HomeScreen
-import com.example.uma.ui.screens.UmaViewModel
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.example.uma.ui.screens.RandomUmaScreen
 
 @Composable
 fun UmaApp() {
-    val umaViewModel: UmaViewModel = hiltViewModel()
     Scaffold(
         modifier = Modifier
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
             //TODO: Change to navigationController class (to display character list and random uma page)
-            HomeScreen(
-                umaViewModel.umaUiState,
-                umaViewModel::getRandomUma,
+            RandomUmaScreen(
                 modifier = Modifier.padding(top = it.calculateTopPadding())
             )
         }

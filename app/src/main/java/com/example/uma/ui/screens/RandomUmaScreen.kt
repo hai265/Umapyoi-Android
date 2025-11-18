@@ -1,7 +1,6 @@
 package com.example.uma.ui.screens
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -9,13 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
-fun HomeScreen(umaUiState: UmaUiState, buttonOnclick: () -> Unit, modifier: Modifier = Modifier) {
-    val umaUiState = umaUiState
+fun RandomUmaScreen(modifier: Modifier = Modifier) {
+    val umaViewModel: UmaViewModel = hiltViewModel()
+    val umaUiState = umaViewModel.umaUiState
     Column(modifier = modifier) {
         when (umaUiState) {
             is UmaUiState.Error -> Text("Error: ${umaUiState.error}")
@@ -24,7 +25,7 @@ fun HomeScreen(umaUiState: UmaUiState, buttonOnclick: () -> Unit, modifier: Modi
 
             UmaUiState.Initial -> Text("Do you want an Uma?")
         }
-        Button(onClick = buttonOnclick, enabled = umaUiState !is UmaUiState.Loading) {
+        Button(onClick = umaViewModel::getRandomUma, enabled = umaUiState !is UmaUiState.Loading) {
             Text("Click to get a random uma")
         }
     }
@@ -62,6 +63,6 @@ fun CharacterScreenPreview() {
 @Composable
 fun HomeScreenPreview() {
     UmaTheme {
-        HomeScreen(UmaUiState.Error("error"), {}, modifier = Modifier)
+        RandomUmaScreen(modifier = Modifier)
     }
 }
