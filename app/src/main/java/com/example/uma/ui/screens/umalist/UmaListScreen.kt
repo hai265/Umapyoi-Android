@@ -18,11 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.uma.R
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import coil.request.ImageRequest
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
 @Composable
 fun UmaListScreen(modifier: Modifier = Modifier) {
@@ -46,11 +47,7 @@ fun UmaColumn(umaCharacters: List<UmaCharacter>, modifier: Modifier = Modifier) 
                     .padding(4.dp)
             ) {
                 AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(character.image)
-                        .size(200)
-                        .crossfade(true)
-                        .build(),
+                    model = character.image,
                     contentDescription = null,
                     modifier = Modifier.height(150.dp),
                     //TODO: special week icon ONLY FOR PREVIEW

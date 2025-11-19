@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
 
@@ -45,6 +45,7 @@ fun SuccessScreen(umaCharacter: UmaCharacter, modifier: Modifier = Modifier) {
 fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(character.name)
+        //TODO: Imagebuilder
         AsyncImage(
             model = character.image, contentDescription = null,
             modifier
