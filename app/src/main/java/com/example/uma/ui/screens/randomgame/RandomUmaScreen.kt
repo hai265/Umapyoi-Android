@@ -56,7 +56,7 @@ fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
 @Composable
 @Preview
 fun CharacterScreenPreview() {
-    CharacterScreen(UmaCharacter("Special Week", ""), modifier = Modifier)
+    CharacterScreen(UmaCharacter(1,"Special Week", ""), modifier = Modifier)
 }
 
 @Preview(showBackground = true)
