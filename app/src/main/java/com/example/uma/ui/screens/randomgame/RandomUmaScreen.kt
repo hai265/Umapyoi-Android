@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens
+package com.example.uma.ui.screens.randomgame
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
@@ -15,17 +15,17 @@ import com.example.uma.ui.theme.UmaTheme
 
 @Composable
 fun RandomUmaScreen(modifier: Modifier = Modifier) {
-    val umaViewModel: UmaViewModel = hiltViewModel()
-    val umaUiState = umaViewModel.umaUiState
+    val randomUmaViewModel: RandomUmaViewModel = hiltViewModel()
+    val umaUiState = randomUmaViewModel.randomUmaUiState
     Column(modifier = modifier) {
         when (umaUiState) {
-            is UmaUiState.Error -> Text("Error: ${umaUiState.error}")
-            UmaUiState.Loading -> Text("Loading...")
-            is UmaUiState.Success -> SuccessScreen(umaUiState.umaCharacter)
+            is RandomUmaUiState.Error -> Text("Error: ${umaUiState.error}")
+            RandomUmaUiState.Loading -> Text("Loading...")
+            is RandomUmaUiState.Success -> SuccessScreen(umaUiState.umaCharacter)
 
-            UmaUiState.Initial -> Text("Do you want an Uma?")
+            RandomUmaUiState.Initial -> Text("Do you want an Uma?")
         }
-        Button(onClick = umaViewModel::getRandomUma, enabled = umaUiState !is UmaUiState.Loading) {
+        Button(onClick = randomUmaViewModel::getRandomUma, enabled = umaUiState !is RandomUmaUiState.Loading) {
             Text("Click to get a random uma")
         }
     }

@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens
+package com.example.uma.ui.screens.randomgame
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -12,37 +12,37 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-sealed interface UmaUiState {
-    data class Success(val umaCharacter: UmaCharacter): UmaUiState
-    object Loading: UmaUiState
-    data class Error(val error: String): UmaUiState
-    object Initial: UmaUiState
+sealed interface RandomUmaUiState {
+    data class Success(val umaCharacter: UmaCharacter): RandomUmaUiState
+    object Loading: RandomUmaUiState
+    data class Error(val error: String): RandomUmaUiState
+    object Initial: RandomUmaUiState
 }
 
 @HiltViewModel
-class UmaViewModel @Inject constructor(
+class RandomUmaViewModel @Inject constructor(
     private val umaRepository: UmaRepository
 ) : ViewModel() {
-    var umaUiState: UmaUiState by mutableStateOf(UmaUiState.Loading)
+    var randomUmaUiState: RandomUmaUiState by mutableStateOf(RandomUmaUiState.Loading)
         private set
 
     init {
-        umaUiState = UmaUiState.Initial
+        randomUmaUiState = RandomUmaUiState.Initial
     }
 
     fun getRandomUma() : Unit {
        // Only show loading on first button press
-        if (umaUiState == UmaUiState.Initial) {
-            umaUiState = UmaUiState.Loading
+        if (randomUmaUiState == RandomUmaUiState.Initial) {
+            randomUmaUiState = RandomUmaUiState.Loading
         }
 
         viewModelScope.launch {
             try {
                 val allCharacters = umaRepository.getAllCharacters()
                 val randomUma = allCharacters.random()
-                umaUiState = UmaUiState.Success(randomUma)
+                randomUmaUiState = RandomUmaUiState.Success(randomUma)
             } catch (e: IOException) {
-                umaUiState = UmaUiState.Error("Error: $e")
+                randomUmaUiState = RandomUmaUiState.Error("Error: $e")
             }
         }
     }
