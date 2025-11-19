@@ -31,6 +31,7 @@ fun UmaListScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun UmaColumn(umaCharacters: List<UmaCharacter>, modifier: Modifier = Modifier) {
+    //TODO: Fix lag when scrolling
     LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
         items(umaCharacters) { character ->
             //TODO: Add onclick
