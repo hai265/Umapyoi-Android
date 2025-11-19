@@ -4,10 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.uma.ui.models.UmaCharacter
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +31,13 @@ fun UmaListScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun UmaColumn(umaCharacters: List<UmaCharacter>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
         items(umaCharacters) { character ->
             //TODO: Add onclick
-            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.clickable(enabled = true, onClick = {} )) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier.clickable(enabled = true, onClick = {})
+            ) {
                 AsyncImage(
                     model = character.image, contentDescription = null,
                     modifier = modifier.height(150.dp),
@@ -49,6 +54,10 @@ fun UmaColumn(umaCharacters: List<UmaCharacter>, modifier: Modifier = Modifier) 
 @Composable
 fun UmaColumnPreview() {
     val umaList =
-        listOf<UmaCharacter>(UmaCharacter("Special Week", ""), UmaCharacter("Tokai Teio", ""))
+        listOf<UmaCharacter>(
+            UmaCharacter("Special Week", ""),
+            UmaCharacter("Tokai Teio", ""),
+            UmaCharacter("Silence Suzuka", ""),
+        )
     UmaColumn(umaList)
 }
