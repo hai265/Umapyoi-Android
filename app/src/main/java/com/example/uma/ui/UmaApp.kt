@@ -16,10 +16,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.uma.ui.screens.randomgame.RandomUmaScreen
 import com.example.uma.ui.screens.umalist.UmaListScreen
+import kotlinx.serialization.Serializable
 
-enum class UmaScreen {
-    RandomUma,
-    UmaList
+
+sealed class UmaNavigables {
+    @Serializable data object RandomUma: UmaNavigables()
+    @Serializable data object UmaList: UmaNavigables()
+    data class Character(val id: String): UmaNavigables()
 }
 
 //TODO: Add a top bar and buttons to navigate to different screens
@@ -29,11 +32,11 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
         bottomBar = {
             BottomBar(
                 onClickCharacters = {
-                    navController.navigateSingleTopTo(UmaScreen.UmaList.name)
+                    navController.navigateSingleTopTo(UmaNavigables.UmaList)
 
                 },
                 onClickGames = {
-                    navController.navigateSingleTopTo(UmaScreen.RandomUma.name)
+                    navController.navigateSingleTopTo(UmaNavigables.RandomUma)
                 })
         },
         modifier = Modifier
@@ -42,13 +45,13 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
             //TODO: Change to navigationController class (to display character list and random uma page)
             NavHost(
                 navController = navController,
-                startDestination = UmaScreen.UmaList.name,
+                startDestination = UmaNavigables.UmaList,
                 modifier = Modifier.padding(top = it.calculateTopPadding())
             ) {
-                composable(route = UmaScreen.UmaList.name) {
+                composable<UmaNavigables.UmaList> {
                     UmaListScreen()
                 }
-                composable(route = UmaScreen.RandomUma.name) {
+                composable<UmaNavigables.RandomUma> {
                     RandomUmaScreen()
                 }
             }
@@ -71,7 +74,7 @@ fun BottomBar(onClickCharacters: () -> Unit, onClickGames: () -> Unit) {
     )
 }
 
-fun NavHostController.navigateSingleTopTo(route: String) =
+fun NavHostController.navigateSingleTopTo(route: UmaNavigables) =
     this.navigate(route) {
         launchSingleTop = true
         restoreState = true

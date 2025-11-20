@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun CharacterScreen(modifier: Modifier = Modifier) {
+fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
 }
