@@ -15,8 +15,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.uma.ui.screens.randomgame.CharacterScreen
 import com.example.uma.ui.screens.randomgame.RandomUmaScreen
-import com.example.uma.ui.screens.umalist.CharacterScreen
 import com.example.uma.ui.screens.umalist.UmaListScreen
 import kotlinx.serialization.Serializable
 

@@ -33,7 +33,7 @@ fun RandomUmaScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SuccessScreen(umaCharacter: UmaCharacter, modifier: Modifier = Modifier) {
+private fun SuccessScreen(umaCharacter: UmaCharacter, modifier: Modifier = Modifier) {
     CharacterScreen(
         umaCharacter,
         modifier = modifier
@@ -42,7 +42,7 @@ fun SuccessScreen(umaCharacter: UmaCharacter, modifier: Modifier = Modifier) {
 
 
 @Composable
-fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
+private fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(character.name)
         //TODO: Imagebuilder
@@ -56,13 +56,13 @@ fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
 
 @Composable
 @Preview
-fun CharacterScreenPreview() {
+private fun CharacterScreenPreview() {
     CharacterScreen(UmaCharacter(1,"Special Week", ""), modifier = Modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+private fun HomeScreenPreview() {
     UmaTheme {
         RandomUmaScreen(modifier = Modifier)
     }
