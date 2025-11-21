@@ -3,8 +3,8 @@ package com.example.uma.ui.screens.umalist
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.network.UmaRepository
-import com.example.uma.ui.models.UmaCharacter
+import com.example.uma.data.repository.UmaRepository
+import com.example.uma.data.repository.UmaCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

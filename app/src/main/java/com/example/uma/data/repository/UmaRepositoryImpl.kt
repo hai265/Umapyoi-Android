@@ -1,6 +1,7 @@
-package com.example.uma.data.network
+package com.example.uma.data.repository
 
-import com.example.uma.ui.models.UmaCharacter
+import com.example.uma.data.network.NetworkUmaCharacter
+import com.example.uma.data.network.UmaApiService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,19 +13,15 @@ import javax.inject.Inject
 class NetworkUmaRepository @Inject constructor(
     private val umaApiService: UmaApiService
 ): UmaRepository {
-    //TODO: Remove cachedCharacters and use a room backed service instead
-    private var cachedCharacters: List<UmaCharacter>? = null
 
     override suspend fun getAllCharacters(): List<UmaCharacter> {
-        cachedCharacters?.let { return it }
 
         val result = umaApiService.getAllCharacters()
-        cachedCharacters = result
-        return result
+        return result.map { it.toUmaCharacter() }
     }
 
     override fun getCharacterById(id: Int): Flow<UmaCharacter> = flow {
-        emit(umaApiService.getCharacterById(id))
+        emit(umaApiService.getCharacterById(id).toUmaCharacter())
     }
 }
 

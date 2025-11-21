@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.network.UmaRepository
-import com.example.uma.ui.models.UmaCharacter
+import com.example.uma.data.repository.UmaRepository
+import com.example.uma.data.repository.UmaCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException

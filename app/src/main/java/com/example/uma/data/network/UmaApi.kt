@@ -1,6 +1,5 @@
 package com.example.uma.data.network
 
-import com.example.uma.ui.models.UmaCharacter
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import kotlinx.serialization.json.Json
@@ -16,11 +15,11 @@ private const val BASE_URL = "https://umapyoi.net/api/v1/"
 
 interface UmaApiService {
     @GET("character/info")
-    suspend fun getAllCharacters(): List<UmaCharacter>
+    suspend fun getAllCharacters(): List<NetworkUmaCharacter>
     @GET("character/{id}")
     suspend fun getCharacterById(
         @Path("id") id: Int
-    ): UmaCharacter
+    ): NetworkUmaCharacter
 }
 
 @Module

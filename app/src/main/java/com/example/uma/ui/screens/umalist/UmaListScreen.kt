@@ -22,7 +22,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
-import com.example.uma.ui.models.UmaCharacter
+import com.example.uma.data.repository.UmaCharacter
 
 @Composable
 fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {

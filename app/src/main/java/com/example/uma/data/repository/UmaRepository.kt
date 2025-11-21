@@ -1,6 +1,5 @@
-package com.example.uma.data.network
+package com.example.uma.data.repository
 
-import com.example.uma.ui.models.UmaCharacter
 import kotlinx.coroutines.flow.Flow
 
 interface UmaRepository {

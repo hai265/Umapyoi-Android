@@ -1,11 +1,9 @@
 package com.example.uma.ui.screens.umalist
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.network.UmaRepository
-import com.example.uma.ui.models.UmaCharacter
-import com.example.uma.ui.screens.randomgame.RandomUmaUiState
+import com.example.uma.data.repository.UmaRepository
+import com.example.uma.data.repository.UmaCharacter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -13,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 /*

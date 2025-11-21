@@ -1,6 +1,6 @@
 package com.example.uma.fakes
 
-import com.example.uma.ui.models.UmaCharacter
+import com.example.uma.data.repository.UmaCharacter
 
 val umaList = listOf<UmaCharacter>(
     UmaCharacter(1,"Special Week", ""),
