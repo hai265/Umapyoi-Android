@@ -13,11 +13,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.example.uma.R
 import com.example.uma.ui.models.UmaCharacter
 
@@ -49,7 +52,10 @@ fun UmaColumn(
                     .padding(4.dp)
             ) {
                 AsyncImage(
-                    model = character.image,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(character.image)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = null,
                     modifier = Modifier.height(150.dp),
                     //TODO: special week icon ONLY FOR PREVIEW

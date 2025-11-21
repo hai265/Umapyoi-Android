@@ -13,6 +13,9 @@ import coil3.compose.AsyncImage
 import com.example.uma.ui.models.UmaCharacter
 import com.example.uma.ui.theme.UmaTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
 @Composable
 fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
@@ -48,7 +51,11 @@ private fun CharacterScreen(character: UmaCharacter, modifier: Modifier) {
         Text(character.name)
         //TODO: Imagebuilder
         AsyncImage(
-            model = character.image, contentDescription = null,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(character.image)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
             modifier
                 .height(300.dp)
         )
