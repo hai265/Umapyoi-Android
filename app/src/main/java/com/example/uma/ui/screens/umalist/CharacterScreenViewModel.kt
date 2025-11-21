@@ -2,7 +2,7 @@ package com.example.uma.ui.screens.umalist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.repository.UmaRepository
+import com.example.uma.data.repository.CharacterRepository
 import com.example.uma.data.repository.UmaCharacter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -25,7 +25,7 @@ sealed interface CharacterScreenUiState {
 @HiltViewModel(assistedFactory = CharacterScreenViewModel.Factory::class)
 class CharacterScreenViewModel @AssistedInject constructor(
     @Assisted private val characterId: Int,
-    private val umaRepo: UmaRepository,
+    private val umaRepo: CharacterRepository,
 ): ViewModel() {
     private val _state: MutableStateFlow<CharacterScreenUiState> = MutableStateFlow(CharacterScreenUiState.Loading)
     val state: StateFlow<CharacterScreenUiState> = _state

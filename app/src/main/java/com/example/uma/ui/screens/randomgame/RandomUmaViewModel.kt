@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.repository.UmaRepository
+import com.example.uma.data.repository.CharacterRepository
 import com.example.uma.data.repository.UmaCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ sealed interface RandomUmaUiState {
 
 @HiltViewModel
 class RandomUmaViewModel @Inject constructor(
-    private val umaRepository: UmaRepository
+    private val characterRepository: CharacterRepository
 ) : ViewModel() {
     var randomUmaUiState: RandomUmaUiState by mutableStateOf(RandomUmaUiState.Loading)
         private set
@@ -38,7 +38,7 @@ class RandomUmaViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val allCharacters = umaRepository.getAllCharacters()
+                val allCharacters = characterRepository.getAllCharacters()
                 val randomUma = allCharacters.random()
                 randomUmaUiState = RandomUmaUiState.Success(randomUma)
             } catch (e: IOException) {

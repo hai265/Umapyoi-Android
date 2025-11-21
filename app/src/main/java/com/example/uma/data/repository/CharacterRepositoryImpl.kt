@@ -1,6 +1,5 @@
 package com.example.uma.data.repository
 
-import com.example.uma.data.network.NetworkUmaCharacter
 import com.example.uma.data.network.UmaApiService
 import dagger.Binds
 import dagger.Module
@@ -10,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class NetworkUmaRepository @Inject constructor(
-    private val umaApiService: UmaApiService
-): UmaRepository {
+class CharacterRepositoryImpl @Inject constructor(
+    private val umaApiService: UmaApiService,
+): CharacterRepository {
 
     override suspend fun getAllCharacters(): List<UmaCharacter> {
 
@@ -29,5 +28,5 @@ class NetworkUmaRepository @Inject constructor(
 @InstallIn(SingletonComponent::class)
 abstract class NetworkUmaRepositoryModule {
     @Binds
-    abstract fun bindsUmaRepository(repository: NetworkUmaRepository): UmaRepository
+    abstract fun bindsUmaRepository(repository: CharacterRepositoryImpl): CharacterRepository
 }

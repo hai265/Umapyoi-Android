@@ -1,8 +1,8 @@
 package com.example.uma.fakes
 
-import com.example.uma.data.repository.UmaCharacter
+import com.example.uma.data.network.NetworkUmaCharacter
 
-val umaList = listOf<UmaCharacter>(
-    UmaCharacter(1,"Special Week", ""),
-    UmaCharacter(2,"Tokai Teio", "")
+val umaList = listOf<NetworkUmaCharacter>(
+    NetworkUmaCharacter(1,"Special Week", ""),
+    NetworkUmaCharacter(2,"Tokai Teio", "")
 )

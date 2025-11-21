@@ -3,7 +3,7 @@ package com.example.uma.ui.screens.umalist
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.repository.UmaRepository
+import com.example.uma.data.repository.CharacterRepository
 import com.example.uma.data.repository.UmaCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ data class UmaListState(
 */
 @HiltViewModel
 class UmaListViewModel @Inject constructor(
-    private val umaRepository: UmaRepository
+    private val characterRepository: CharacterRepository
 ) : ViewModel() {
     // This is flow to eventually support sorting, etc
     private val _umaList = MutableStateFlow(UmaListState())
@@ -30,7 +30,7 @@ class UmaListViewModel @Inject constructor(
     val gridState = LazyGridState()
     init {
         viewModelScope.launch {
-            val characters = umaRepository.getAllCharacters()
+            val characters = characterRepository.getAllCharacters()
             _umaList.value = UmaListState(characters)
         }
     }
