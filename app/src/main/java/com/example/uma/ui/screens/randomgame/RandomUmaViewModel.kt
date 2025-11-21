@@ -35,14 +35,14 @@ class RandomUmaViewModel @Inject constructor(
         if (randomUmaUiState == RandomUmaUiState.Initial) {
             randomUmaUiState = RandomUmaUiState.Loading
         }
-
         viewModelScope.launch {
-            try {
-                val allCharacters = characterRepository.getAllCharacters()
-                val randomUma = allCharacters.random()
-                randomUmaUiState = RandomUmaUiState.Success(randomUma)
-            } catch (e: IOException) {
-                randomUmaUiState = RandomUmaUiState.Error("Error: $e")
+            characterRepository.getAllCharacters().collect { allCharacters ->
+                try {
+                    val randomUma = allCharacters.random()
+                    randomUmaUiState = RandomUmaUiState.Success(randomUma)
+                } catch (e: IOException) {
+                    randomUmaUiState = RandomUmaUiState.Error("Error: $e")
+                }
             }
         }
     }

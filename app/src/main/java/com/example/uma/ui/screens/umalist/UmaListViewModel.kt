@@ -30,8 +30,9 @@ class UmaListViewModel @Inject constructor(
     val gridState = LazyGridState()
     init {
         viewModelScope.launch {
-            val characters = characterRepository.getAllCharacters()
-            _umaList.value = UmaListState(characters)
+            characterRepository.getAllCharacters().collect { characters ->
+                _umaList.value = UmaListState(characters)
+            }
         }
     }
 
