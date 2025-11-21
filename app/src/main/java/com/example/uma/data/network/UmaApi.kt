@@ -10,12 +10,17 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.http.Path
 
 private const val BASE_URL = "https://umapyoi.net/api/v1/"
 
 interface UmaApiService {
     @GET("character/info")
     suspend fun getAllCharacters(): List<UmaCharacter>
+    @GET("character/{id}")
+    suspend fun getCharacterById(
+        @Path("id") id: Int
+    ): UmaCharacter
 }
 
 @Module

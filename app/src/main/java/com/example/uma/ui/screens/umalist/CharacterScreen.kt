@@ -1,18 +1,18 @@
-package com.example.uma.ui.screens.randomgame
+package com.example.uma.ui.screens.umalist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.uma.ui.models.UmaCharacter
-import com.example.uma.ui.screens.umalist.CharacterScreenUiState
-import com.example.uma.ui.screens.umalist.CharacterScreenViewModel
 import com.example.uma.ui.theme.UmaTheme
+import androidx.compose.runtime.getValue
 
 @Composable
 fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
@@ -21,14 +21,13 @@ fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
             creationCallback = {factory -> factory.create(id)}
         )
 
-    val umaUiState = characterScreenViewModel.state
+    val umaUiState by characterScreenViewModel.state.collectAsState()
     Column(modifier = modifier) {
-        when (umaUiState) {
-            is CharacterScreenUiState.Error -> Text("Error: ${umaUiState.error}")
+        val state = umaUiState
+        when (state) {
+            is CharacterScreenUiState.Error -> Text("Error: $state")
             CharacterScreenUiState.Loading -> Text("Loading...")
-            is CharacterScreenUiState.Success -> SuccessScreen(umaUiState.umaCharacter)
-
-            CharacterScreenUiState.Initial -> Text("Do you want an Uma?")
+            is CharacterScreenUiState.Success -> {SuccessScreen(state.umaCharacter)}
         }
     }
 
