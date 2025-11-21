@@ -14,15 +14,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.uma.ui.screens.randomgame.RandomUmaScreen
+import com.example.uma.ui.screens.umalist.CharacterScreen
 import com.example.uma.ui.screens.umalist.UmaListScreen
 import kotlinx.serialization.Serializable
 
 
 sealed class UmaNavigables {
-    @Serializable data object RandomUma: UmaNavigables()
-    @Serializable data object UmaList: UmaNavigables()
-    data class Character(val id: String): UmaNavigables()
+    @Serializable
+    data object RandomUma : UmaNavigables()
+    @Serializable
+    data object UmaList : UmaNavigables()
+    @Serializable
+    class Character(val id: Int) : UmaNavigables()
 }
 
 //TODO: Add a top bar and buttons to navigate to different screens
@@ -49,10 +54,16 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
                 modifier = Modifier.padding(top = it.calculateTopPadding())
             ) {
                 composable<UmaNavigables.UmaList> {
-                    UmaListScreen()
+                    UmaListScreen { id: Int ->
+                        navController.navigateSingleTopTo(UmaNavigables.Character(id))
+                    }
                 }
                 composable<UmaNavigables.RandomUma> {
                     RandomUmaScreen()
+                }
+                composable<UmaNavigables.Character> { backStackEntry ->
+                    val character: UmaNavigables.Character = backStackEntry.toRoute()
+                    CharacterScreen(character.id)
                 }
             }
         }

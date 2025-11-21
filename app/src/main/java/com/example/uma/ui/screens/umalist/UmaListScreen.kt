@@ -22,23 +22,29 @@ import com.example.uma.R
 import com.example.uma.ui.models.UmaCharacter
 
 @Composable
-fun UmaListScreen(modifier: Modifier = Modifier) {
+fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: UmaListViewModel = hiltViewModel()
     val umaListState by viewModel.umaList.collectAsState()
 
-    UmaColumn(umaListState.umaList, modifier)
+    UmaColumn(
+        umaCharacters = umaListState.umaList,
+        onTapCharacter = onTapCharacter,
+        modifier = modifier
+    )
 }
 
 @Composable
-fun UmaColumn(umaCharacters: List<UmaCharacter>, modifier: Modifier = Modifier) {
-    //TODO: Fix lag when scrolling
+fun UmaColumn(
+    umaCharacters: List<UmaCharacter>,
+    onTapCharacter: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
         items(items = umaCharacters, key = { it.id }) { character ->
-            //TODO: Add onclick
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
-                    .clickable(enabled = true, onClick = {})
+                    .clickable(enabled = true, onClick = { onTapCharacter(character.id) })
                     .height(200.dp)
                     .padding(4.dp)
             ) {
@@ -64,5 +70,5 @@ fun UmaColumnPreview() {
             UmaCharacter(2, "Tokai Teio", ""),
             UmaCharacter(3, "Silence Suzuka", ""),
         )
-    UmaColumn(umaList)
+    UmaColumn(umaList, onTapCharacter = {})
 }
