@@ -33,7 +33,10 @@ class CharacterScreenViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch {
             umaRepo.getCharacterById(characterId).collect { character ->
-                _state.value = CharacterScreenUiState.Success(character)
+                character?.let {
+                    //TODO: Error screen if null? Or another state for empty
+                    _state.value = CharacterScreenUiState.Success(character)
+                }
             }
         }
     }

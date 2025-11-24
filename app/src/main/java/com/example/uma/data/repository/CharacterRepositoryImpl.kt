@@ -9,31 +9,41 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import okio.IOException
 import javax.inject.Inject
 
 private const val TAG = "CharacterRepositoryImpl"
+
+//TODO: This only calls network and writes to db when we run getAllCharacters
 class CharacterRepositoryImpl @Inject constructor(
     private val umaApiService: UmaApiService,
     private val characterDao: CharacterDao,
-): CharacterRepository {
+) : CharacterRepository {
 
-    override fun getAllCharacters(): Flow<List<UmaCharacter>> = flow {
-//        val chars = characterDao.getAllCharacters()
-//        emit(chars.map { it.toUmaCharacter() })
+    override fun getAllCharacters(): Flow<List<UmaCharacter>> {
+        val dbFlow = characterDao.getAllCharacters().map { dbCharacters ->
+            dbCharacters.map { it.toUmaCharacter() }
+        }
 
-        try {
-            val result = umaApiService.getAllCharacters()
-//        characterDao.insertAll(result.map { it.toCharacterEntity() })
-            emit(result.map { it.toUmaCharacter() })
-        } catch (e: IOException) {
-            Log.e(TAG, "Error connecting $e")
+        return dbFlow.onStart {
+            try {
+                val result = umaApiService.getAllCharacters()
+                characterDao.insertAll(result.map { it.toCharacterEntity() })
+            } catch (e: IOException) {
+                Log.e(TAG, "Error connecting $e")
+            }
         }
     }
 
-    override fun getCharacterById(id: Int): Flow<UmaCharacter> = flow {
-        emit(umaApiService.getCharacterById(id).toUmaCharacter())
+
+    // Also get this from the db
+    override fun getCharacterById(id: Int): Flow<UmaCharacter?> = characterDao.getAllCharacters().map {
+        it.firstOrNull() { it.id == id }?.toUmaCharacter()
     }
 }
 
