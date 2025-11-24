@@ -11,6 +11,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import okio.IOException
@@ -24,35 +27,34 @@ class CharacterRepositoryImpl @Inject constructor(
     private val characterDao: CharacterDao,
 ) : CharacterRepository {
 
-    override fun getAllCharacters(): Flow<List<ListCharacter>> {
+    override fun getAllCharacters(): Flow<List<ListCharacter>> = flow {
         val dbFlow = characterDao.getAllCharacters().map { dbCharacters ->
             dbCharacters.map { it.toUmaCharacter() }
         }
+        emitAll(dbFlow)
 
-        return dbFlow.onStart {
-            try {
-                val result = umaApiService.getAllCharacters()
-                characterDao.insertAllIgnoreExisting(result.map { it.toCharacterEntity() })
-            } catch (e: IOException) {
-                Log.e(TAG, "Error connecting $e")
-            }
+        try {
+            val result = umaApiService.getAllCharacters()
+            characterDao.insertAllIgnoreExisting(result.map { it.toCharacterEntity() })
+        } catch (e: IOException) {
+            Log.e(TAG, "Error connecting $e")
         }
+
     }
 
 
     // Also get this from the db
-    override fun getCharacterById(id: Int): Flow<ListCharacter?> {
-        val dbFlow = characterDao.getAllCharacters().map {
-                it.firstOrNull() { it.id == id }?.toUmaCharacter()
+    override fun getCharacterById(id: Int): Flow<ListCharacter?> = flow {
+        val dbFlow = characterDao.getAllCharacters().map { character ->
+            character.firstOrNull() { it.id == id }?.toUmaCharacter()
         }
+        emitAll(dbFlow)
 
-        return dbFlow.onStart {
-            try {
-                val result = umaApiService.getCharacterById(id)
-                characterDao.insertOrUpdate(result.toCharacterEntity())
-            } catch (e: IOException) {
-                Log.e(TAG, "Error connecting $e")
-            }
+        try {
+            val result = umaApiService.getCharacterById(id)
+            characterDao.insertOrUpdate(result.toCharacterEntity())
+        } catch (e: IOException) {
+            Log.e(TAG, "Error connecting $e")
         }
     }
 }
