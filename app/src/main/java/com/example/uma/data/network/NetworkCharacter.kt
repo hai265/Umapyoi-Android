@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkUmaCharacter(
+data class NetworkListCharacter(
     val id: Int,
     @SerialName("name_en")
     val name: String,

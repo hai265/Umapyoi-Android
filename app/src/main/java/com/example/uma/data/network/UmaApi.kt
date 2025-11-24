@@ -15,11 +15,12 @@ private const val BASE_URL = "https://umapyoi.net/api/v1/"
 
 interface UmaApiService {
     @GET("character/info")
-    suspend fun getAllCharacters(): List<NetworkUmaCharacter>
+    suspend fun getAllCharacters(): List<NetworkListCharacter>
+
     @GET("character/{id}")
     suspend fun getCharacterById(
         @Path("id") id: Int
-    ): NetworkUmaCharacter
+    ): NetworkCharacterDetails
 }
 
 @Module
@@ -30,6 +31,7 @@ abstract class UmaNetworkModule {
         fun providesUmaApiService(): UmaApiService {
             val json = Json {
                 ignoreUnknownKeys = true // required: API returns huge objects with extra fields
+                coerceInputValues = true
             }
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)

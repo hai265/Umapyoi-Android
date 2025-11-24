@@ -2,6 +2,9 @@ package com.example.uma.data.repository
 
 import android.util.Log
 import com.example.uma.data.database.CharacterDao
+import com.example.uma.data.database.CharacterEntity
+import com.example.uma.data.network.NetworkCharacterDetails
+import com.example.uma.data.network.NetworkListCharacter
 import com.example.uma.data.network.UmaApiService
 import dagger.Binds
 import dagger.Module
@@ -29,7 +32,7 @@ class CharacterRepositoryImpl @Inject constructor(
         return dbFlow.onStart {
             try {
                 val result = umaApiService.getAllCharacters()
-                characterDao.insertAll(result.map { it.toCharacterEntity() })
+                characterDao.insertAllIgnoreExisting(result.map { it.toCharacterEntity() })
             } catch (e: IOException) {
                 Log.e(TAG, "Error connecting $e")
             }
@@ -38,10 +41,47 @@ class CharacterRepositoryImpl @Inject constructor(
 
 
     // Also get this from the db
-    override fun getCharacterById(id: Int): Flow<ListCharacter?> = characterDao.getAllCharacters().map {
-        it.firstOrNull() { it.id == id }?.toUmaCharacter()
+    override fun getCharacterById(id: Int): Flow<ListCharacter?> {
+        val dbFlow = characterDao.getAllCharacters().map {
+                it.firstOrNull() { it.id == id }?.toUmaCharacter()
+        }
+
+        return dbFlow.onStart {
+            try {
+                val result = umaApiService.getCharacterById(id)
+                characterDao.insertOrUpdate(result.toCharacterEntity())
+            } catch (e: IOException) {
+                Log.e(TAG, "Error connecting $e")
+            }
+        }
     }
 }
+
+private fun NetworkCharacterDetails.toCharacterEntity(): CharacterEntity = CharacterEntity(
+    id = id,
+    name = nameEn,
+    image = thumbImg,
+    categoryLabelJp = categoryLabel ?: "",
+    categoryLabelEn = categoryLabelEn ?: "",
+    colorMain = colorMain ?: "",
+    colorSub = colorSub ?: "",
+)
+
+private fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
+    id = id,
+    name = name,
+    image = image,
+    categoryLabelJp = categoryLabelJp,
+    categoryLabelEn = categoryLabelEn,
+    colorMain = colorMain,
+    colorSub = colorSub,
+)
+
+private fun CharacterEntity.toUmaCharacter() = ListCharacter(
+    id = id,
+    name = name,
+    image = image
+)
 
 @Module
 @InstallIn(SingletonComponent::class)
