@@ -22,7 +22,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
-import com.example.uma.data.repository.UmaCharacter
+import com.example.uma.data.repository.ListCharacter
 
 @Composable
 fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
@@ -30,7 +30,7 @@ fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) 
     val umaListState by viewModel.umaList.collectAsState()
 
     UmaColumn(
-        umaCharacters = umaListState.umaList,
+        listCharacters = umaListState.umaList,
         onTapCharacter = onTapCharacter,
         modifier = modifier
     )
@@ -38,12 +38,12 @@ fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) 
 
 @Composable
 fun UmaColumn(
-    umaCharacters: List<UmaCharacter>,
+    listCharacters: List<ListCharacter>,
     onTapCharacter: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
-        items(items = umaCharacters, key = { it.id }) { character ->
+        items(items = listCharacters, key = { it.id }) { character ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -71,10 +71,10 @@ fun UmaColumn(
 @Composable
 fun UmaColumnPreview() {
     val umaList =
-        listOf<UmaCharacter>(
-            UmaCharacter(1, "Special Week", ""),
-            UmaCharacter(2, "Tokai Teio", ""),
-            UmaCharacter(3, "Silence Suzuka", ""),
+        listOf<ListCharacter>(
+            ListCharacter(1, "Special Week", ""),
+            ListCharacter(2, "Tokai Teio", ""),
+            ListCharacter(3, "Silence Suzuka", ""),
         )
     UmaColumn(umaList, onTapCharacter = {})
 }

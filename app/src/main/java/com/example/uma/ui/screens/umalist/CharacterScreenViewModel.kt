@@ -3,7 +3,7 @@ package com.example.uma.ui.screens.umalist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uma.data.repository.CharacterRepository
-import com.example.uma.data.repository.UmaCharacter
+import com.example.uma.data.repository.ListCharacter
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 * Modeled off of umapyoi character page https://umapyoi.net/character/admire-vega
 * */
 sealed interface CharacterScreenUiState {
-    data class Success(val umaCharacter: UmaCharacter): CharacterScreenUiState
+    data class Success(val listCharacter: ListCharacter): CharacterScreenUiState
     object Loading: CharacterScreenUiState
     data class Error(val error: String): CharacterScreenUiState
 }

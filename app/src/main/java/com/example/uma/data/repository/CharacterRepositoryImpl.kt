@@ -2,16 +2,12 @@ package com.example.uma.data.repository
 
 import android.util.Log
 import com.example.uma.data.database.CharacterDao
-import com.example.uma.data.database.CharacterEntity
 import com.example.uma.data.network.UmaApiService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import okio.IOException
@@ -25,7 +21,7 @@ class CharacterRepositoryImpl @Inject constructor(
     private val characterDao: CharacterDao,
 ) : CharacterRepository {
 
-    override fun getAllCharacters(): Flow<List<UmaCharacter>> {
+    override fun getAllCharacters(): Flow<List<ListCharacter>> {
         val dbFlow = characterDao.getAllCharacters().map { dbCharacters ->
             dbCharacters.map { it.toUmaCharacter() }
         }
@@ -42,7 +38,7 @@ class CharacterRepositoryImpl @Inject constructor(
 
 
     // Also get this from the db
-    override fun getCharacterById(id: Int): Flow<UmaCharacter?> = characterDao.getAllCharacters().map {
+    override fun getCharacterById(id: Int): Flow<ListCharacter?> = characterDao.getAllCharacters().map {
         it.firstOrNull() { it.id == id }?.toUmaCharacter()
     }
 }
