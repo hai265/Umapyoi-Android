@@ -60,7 +60,8 @@ class CharacterRepositoryImpl @Inject constructor(
             birthMonth = birthMonth,
             category = categoryLabelEn,
             name = nameEn,
-            thumbImg = thumbImg
+            thumbImg = thumbImg,
+            slogan = slogan ?: "",
         )
     }
 }

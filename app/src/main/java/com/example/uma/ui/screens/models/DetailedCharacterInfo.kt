@@ -6,6 +6,7 @@ data class DetailedCharacterInfo(
     val category: String,
     val name: String,
     val thumbImg: String,
+    val slogan: String,
 )
 
 

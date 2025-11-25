@@ -1,7 +1,9 @@
 package com.example.uma.ui.screens.umalist
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,9 +14,14 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.uma.ui.theme.UmaTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.uma.R
 import com.example.uma.ui.screens.models.DetailedCharacterInfo
 
 @Composable
@@ -31,7 +38,11 @@ fun Profile(id: Int, modifier: Modifier = Modifier) {
             is CharacterScreenUiState.Error -> Text("Error: $state")
             CharacterScreenUiState.Loading -> Text("Loading...")
             is CharacterScreenUiState.Success -> {
-                SuccessScreen(state.detailedCharacterInfo)
+                SuccessScreen(
+                    id = id,
+                    character = state.detailedCharacterInfo,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }
@@ -39,28 +50,44 @@ fun Profile(id: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SuccessScreen(character: DetailedCharacterInfo, modifier: Modifier = Modifier) {
+private fun SuccessScreen(
+    id: Int,
+    character: DetailedCharacterInfo,
+    modifier: Modifier = Modifier
+) {
     Profile(
-        character,
+        id = id,
+        character = character,
         modifier = modifier
     )
 }
 
 
 @Composable
-private fun Profile(character: DetailedCharacterInfo, modifier: Modifier) {
-    Column(modifier = modifier) {
-        Text(character.name)
-        //TODO: Imagebuilder
+//Id just for testing
+private fun Profile(id: Int? = 0, character: DetailedCharacterInfo, modifier: Modifier) {
+    Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(character.name, fontSize = 32.sp)
+        Text("id: $id")
+        Text(character.slogan, textAlign = TextAlign.Center)
         AsyncImage(
+            error = painterResource(R.drawable.ic_connection_error),
+            placeholder = painterResource(R.drawable.specialweek_icon),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(character.thumbImg)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
-            modifier
+            modifier = modifier
                 .height(300.dp)
         )
+//        TODO: Add Japanese name, voice actor, birthday, school, dorm
+//        TODO: Add slogan with profile picture
+//        TODO: Add measurements
+//        TODO: Add profile (strong / weak points, ears, tail, family
+//        TODO: Add secret facts
+//        TODO: Add Character Versions/ Outfits
+//        TODO: Add support cards
     }
 }
 
@@ -68,11 +95,13 @@ private fun Profile(character: DetailedCharacterInfo, modifier: Modifier) {
 @Preview
 private fun ProfilePreview() {
     Profile(
+        0,
         DetailedCharacterInfo(
             1,
             name = "Special Week",
             birthMonth = 0,
             thumbImg = "",
+            slogan = "My name is Special Week! My dream is to be the best Umamusume in Japan! I'm gonna pull my own weight to make my moms proud!",
             category = ""
         ), modifier = Modifier
     )
