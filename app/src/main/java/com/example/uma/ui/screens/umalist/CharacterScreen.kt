@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.uma.data.repository.ListCharacter
+import com.example.uma.ui.screens.models.BasicCharacterInfo
 import com.example.uma.ui.theme.UmaTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
@@ -30,23 +30,23 @@ fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
         when (state) {
             is CharacterScreenUiState.Error -> Text("Error: $state")
             CharacterScreenUiState.Loading -> Text("Loading...")
-            is CharacterScreenUiState.Success -> {SuccessScreen(state.listCharacter)}
+            is CharacterScreenUiState.Success -> {SuccessScreen(state.basicCharacterInfo)}
         }
     }
 
 }
 
 @Composable
-private fun SuccessScreen(listCharacter: ListCharacter, modifier: Modifier = Modifier) {
+private fun SuccessScreen(basicCharacterInfo: BasicCharacterInfo, modifier: Modifier = Modifier) {
     CharacterScreen(
-        listCharacter,
+        basicCharacterInfo,
         modifier = modifier
     )
 }
 
 
 @Composable
-private fun CharacterScreen(character: ListCharacter, modifier: Modifier) {
+private fun CharacterScreen(character: BasicCharacterInfo, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(character.name)
         //TODO: Imagebuilder
@@ -65,7 +65,7 @@ private fun CharacterScreen(character: ListCharacter, modifier: Modifier) {
 @Composable
 @Preview
 private fun CharacterScreenPreview() {
-    CharacterScreen(ListCharacter(1, "Special Week", ""), modifier = Modifier)
+    CharacterScreen(BasicCharacterInfo(1, "Special Week", ""), modifier = Modifier)
 }
 
 @Preview(showBackground = true)

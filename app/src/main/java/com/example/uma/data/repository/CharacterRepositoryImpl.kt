@@ -6,16 +6,15 @@ import com.example.uma.data.database.CharacterEntity
 import com.example.uma.data.network.NetworkCharacterDetails
 import com.example.uma.data.network.NetworkListCharacter
 import com.example.uma.data.network.UmaApiService
+import com.example.uma.ui.screens.models.BasicCharacterInfo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import okio.IOException
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ class CharacterRepositoryImpl @Inject constructor(
     private val characterDao: CharacterDao,
 ) : CharacterRepository {
 
-    override fun getAllCharacters(): Flow<List<ListCharacter>> = flow {
+    override fun getAllCharacters(): Flow<List<BasicCharacterInfo>> = flow {
         val dbFlow = characterDao.getAllCharacters().map { dbCharacters ->
             dbCharacters.map { it.toUmaCharacter() }
         }
@@ -44,7 +43,8 @@ class CharacterRepositoryImpl @Inject constructor(
 
 
     // Also get this from the db
-    override fun getCharacterById(id: Int): Flow<ListCharacter?> = flow {
+    //TODO: Return DetailedCharacterInfo here?
+    override fun getCharacterById(id: Int): Flow<BasicCharacterInfo?> = flow {
         val dbFlow = characterDao.getAllCharacters().map { character ->
             character.firstOrNull() { it.id == id }?.toUmaCharacter()
         }
@@ -79,7 +79,7 @@ private fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
     colorSub = colorSub,
 )
 
-private fun CharacterEntity.toUmaCharacter() = ListCharacter(
+private fun CharacterEntity.toUmaCharacter() = BasicCharacterInfo(
     id = id,
     name = name,
     image = image

@@ -3,7 +3,7 @@ package com.example.uma
 import com.example.uma.data.repository.CharacterRepositoryImpl
 import com.example.uma.fakes.umaList
 import com.example.uma.data.network.UmaApiService
-import com.example.uma.data.repository.ListCharacter
+import com.example.uma.ui.screens.models.BasicCharacterInfo
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -28,9 +28,9 @@ class NetworkUmaRepositoryTest {
 
         coVerify(exactly = 1) { umaApiService.getAllCharacters()}
         assertEquals(
-            umaList, listOf<ListCharacter>(
-                ListCharacter(1, "Special Week", ""),
-                ListCharacter(2, "Tokai Teio", "")
+            umaList, listOf<BasicCharacterInfo>(
+                BasicCharacterInfo(1, "Special Week", ""),
+                BasicCharacterInfo(2, "Tokai Teio", "")
             )
         )
     }

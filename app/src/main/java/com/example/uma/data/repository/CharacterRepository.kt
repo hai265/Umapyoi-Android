@@ -1,8 +1,9 @@
 package com.example.uma.data.repository
 
+import com.example.uma.ui.screens.models.BasicCharacterInfo
 import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
-    fun getAllCharacters(): Flow<List<ListCharacter>>
-    fun getCharacterById(id: Int) : Flow<ListCharacter?>
+    fun getAllCharacters(): Flow<List<BasicCharacterInfo>>
+    fun getCharacterById(id: Int) : Flow<BasicCharacterInfo?>
 }
