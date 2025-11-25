@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uma.data.repository.CharacterRepository
 import com.example.uma.ui.screens.models.BasicCharacterInfo
+import com.example.uma.ui.screens.models.DetailedCharacterInfo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 * Modeled off of umapyoi character page https://umapyoi.net/character/admire-vega
 * */
 sealed interface CharacterScreenUiState {
-    data class Success(val basicCharacterInfo: BasicCharacterInfo): CharacterScreenUiState
+    data class Success(val detailedCharacterInfo: DetailedCharacterInfo): CharacterScreenUiState
     object Loading: CharacterScreenUiState
     data class Error(val error: String): CharacterScreenUiState
 }
@@ -32,11 +33,13 @@ class CharacterScreenViewModel @AssistedInject constructor(
 
     init {
         viewModelScope.launch {
-            umaRepo.getCharacterById(characterId).collect { character ->
-                character?.let {
-                    //TODO: Error screen if null? Or another state for empty
+            try {
+                umaRepo.getCharacterById(characterId).collect { character ->
                     _state.value = CharacterScreenUiState.Success(character)
                 }
+            }
+            catch (e: Throwable) {
+                _state.value = CharacterScreenUiState.Error("Error retrieving character $e")
             }
         }
     }

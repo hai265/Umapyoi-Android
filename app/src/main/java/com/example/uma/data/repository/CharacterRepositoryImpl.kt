@@ -7,6 +7,7 @@ import com.example.uma.data.network.NetworkCharacterDetails
 import com.example.uma.data.network.NetworkListCharacter
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.ui.screens.models.BasicCharacterInfo
+import com.example.uma.ui.screens.models.DetailedCharacterInfo
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -42,20 +43,25 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
 
-    // Also get this from the db
-    //TODO: Return DetailedCharacterInfo here?
-    override fun getCharacterById(id: Int): Flow<BasicCharacterInfo?> = flow {
-        val dbFlow = characterDao.getAllCharacters().map { character ->
-            character.firstOrNull() { it.id == id }?.toUmaCharacter()
-        }
-        emitAll(dbFlow)
-
+    //TODO: Also get this from the db
+    override fun getCharacterById(id: Int): Flow<DetailedCharacterInfo> = flow {
         try {
             val result = umaApiService.getCharacterById(id)
-            characterDao.insertOrUpdate(result.toCharacterEntity())
+            emit(result.toDetailedCharacter())
         } catch (e: IOException) {
             Log.e(TAG, "Error connecting $e")
+            throw(e)
         }
+    }
+
+    private fun NetworkCharacterDetails.toDetailedCharacter(): DetailedCharacterInfo {
+        return DetailedCharacterInfo(
+            birthDay = birthDay,
+            birthMonth = birthMonth,
+            category = categoryLabelEn,
+            name = nameEn,
+            thumbImg = thumbImg
+        )
     }
 }
 

@@ -10,18 +10,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.uma.ui.screens.models.BasicCharacterInfo
 import com.example.uma.ui.theme.UmaTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.example.uma.ui.screens.models.DetailedCharacterInfo
 
 @Composable
-fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
+fun Profile(id: Int, modifier: Modifier = Modifier) {
     val characterScreenViewModel: CharacterScreenViewModel =
         hiltViewModel<CharacterScreenViewModel, CharacterScreenViewModel.Factory>(
-            creationCallback = {factory -> factory.create(id)}
+            creationCallback = { factory -> factory.create(id) }
         )
 
     val umaUiState by characterScreenViewModel.state.collectAsState()
@@ -30,29 +30,31 @@ fun CharacterScreen(id: Int, modifier: Modifier = Modifier) {
         when (state) {
             is CharacterScreenUiState.Error -> Text("Error: $state")
             CharacterScreenUiState.Loading -> Text("Loading...")
-            is CharacterScreenUiState.Success -> {SuccessScreen(state.basicCharacterInfo)}
+            is CharacterScreenUiState.Success -> {
+                SuccessScreen(state.detailedCharacterInfo)
+            }
         }
     }
 
 }
 
 @Composable
-private fun SuccessScreen(basicCharacterInfo: BasicCharacterInfo, modifier: Modifier = Modifier) {
-    CharacterScreen(
-        basicCharacterInfo,
+private fun SuccessScreen(character: DetailedCharacterInfo, modifier: Modifier = Modifier) {
+    Profile(
+        character,
         modifier = modifier
     )
 }
 
 
 @Composable
-private fun CharacterScreen(character: BasicCharacterInfo, modifier: Modifier) {
+private fun Profile(character: DetailedCharacterInfo, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(character.name)
         //TODO: Imagebuilder
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data(character.image)
+                .data(character.thumbImg)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
@@ -64,14 +66,22 @@ private fun CharacterScreen(character: BasicCharacterInfo, modifier: Modifier) {
 
 @Composable
 @Preview
-private fun CharacterScreenPreview() {
-    CharacterScreen(BasicCharacterInfo(1, "Special Week", ""), modifier = Modifier)
+private fun ProfilePreview() {
+    Profile(
+        DetailedCharacterInfo(
+            1,
+            name = "Special Week",
+            birthMonth = 0,
+            thumbImg = "",
+            category = ""
+        ), modifier = Modifier
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
     UmaTheme {
-        CharacterScreen(1, modifier = Modifier)
+        Profile(1, modifier = Modifier)
     }
 }
