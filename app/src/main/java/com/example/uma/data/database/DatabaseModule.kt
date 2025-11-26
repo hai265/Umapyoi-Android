@@ -2,6 +2,8 @@ package com.example.uma.data.database
 
 import android.content.Context
 import androidx.room.Room
+import com.example.uma.data.database.character.CharacterDao
+import com.example.uma.data.database.character.CharacterDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

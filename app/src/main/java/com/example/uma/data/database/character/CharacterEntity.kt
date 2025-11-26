@@ -1,4 +1,4 @@
-package com.example.uma.data.database
+package com.example.uma.data.database.character
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
