@@ -1,4 +1,9 @@
 package com.example.uma.data.network
+import com.example.uma.data.database.character.CharacterDetailEntity
+import com.example.uma.data.database.character.CharacterEntity
+import com.example.uma.ui.screens.models.BirthDate
+import com.example.uma.ui.screens.models.Character
+import com.example.uma.ui.screens.models.CharacterProfile
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -43,3 +48,64 @@ data class NetworkCharacterDetails(
     @SerialName("weaknesses") val weaknesses: String?,
     @SerialName("weight") val weight: String?,
 )
+
+fun NetworkCharacterDetails.toDetailedCharacterEntity(): CharacterDetailEntity =
+    CharacterDetailEntity(
+        id = id,
+        nameEn = nameEn,
+        thumbImg = thumbImg,
+        category = categoryLabelEn,
+        colorMain = colorMain,
+        colorSub = colorSub,
+        date = dateGmt,
+        slogan = slogan,
+        birthDay = null,
+        birthMonth = null,
+        dateGmt = null,
+        modifiedGmt = null,
+        detailImgPc = null,
+        detailImgSp = null,
+        earsFact = null,
+        familyFact = null,
+        gameId = null,
+        grade = null,
+        height = null,
+        link = null,
+        nameEnInternal = null,
+        nameJp = null,
+        profile = null,
+        residence = null,
+        shoeSize = null,
+        sizeB = null,
+        sizeH = null,
+        sizeW = null,
+        snsIcon = null,
+        strengths = null,
+        tailFact = null,
+        voice = null,
+        weaknesses = null,
+        weight = null,
+    )
+
+fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
+    id = id,
+    name = name,
+    image = image,
+    categoryLabelJp = categoryLabelJp,
+    categoryLabelEn = categoryLabelEn,
+    colorMain = colorMain,
+    colorSub = colorSub,
+)
+
+fun NetworkCharacterDetails.toCharacter(): Character {
+    return Character(
+        id = id,
+        name = nameEn,
+        image = thumbImg,
+        birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
+        profile = CharacterProfile(
+            slogan = slogan,
+            category = categoryLabelEn
+        ),
+    )
+}

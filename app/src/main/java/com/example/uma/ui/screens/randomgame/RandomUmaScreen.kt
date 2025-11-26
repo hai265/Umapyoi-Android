@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.uma.ui.screens.models.BasicCharacterInfo
+import com.example.uma.ui.screens.models.Character
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
@@ -21,7 +21,7 @@ fun RandomUmaScreen(modifier: Modifier = Modifier) {
         when (umaUiState) {
             is RandomUmaUiState.Error -> Text("Error: ${umaUiState.error}")
             RandomUmaUiState.Loading -> Text("Loading...")
-            is RandomUmaUiState.Success -> SuccessScreen(umaUiState.basicCharacterInfo)
+            is RandomUmaUiState.Success -> SuccessScreen(umaUiState.character)
 
             RandomUmaUiState.Initial -> Text("Do you want an Uma?")
         }
@@ -33,16 +33,16 @@ fun RandomUmaScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SuccessScreen(basicCharacterInfo: BasicCharacterInfo, modifier: Modifier = Modifier) {
+private fun SuccessScreen(character: Character, modifier: Modifier = Modifier) {
     CharacterScreen(
-        basicCharacterInfo,
+        character,
         modifier = modifier
     )
 }
 
 
 @Composable
-private fun CharacterScreen(character: BasicCharacterInfo, modifier: Modifier) {
+private fun CharacterScreen(character: Character, modifier: Modifier) {
     Column(modifier = modifier) {
         Text(character.name)
         //TODO: Imagebuilder
@@ -57,7 +57,7 @@ private fun CharacterScreen(character: BasicCharacterInfo, modifier: Modifier) {
 @Composable
 @Preview
 private fun CharacterScreenPreview() {
-    CharacterScreen(BasicCharacterInfo(1,"Special Week", ""), modifier = Modifier)
+    CharacterScreen(Character.createWithIdNameImageOnly(1,"Special Week", ""), modifier = Modifier)
 }
 
 @Preview(showBackground = true)

@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
-import com.example.uma.ui.screens.models.DetailedCharacterInfo
+import com.example.uma.ui.screens.models.Character
 
 @Composable
 fun Profile(id: Int, modifier: Modifier = Modifier) {
@@ -40,7 +40,7 @@ fun Profile(id: Int, modifier: Modifier = Modifier) {
             is CharacterScreenUiState.Success -> {
                 SuccessScreen(
                     id = id,
-                    character = state.detailedCharacterInfo,
+                    character = state.character,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -52,7 +52,7 @@ fun Profile(id: Int, modifier: Modifier = Modifier) {
 @Composable
 private fun SuccessScreen(
     id: Int,
-    character: DetailedCharacterInfo,
+    character: Character,
     modifier: Modifier = Modifier
 ) {
     Profile(
@@ -65,16 +65,21 @@ private fun SuccessScreen(
 
 @Composable
 //Id just for testing
-private fun Profile(id: Int? = 0, character: DetailedCharacterInfo, modifier: Modifier) {
+private fun Profile(id: Int? = 0, character: Character, modifier: Modifier) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(character.name, fontSize = 32.sp)
         Text("id: $id")
-        Text(character.slogan, textAlign = TextAlign.Center)
+        character.profile?.slogan?.let {
+            Text(
+                character.profile.slogan,
+                textAlign = TextAlign.Center
+            )
+        }
         AsyncImage(
             error = painterResource(R.drawable.ic_connection_error),
             placeholder = painterResource(R.drawable.specialweek_icon),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(character.thumbImg)
+                .data(character.image)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
@@ -96,13 +101,10 @@ private fun Profile(id: Int? = 0, character: DetailedCharacterInfo, modifier: Mo
 private fun ProfilePreview() {
     Profile(
         0,
-        DetailedCharacterInfo(
+        Character.createWithIdNameImageOnly(
             1,
             name = "Special Week",
-            birthMonth = 0,
-            thumbImg = "",
-            slogan = "My name is Special Week! My dream is to be the best Umamusume in Japan! I'm gonna pull my own weight to make my moms proud!",
-            category = ""
+            image = ""
         ), modifier = Modifier
     )
 }

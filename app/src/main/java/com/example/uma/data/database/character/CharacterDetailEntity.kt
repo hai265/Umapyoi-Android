@@ -2,6 +2,9 @@ package com.example.uma.data.database.character
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.uma.ui.screens.models.BirthDate
+import com.example.uma.ui.screens.models.Character
+import com.example.uma.ui.screens.models.CharacterProfile
 
 @Entity(tableName = "characterDetails")
 data class CharacterDetailEntity(
@@ -52,7 +55,24 @@ data class CharacterDetailEntity(
     val weaknesses: String?,
 
     val weight: String?
+)
+
+fun CharacterDetailEntity.toCharacter(): Character {
+    return Character(
+        id = id,
+        name = nameEn,
+        image = thumbImg ?: "",
+        birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
+        profile = CharacterProfile(
+            slogan = slogan,
+            category = category
+        ),
+    )
+}
 
 
-
+fun CharacterEntity.toUmaCharacter() = Character.createWithIdNameImageOnly(
+    id = id,
+    name = name,
+    image = image
 )
