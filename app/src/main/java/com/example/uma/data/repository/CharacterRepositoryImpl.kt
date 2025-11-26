@@ -12,10 +12,12 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import okio.IOException
 import javax.inject.Inject
 
@@ -28,18 +30,19 @@ class CharacterRepositoryImpl @Inject constructor(
 ) : CharacterRepository {
 
     override fun getAllCharacters(): Flow<List<BasicCharacterInfo>> = flow {
+        coroutineScope {
+            try {
+                val result = umaApiService.getAllCharacters()
+                characterDao.insertAllIgnoreExisting(result.map { it.toCharacterEntity() })
+            } catch (e: IOException) {
+                Log.e(TAG, "Error connecting $e")
+            }
+        }
+
         val dbFlow = characterDao.getAllCharacters().map { dbCharacters ->
             dbCharacters.map { it.toUmaCharacter() }
         }
         emitAll(dbFlow)
-
-        try {
-            val result = umaApiService.getAllCharacters()
-            characterDao.insertAllIgnoreExisting(result.map { it.toCharacterEntity() })
-        } catch (e: IOException) {
-            Log.e(TAG, "Error connecting $e")
-        }
-
     }
 
 
