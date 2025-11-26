@@ -42,10 +42,16 @@ class CharacterRepositoryImpl @Inject constructor(
         }
     }
 
-
-    //TODO: Also get this from the db
-    //TODO: Fix network call blocking db call
     override fun getCharacterDetailsById(id: Int): Flow<DetailedCharacterInfo> = flow {
+        val starter = characterDao.getAllCharacters().first { it.id == id }
+        emit (DetailedCharacterInfo(
+            name = starter.name,
+            birthDay = 0,
+            birthMonth = 0,
+            category = "",
+            thumbImg = starter.image,
+            slogan = "",
+        ))
         characterDao.getCharacterDetailsById(id)?.let {emit (it.toDetailedCharacter())}
         try {
             val result = umaApiService.getCharacterById(id)
@@ -54,7 +60,6 @@ class CharacterRepositoryImpl @Inject constructor(
         } catch (e: IOException) {
             Log.e(TAG, "Error connecting $e")
         }
-
     }
 }
 
