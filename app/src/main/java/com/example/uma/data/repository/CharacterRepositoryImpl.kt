@@ -14,10 +14,12 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import okio.IOException
 import javax.inject.Inject
 
@@ -30,59 +32,29 @@ class CharacterRepositoryImpl @Inject constructor(
 ) : CharacterRepository {
 
     override fun getAllCharacters(): Flow<List<BasicCharacterInfo>> = flow {
-        coroutineScope {
-            try {
-                val result = umaApiService.getAllCharacters()
-                characterDao.insertAllIgnoreExisting(result.map { it.toCharacterEntity() })
-            } catch (e: IOException) {
-                Log.e(TAG, "Error connecting $e")
-            }
+        emit(characterDao.getAllCharacters().map{it.toUmaCharacter()})
+        try {
+            val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
+            characterDao.insertAllIgnoreExisting(characters)
+            emit(characters.map { it.toUmaCharacter() })
+        } catch (e: IOException) {
+            Log.e(TAG, "Error connecting $e")
         }
-
-        val dbFlow = characterDao.getAllCharacters().map { dbCharacters ->
-            dbCharacters.map { it.toUmaCharacter() }
-        }
-        emitAll(dbFlow)
     }
 
 
     //TODO: Also get this from the db
     //TODO: Fix network call blocking db call
     override fun getCharacterDetailsById(id: Int): Flow<DetailedCharacterInfo> = flow {
-        coroutineScope {
-            try {
-                val result = umaApiService.getCharacterById(id)
-                characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
-                emit(result.toDetailedCharacter())
-            } catch (e: IOException) {
-                Log.e(TAG, "Error connecting $e")
-            }
+        characterDao.getCharacterDetailsById(id)?.let {emit (it.toDetailedCharacter())}
+        try {
+            val result = umaApiService.getCharacterById(id)
+            characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
+            emit(result.toDetailedCharacter())
+        } catch (e: IOException) {
+            Log.e(TAG, "Error connecting $e")
         }
-        coroutineScope {
-            characterDao.getCharacterDetailsById(id)?.let {emit (it.toDetailedCharacter())}
-        }
-    }
 
-    private fun NetworkCharacterDetails.toDetailedCharacter(): DetailedCharacterInfo {
-        return DetailedCharacterInfo(
-            birthDay = birthDay,
-            birthMonth = birthMonth,
-            category = categoryLabelEn,
-            name = nameEn,
-            thumbImg = thumbImg,
-            slogan = slogan ?: "",
-        )
-    }
-
-    private fun CharacterDetailEntity.toDetailedCharacter(): DetailedCharacterInfo {
-        return DetailedCharacterInfo(
-            birthDay = birthDay,
-            birthMonth = birthMonth,
-            category = category,
-            name = nameEn,
-            thumbImg = thumbImg ?: "",
-            slogan = slogan ?: "",
-        )
     }
 }
 
@@ -139,6 +111,28 @@ private fun CharacterEntity.toUmaCharacter() = BasicCharacterInfo(
     name = name,
     image = image
 )
+
+private fun NetworkCharacterDetails.toDetailedCharacter(): DetailedCharacterInfo {
+    return DetailedCharacterInfo(
+        birthDay = birthDay,
+        birthMonth = birthMonth,
+        category = categoryLabelEn,
+        name = nameEn,
+        thumbImg = thumbImg,
+        slogan = slogan ?: "",
+    )
+}
+
+private fun CharacterDetailEntity.toDetailedCharacter(): DetailedCharacterInfo {
+    return DetailedCharacterInfo(
+        birthDay = birthDay,
+        birthMonth = birthMonth,
+        category = category,
+        name = nameEn,
+        thumbImg = thumbImg ?: "",
+        slogan = slogan ?: "",
+    )
+}
 
 @Module
 @InstallIn(SingletonComponent::class)

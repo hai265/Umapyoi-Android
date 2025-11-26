@@ -27,6 +27,7 @@ sealed interface CharacterScreenUiState {
 }
 
 @HiltViewModel(assistedFactory = CharacterScreenViewModel.Factory::class)
+//TODO: Pass in name and url here so it can at least load it first
 class CharacterScreenViewModel @AssistedInject constructor(
     @Assisted private val characterId: Int,
     private val umaRepo: CharacterRepository,
