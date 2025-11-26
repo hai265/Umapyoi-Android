@@ -1,4 +1,4 @@
-package com.example.uma.data.repository
+package com.example.uma.data.repository.character
 
 import com.example.uma.ui.screens.models.Character
 import kotlinx.coroutines.flow.Flow

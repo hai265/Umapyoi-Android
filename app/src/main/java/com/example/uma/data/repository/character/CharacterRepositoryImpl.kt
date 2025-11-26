@@ -1,4 +1,4 @@
-package com.example.uma.data.repository
+package com.example.uma.data.repository.character
 
 import android.util.Log
 import com.example.uma.data.database.character.CharacterDao
@@ -27,7 +27,7 @@ class CharacterRepositoryImpl @Inject constructor(
 ) : CharacterRepository {
 
     override fun getAllCharacters(): Flow<List<Character>> = flow {
-        emit(characterDao.getAllCharacters().map{it.toUmaCharacter()})
+        emit(characterDao.getAllCharacters().map { it.toUmaCharacter() })
         try {
             val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
             characterDao.insertAllIgnoreExisting(characters)
@@ -39,12 +39,14 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override fun getCharacterDetailsById(id: Int): Flow<Character> = flow {
         val starter = characterDao.getAllCharacters().first { it.id == id }
-        emit (Character.createWithIdNameImageOnly(
-            id = starter.id,
-            name = starter.name,
-            image = starter.image,
-        ))
-        characterDao.getCharacterDetailsById(id)?.let {emit (it.toCharacter())}
+        emit(
+            Character.createWithIdNameImageOnly(
+                id = starter.id,
+                name = starter.name,
+                image = starter.image,
+            )
+        )
+        characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacter()) }
         try {
             val result = umaApiService.getCharacterById(id)
             characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
@@ -53,11 +55,4 @@ class CharacterRepositoryImpl @Inject constructor(
             Log.e(TAG, "Error connecting $e")
         }
     }
-}
-
-@Module
-@InstallIn(SingletonComponent::class)
-abstract class NetworkUmaRepositoryModule {
-    @Binds
-    abstract fun bindsUmaRepository(repository: CharacterRepositoryImpl): CharacterRepository
 }
