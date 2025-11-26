@@ -1,4 +1,4 @@
-package com.example.uma.data.network
+package com.example.uma.data.network.character
 import com.example.uma.data.database.character.CharacterDetailEntity
 import com.example.uma.data.database.character.CharacterEntity
 import com.example.uma.ui.screens.models.BirthDate

@@ -2,19 +2,13 @@ package com.example.uma.data.repository
 
 import android.util.Log
 import com.example.uma.data.database.character.CharacterDao
-import com.example.uma.data.database.character.CharacterDetailEntity
-import com.example.uma.data.database.character.CharacterEntity
 import com.example.uma.data.database.character.toCharacter
 import com.example.uma.data.database.character.toUmaCharacter
-import com.example.uma.data.network.NetworkCharacterDetails
-import com.example.uma.data.network.NetworkListCharacter
 import com.example.uma.data.network.UmaApiService
-import com.example.uma.data.network.toCharacter
-import com.example.uma.data.network.toCharacterEntity
-import com.example.uma.data.network.toDetailedCharacterEntity
-import com.example.uma.ui.screens.models.BirthDate
+import com.example.uma.data.network.character.toCharacter
+import com.example.uma.data.network.character.toCharacterEntity
+import com.example.uma.data.network.character.toDetailedCharacterEntity
 import com.example.uma.ui.screens.models.Character
-import com.example.uma.ui.screens.models.CharacterProfile
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

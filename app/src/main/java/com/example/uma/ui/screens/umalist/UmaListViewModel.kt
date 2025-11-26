@@ -27,7 +27,6 @@ class UmaListViewModel @Inject constructor(
     private val _umaList = MutableStateFlow(UmaListState())
     val umaList: StateFlow<UmaListState> = _umaList
 
-    val gridState = LazyGridState()
     init {
         viewModelScope.launch {
             characterRepository.getAllCharacters().collect { characters ->
@@ -35,10 +34,4 @@ class UmaListViewModel @Inject constructor(
             }
         }
     }
-
-    //TODO: Open uma character details page
-    fun onClickUma() {
-
-    }
-
 }

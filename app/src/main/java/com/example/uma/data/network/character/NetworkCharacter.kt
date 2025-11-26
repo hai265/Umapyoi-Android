@@ -1,4 +1,4 @@
-package com.example.uma.data.network
+package com.example.uma.data.network.character
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
