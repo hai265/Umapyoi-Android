@@ -8,11 +8,7 @@ import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.character.toCharacter
 import com.example.uma.data.network.character.toCharacterEntity
 import com.example.uma.data.network.character.toDetailedCharacterEntity
-import com.example.uma.ui.screens.models.Character
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import com.example.uma.ui.screens.umalist.Character
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException

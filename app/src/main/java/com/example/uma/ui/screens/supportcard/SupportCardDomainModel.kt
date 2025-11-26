@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.models
+package com.example.uma.ui.screens.supportcard
 
 
 data class SupportCardListItem(

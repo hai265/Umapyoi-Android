@@ -2,8 +2,8 @@ package com.example.uma.data.repository.supportcard
 
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.supportcards.SupportCardBasic
-import com.example.uma.ui.screens.models.SupportCard
-import com.example.uma.ui.screens.models.SupportCardListItem
+import com.example.uma.ui.screens.supportcard.SupportCard
+import com.example.uma.ui.screens.supportcard.SupportCardListItem
 import javax.inject.Inject
 
 class SupportCardRepositoryImpl @Inject constructor(

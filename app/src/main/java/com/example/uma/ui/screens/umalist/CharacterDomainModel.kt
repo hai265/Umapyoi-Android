@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.models
+package com.example.uma.ui.screens.umalist
 
 data class Character(
     val id: Int,

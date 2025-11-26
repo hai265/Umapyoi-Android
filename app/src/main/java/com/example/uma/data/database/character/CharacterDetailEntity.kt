@@ -2,9 +2,9 @@ package com.example.uma.data.database.character
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.uma.ui.screens.models.BirthDate
-import com.example.uma.ui.screens.models.Character
-import com.example.uma.ui.screens.models.CharacterProfile
+import com.example.uma.ui.screens.umalist.BirthDate
+import com.example.uma.ui.screens.umalist.Character
+import com.example.uma.ui.screens.umalist.CharacterProfile
 
 @Entity(tableName = "characterDetails")
 data class CharacterDetailEntity(
