@@ -5,7 +5,7 @@ data class SupportCardListItem(
     val id: Int,
     val characterId: Int,
     val imageUrl: String,
-    val title: String,
+    val characterName: String,
 )
 
 data class SupportCard(

@@ -2,7 +2,7 @@ package com.example.uma.data.network
 
 import com.example.uma.data.network.character.NetworkCharacterDetails
 import com.example.uma.data.network.character.NetworkListCharacter
-import com.example.uma.data.network.supportcards.SupportCardBasic
+import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
 import com.example.uma.data.network.supportcards.SupportCardDetailed
 import retrofit2.Retrofit
 import retrofit2.http.GET
@@ -27,7 +27,7 @@ interface UmaApiService {
     ): NetworkCharacterDetails
 
     @GET("support")
-    suspend fun getAllSupportCards(): List<SupportCardBasic>
+    suspend fun getAllSupportCards(): List<NetworkSupportCardBasic>
 
     @GET("support/{id}")
     suspend fun getSupportCardById(supportCardId: Int): SupportCardDetailed

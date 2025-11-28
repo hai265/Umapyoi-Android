@@ -26,7 +26,7 @@ fun SupportCardGrid(
         items(items = cards, key = { it.id }) { card ->
             ImageWithBottomText(
                 onClickImage = { },
-                bottomText = card.title,
+                bottomText = card.characterName,
                 imageUrl = card.imageUrl,
             )
         }

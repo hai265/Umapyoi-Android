@@ -27,9 +27,9 @@ class SupportCardListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            supportCardRepository.getAllSupportCards().collect { supportCards ->
-                _supportCardList.value = SupportCardListState(supportCards)
-            }
+//            supportCardRepository.getAllSupportCards().collect { supportCards ->
+//                _supportCardList.value = SupportCardListState(supportCards)
+//            }
         }
     }
 }

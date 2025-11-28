@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SupportCardBasic(
+data class NetworkSupportCardBasic(
     @SerialName("chara_id") val characterId: Int,
     @SerialName("gametora") val gametoraPath: String,
     val id: Int,
-    val titleEn: String,
+    @SerialName("title_en") val titleEn: String?,
 )
