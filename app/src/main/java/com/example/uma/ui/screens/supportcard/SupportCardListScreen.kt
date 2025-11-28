@@ -1,18 +1,34 @@
 package com.example.uma.ui.screens.supportcard
 
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.uma.ui.screens.umalist.UmaColumn
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import com.example.uma.ui.screens.common.ImageWithBottomText
 
 @Composable
-fun SupportCardListScreen(modifier: Modifier, onTapSupportCard: (Int) -> Unit) {
+fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int) -> Unit) {
     val viewModel: SupportCardListViewModel = hiltViewModel()
     val umaListState by viewModel.supportCardList.collectAsState()
+}
 
-
+@Composable
+fun SupportCardGrid(
+    cards: List<SupportCardListItem>,
+    onTapCard: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
+        items(items = cards, key = { it.id }) { card ->
+            ImageWithBottomText(
+                onClickImage = { },
+                bottomText = card.title,
+                imageUrl = card.imageUrl,
+            )
+        }
+    }
 }

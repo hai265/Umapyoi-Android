@@ -17,13 +17,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.uma.ui.screens.umalist.Profile
 import com.example.uma.ui.screens.randomgame.RandomUmaScreen
+import com.example.uma.ui.screens.supportcard.SupportCardListScreen
 import com.example.uma.ui.screens.umalist.UmaListScreen
 import kotlinx.serialization.Serializable
 
 
 sealed class UmaNavigables {
     @Serializable
-    data object RandomUma : UmaNavigables()
+    data object SupportCards : UmaNavigables()
     @Serializable
     data object UmaList : UmaNavigables()
     @Serializable
@@ -41,7 +42,7 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
 
                 },
                 onClickGames = {
-                    navController.navigateSingleTopTo(UmaNavigables.RandomUma)
+                    navController.navigateSingleTopTo(UmaNavigables.SupportCards)
                 })
         },
         modifier = Modifier
@@ -58,8 +59,9 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
                         navController.navigateSingleTopTo(UmaNavigables.Character(id))
                     }
                 }
-                composable<UmaNavigables.RandomUma> {
-                    RandomUmaScreen()
+                composable<UmaNavigables.SupportCards> {
+                    //TODO: Navigate to support card screen
+                    SupportCardListScreen {id: Int -> }
                 }
                 composable<UmaNavigables.Character> { backStackEntry ->
                     val character: UmaNavigables.Character = backStackEntry.toRoute()
@@ -79,7 +81,7 @@ fun BottomBar(onClickCharacters: () -> Unit, onClickGames: () -> Unit) {
                 Text("Characters")
             }
             IconButton(onClick = onClickGames) {
-                Text("Games")
+                Text("Support Cards")
             }
         }
     )
