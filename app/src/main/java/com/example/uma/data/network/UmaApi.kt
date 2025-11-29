@@ -30,7 +30,7 @@ interface UmaApiService {
     suspend fun getAllSupportCards(): List<NetworkSupportCardBasic>
 
     @GET("support/{id}")
-    suspend fun getSupportCardById(supportCardId: Int): SupportCardDetailed
+    suspend fun getSupportCardById(@Path("id") supportCardId: Int): SupportCardDetailed
 
     @GET("support/character/{id}")
     suspend fun getSupportCardByCharacterId(characterId: Int): SupportCardDetailed

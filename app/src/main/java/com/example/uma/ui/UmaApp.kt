@@ -1,5 +1,6 @@
 package com.example.uma.ui
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
@@ -15,8 +16,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
 import com.example.uma.ui.screens.umalist.Profile
-import com.example.uma.ui.screens.randomgame.RandomUmaScreen
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
 import com.example.uma.ui.screens.umalist.UmaListScreen
 import kotlinx.serialization.Serializable
@@ -25,10 +26,15 @@ import kotlinx.serialization.Serializable
 sealed class UmaNavigables {
     @Serializable
     data object SupportCards : UmaNavigables()
+
     @Serializable
     data object UmaList : UmaNavigables()
+
     @Serializable
-    class Character(val id: Int) : UmaNavigables()
+    data class Character(val id: Int) : UmaNavigables()
+
+    @Serializable
+    data class SupportCardDetails(val id: Int) : UmaNavigables()
 }
 
 //TODO: Add a top bar and buttons to navigate to different screens
@@ -39,9 +45,8 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
             BottomBar(
                 onClickCharacters = {
                     navController.navigateSingleTopTo(UmaNavigables.UmaList)
-
                 },
-                onClickGames = {
+                onClickSupportCards = {
                     navController.navigateSingleTopTo(UmaNavigables.SupportCards)
                 })
         },
@@ -49,38 +54,53 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
     ) {
         Surface(modifier = Modifier.fillMaxSize()) {
             //TODO: Change to navigationController class (to display character list and random uma page)
-            NavHost(
-                navController = navController,
-                startDestination = UmaNavigables.UmaList,
-                modifier = Modifier.padding(top = it.calculateTopPadding())
-            ) {
-                composable<UmaNavigables.UmaList> {
-                    UmaListScreen { id: Int ->
-                        navController.navigateSingleTopTo(UmaNavigables.Character(id))
-                    }
-                }
-                composable<UmaNavigables.SupportCards> {
-                    //TODO: Navigate to support card screen
-                    SupportCardListScreen {id: Int -> }
-                }
-                composable<UmaNavigables.Character> { backStackEntry ->
-                    val character: UmaNavigables.Character = backStackEntry.toRoute()
-                    Profile(character.id)
-                }
-            }
+            NavGraph(navController, it)
+        }
+    }
+}
+
+@Composable
+private fun NavGraph(
+    navController: NavHostController,
+    values: PaddingValues
+) {
+    NavHost(
+        navController = navController,
+        startDestination = UmaNavigables.UmaList,
+        modifier = Modifier.padding(top = values.calculateTopPadding())
+    ) {
+        composable<UmaNavigables.UmaList> {
+            UmaListScreen(onTapCharacter = { id: Int ->
+                navController.navigateSingleTopTo(UmaNavigables.Character(id))
+            })
+        }
+        composable<UmaNavigables.SupportCards> {
+            //TODO: Navigate to support card screen
+            SupportCardListScreen(onTapSupportCard = { id: Int ->
+                navController.navigateSingleTopTo(UmaNavigables.SupportCardDetails(id))
+            })
+        }
+        composable<UmaNavigables.Character> { backStackEntry ->
+            val character: UmaNavigables.Character = backStackEntry.toRoute()
+            Profile(character.id)
+        }
+        composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
+            val supportCard: UmaNavigables.SupportCardDetails = backStackEntry.toRoute()
+//            TODO: Pass in id by injection or savedstate?
+            SupportCardDetailsScreen()
         }
     }
 }
 
 //TODO: Better icons
 @Composable
-fun BottomBar(onClickCharacters: () -> Unit, onClickGames: () -> Unit) {
+fun BottomBar(onClickCharacters: () -> Unit, onClickSupportCards: () -> Unit) {
     BottomAppBar(
         actions = {
             IconButton(onClick = onClickCharacters) {
                 Text("Characters")
             }
-            IconButton(onClick = onClickGames) {
+            IconButton(onClick = onClickSupportCards) {
                 Text("Support Cards")
             }
         }

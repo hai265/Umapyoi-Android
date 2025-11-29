@@ -1,6 +1,5 @@
 package com.example.uma.ui.screens.supportcard
 
-
 data class SupportCardListItem(
     val id: Int,
     val characterId: Int,
@@ -16,20 +15,40 @@ data class SupportCard(
     val dateAdded: Long,
     val titleEn: String,
     val titleJp: String,
-    val type: Type,
+    val cardType: CardType,
     val typeIconUrl: String,
 )
 
-enum class CardRarity {
-    R,
-    SR,
-    SSR
+enum class CardRarity(val rank: Int) {
+    UNKNOWN(0),
+    R(1),
+    SR(2),
+    SSR(3);
+
+    companion object {
+        fun fromInt(num: Int): CardRarity =
+            when (num) {
+                1 -> R
+                2 -> SR
+                3 -> SSR
+                else -> UNKNOWN
+            }
+    }
 }
 
-enum class Type {
+enum class CardType{
+    UNKNOWN,
     SPEED,
     POWER,
     STAMINA,
     GUTS,
-    WIT
+    WIT;
+
+    companion object {
+        fun fromString(typeString: String): CardType {
+            val normalized = typeString.uppercase()
+            return enumValues<CardType>().firstOrNull{ it.name == normalized } ?: UNKNOWN
+        }
+
+    }
 }

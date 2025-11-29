@@ -2,14 +2,17 @@ package com.example.uma.data.repository.supportcard
 
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
+import com.example.uma.data.network.supportcards.SupportCardDetailed
 import com.example.uma.ui.screens.supportcard.CardRarity
 import com.example.uma.ui.screens.supportcard.SupportCard
-import com.example.uma.ui.screens.supportcard.Type
+import com.example.uma.ui.screens.supportcard.CardType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-private const val GAMETORA_IMAGE_URL = "https://gametora.com/images/umamusume/supports/tex_support_card"
+private const val GAMETORA_IMAGE_URL =
+    "https://gametora.com/images/umamusume/supports/tex_support_card"
+
 class SupportCardRepositoryImpl @Inject constructor(
     private val umaApiService: UmaApiService,
 ) : SupportCardRepository {
@@ -17,25 +20,34 @@ class SupportCardRepositoryImpl @Inject constructor(
         emit(umaApiService.getAllSupportCards().map { it.toSupportCardBasic() })
     }
 
-    override suspend fun getSupportCardById(id: Int): SupportCard {
-        return SupportCard(
-            1, 1,
-            "", CardRarity.R,
-            0, "",
-            "", Type.WIT, ""
-        )
-        TODO("Not yet implemented")
-    }
+    override suspend fun getSupportCardById(id: Int): SupportCard =
+        umaApiService.getSupportCardById(id).toSupportCard()
+
 
     override suspend fun getSupportCardsByCharacterId(characterId: Int): SupportCard {
+        TODO("Not yet implemented")
         return SupportCard(
             1, 1,
             "", CardRarity.R,
             0, "",
-            "", Type.WIT, ""
+            "", CardType.WIT, ""
         )
-        TODO("Not yet implemented")
+
     }
+}
+
+private fun SupportCardDetailed.toSupportCard(): SupportCard {
+    return SupportCard(
+        id = id,
+        characterId = characterId,
+        imageUrl = gameToraImageUrl(id),
+        rarity = CardRarity.fromInt(rarity),
+        dateAdded = startDate.toLong(),
+        titleEn = titleEn,
+        titleJp = titleJp,
+        cardType = CardType.fromString(type),
+        typeIconUrl = typeIconUrl
+    )
 }
 
 private fun NetworkSupportCardBasic.toSupportCardBasic(): SupportCardBasic {
@@ -46,6 +58,11 @@ private fun NetworkSupportCardBasic.toSupportCardBasic(): SupportCardBasic {
     )
 }
 
+
+//TODO: Move to core package
+/**
+ * @param id internal id NOT game id
+ * **/
 private fun gameToraImageUrl(id: Int): String {
     return "${GAMETORA_IMAGE_URL}_$id.png"
 }

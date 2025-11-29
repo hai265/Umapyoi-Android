@@ -15,7 +15,7 @@ fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int)
     val viewModel: SupportCardListViewModel = hiltViewModel()
     val umaListState by viewModel.supportCardList.collectAsState()
 
-    SupportCardGrid(umaListState.suportCardList, {})
+    SupportCardGrid(umaListState.suportCardList, onTapSupportCard)
 }
 
 @Composable

@@ -32,8 +32,7 @@ fun Profile(id: Int, modifier: Modifier = Modifier) {
 
     val umaUiState by characterScreenViewModel.state.collectAsState()
     Column(modifier = modifier) {
-        val state = umaUiState
-        when (state) {
+        when (val state = umaUiState) {
             is CharacterScreenUiState.Error -> Text("Error: $state")
             CharacterScreenUiState.Loading -> Text("Loading...")
             is CharacterScreenUiState.Success -> {
@@ -64,7 +63,7 @@ private fun SuccessScreen(
 
 @Composable
 //Id just for testing
-private fun Profile(id: Int? = 0, character: Character, modifier: Modifier) {
+private fun Profile(id: Int = 0, character: Character, modifier: Modifier) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(character.name, fontSize = 32.sp)
         Text("id: $id")
