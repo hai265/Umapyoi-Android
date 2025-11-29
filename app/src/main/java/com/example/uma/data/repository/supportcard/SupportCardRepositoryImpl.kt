@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+private const val GAMETORA_IMAGE_URL = "https://gametora.com/images/umamusume/supports/tex_support_card"
 class SupportCardRepositoryImpl @Inject constructor(
     private val umaApiService: UmaApiService,
 ) : SupportCardRepository {
@@ -41,10 +42,10 @@ private fun NetworkSupportCardBasic.toSupportCardBasic(): SupportCardBasic {
     return SupportCardBasic(
         id = id,
         characterId = characterId,
-        imageUrl = gametoraPath.toGametoraImageLink(), //TODO: Pass  gametora imageurl here
+        imageUrl = gameToraImageUrl(id), //TODO: Pass  gametora imageurl here
     )
 }
 
-private fun String.toGametoraImageLink(): String {
-    return "https://gametora.com/images/umamusume/supports/tex_support_card $this.png"
+private fun gameToraImageUrl(id: Int): String {
+    return "${GAMETORA_IMAGE_URL}_$id.png"
 }

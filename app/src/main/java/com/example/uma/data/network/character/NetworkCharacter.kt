@@ -3,9 +3,13 @@ package com.example.uma.data.network.character
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// https://umapyoi.net/api/v1/character/info
 @Serializable
 data class NetworkListCharacter(
     val id: Int,
+//    I would make this non null but the api returns null for Akikawa (obj 157)
+    @SerialName("game_id")
+    val gameId: Int?,
     @SerialName("name_en")
     val name: String,
     @SerialName("thumb_img")

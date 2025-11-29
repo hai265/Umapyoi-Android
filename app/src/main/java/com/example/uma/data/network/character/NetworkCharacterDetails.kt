@@ -89,6 +89,7 @@ fun NetworkCharacterDetails.toDetailedCharacterEntity(): CharacterDetailEntity =
 
 fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
     id = id,
+    gameId = gameId,
     name = name,
     image = image,
     categoryLabelJp = categoryLabelJp,
@@ -100,6 +101,7 @@ fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
 fun NetworkCharacterDetails.toCharacter(): Character {
     return Character(
         id = id,
+        gameId = gameId,
         name = nameEn,
         image = thumbImg,
         birthDate = BirthDate.createBirthDate(birthDay, birthMonth),

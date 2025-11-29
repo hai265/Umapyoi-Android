@@ -60,6 +60,7 @@ data class CharacterDetailEntity(
 fun CharacterDetailEntity.toCharacter(): Character {
     return Character(
         id = id,
+        gameId = gameId,
         name = nameEn,
         image = thumbImg ?: "",
         birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
@@ -73,6 +74,7 @@ fun CharacterDetailEntity.toCharacter(): Character {
 
 fun CharacterEntity.toUmaCharacter() = Character.createWithIdNameImageOnly(
     id = id,
+    gameId = gameId,
     name = name,
     image = image
 )

@@ -45,9 +45,9 @@ fun UmaColumn(
 fun UmaColumnPreview() {
     val umaList =
         listOf<Character>(
-            Character.createWithIdNameImageOnly(1, "Special Week", ""),
-            Character.createWithIdNameImageOnly(2, "Tokai Teio", ""),
-            Character.createWithIdNameImageOnly(3, "Silence Suzuka", ""),
+            Character.createWithIdNameImageOnly(1, 1, "Special Week", ""),
+            Character.createWithIdNameImageOnly(2,2, "Tokai Teio", ""),
+            Character.createWithIdNameImageOnly(3,2, "Silence Suzuka", ""),
         )
     UmaColumn(umaList, onTapCharacter = {})
 }

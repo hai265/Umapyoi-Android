@@ -14,6 +14,8 @@ import com.example.uma.ui.screens.common.ImageWithBottomText
 fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int) -> Unit) {
     val viewModel: SupportCardListViewModel = hiltViewModel()
     val umaListState by viewModel.supportCardList.collectAsState()
+
+    SupportCardGrid(umaListState.suportCardList, {})
 }
 
 @Composable
@@ -25,7 +27,8 @@ fun SupportCardGrid(
     LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
         items(items = cards, key = { it.id }) { card ->
             ImageWithBottomText(
-                onClickImage = { },
+                //TODO: When click on support card open details page
+                onClickImage = {onTapCard(card.id)},
                 bottomText = card.characterName,
                 imageUrl = card.imageUrl,
             )

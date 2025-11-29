@@ -25,7 +25,10 @@ fun RandomUmaScreen(modifier: Modifier = Modifier) {
 
             RandomUmaUiState.Initial -> Text("Do you want an Uma?")
         }
-        Button(onClick = randomUmaViewModel::getRandomUma, enabled = umaUiState !is RandomUmaUiState.Loading) {
+        Button(
+            onClick = randomUmaViewModel::getRandomUma,
+            enabled = umaUiState !is RandomUmaUiState.Loading
+        ) {
             Text("Click to get a random uma")
         }
     }
@@ -57,7 +60,14 @@ private fun CharacterScreen(character: Character, modifier: Modifier) {
 @Composable
 @Preview
 private fun CharacterScreenPreview() {
-    CharacterScreen(Character.createWithIdNameImageOnly(1,"Special Week", ""), modifier = Modifier)
+    CharacterScreen(
+        Character.createWithIdNameImageOnly(
+            1,
+            gameId = 1,
+            name = "Special Week",
+            image = ""
+        ), modifier = Modifier
+    )
 }
 
 @Preview(showBackground = true)

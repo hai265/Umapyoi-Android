@@ -1,7 +1,9 @@
 package com.example.uma.ui.screens.umalist
 
+//TODO: Move to data module
 data class Character(
     val id: Int,
+    val gameId: Int?,
     val name: String,
     val image: String,
 
@@ -11,9 +13,9 @@ data class Character(
 //    val metadata: CharacterMetadata?,
 ) {
     companion object {
-        fun createWithIdNameImageOnly(id: Int, name: String, image: String): Character {
+        fun createWithIdNameImageOnly(id: Int, gameId: Int?, name: String, image: String): Character {
             return Character(
-                id, name, image,
+                id, gameId, name, image,
                 birthDate = null,
                 profile = null,
             )

@@ -38,6 +38,7 @@ class CharacterRepositoryImpl @Inject constructor(
         emit(
             Character.createWithIdNameImageOnly(
                 id = starter.id,
+                gameId = starter.gameId,
                 name = starter.name,
                 image = starter.image,
             )

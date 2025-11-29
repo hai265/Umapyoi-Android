@@ -14,12 +14,15 @@ class GetSupportCardsWithCharacterNameUseCase @Inject constructor(
     operator fun invoke(): Flow<List<SupportCardListItem>> =
         characterRepository.getAllCharacters()
             .combine(supportCardRepository.getAllSupportCards()) { characters, supportCards ->
-                val charMap = characters.associateBy { it.id }
+                //TODO: Support cards from Akikawa not shown (since has null gameId)
+                val charMap = characters
+                    .filter { it.gameId != null }
+                    .associateBy { it.gameId }
                 supportCards.map { card ->
                     val character = charMap[card.characterId]
                     SupportCardListItem(
                         id = card.id,
-                        characterId = character?.id ?: 0,
+                        characterId = character?.gameId ?: 0,
                         imageUrl = card.imageUrl,
                         characterName = character?.name ?: "",
                     )

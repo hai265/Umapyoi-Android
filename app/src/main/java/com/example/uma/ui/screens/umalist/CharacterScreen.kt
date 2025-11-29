@@ -102,6 +102,7 @@ private fun ProfilePreview() {
         0,
         Character.createWithIdNameImageOnly(
             1,
+            gameId = 1,
             name = "Special Week",
             image = ""
         ), modifier = Modifier
