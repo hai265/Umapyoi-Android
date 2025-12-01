@@ -1,6 +1,7 @@
 package com.example.uma.data.repository.character
 
 import android.util.Log
+import coil3.network.HttpException
 import com.example.uma.data.database.character.CharacterDao
 import com.example.uma.data.database.character.toCharacter
 import com.example.uma.data.database.character.toUmaCharacter
@@ -9,6 +10,7 @@ import com.example.uma.data.network.character.toCharacter
 import com.example.uma.data.network.character.toCharacterEntity
 import com.example.uma.data.network.character.toDetailedCharacterEntity
 import com.example.uma.ui.screens.umalist.Character
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
@@ -33,23 +35,21 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
     override fun getCharacterDetailsById(id: Int): Flow<Character> = flow {
-        //TODO: Replace with getCharacterById dao
-        val starter = characterDao.getAllCharacters().first { it.id == id }
-        emit(
-            Character.createWithIdNameImageOnly(
-                id = starter.id,
-                gameId = starter.gameId,
-                name = starter.name,
-                image = starter.image,
-            )
-        )
-        characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacter()) }
-        try {
-            val result = umaApiService.getCharacterById(id)
-            characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
-            emit(result.toCharacter())
-        } catch (e: IOException) {
-            Log.e(TAG, "Error connecting $e")
+        val starter = characterDao.getCharacterById(id)
+        emit(starter.toUmaCharacter())
+
+        coroutineScope {
+            characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacter()) }
+            try {
+                val result = umaApiService.getCharacterById(id)
+                characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
+                emit(result.toCharacter())
+            } catch (e: IOException) {
+                Log.e(TAG, "Error connecting $e")
+            } catch (e: HttpException) {
+                Log.e(TAG, "HTTP error fetcing details: ${e.cause}")
+            }
         }
+
     }
 }
