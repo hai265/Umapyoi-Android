@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+//TODO: Make this a sealed class so we can show blank screen, loading, normal screen
 data class UmaListState(
     val umaList: List<Character> = listOf(),
 )

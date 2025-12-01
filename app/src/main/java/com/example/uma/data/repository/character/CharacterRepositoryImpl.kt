@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
 import javax.inject.Inject
-import kotlin.collections.map
 
 private const val TAG = "CharacterRepositoryImpl"
 
@@ -34,6 +33,7 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
     override fun getCharacterDetailsById(id: Int): Flow<Character> = flow {
+        //TODO: Replace with getCharacterById dao
         val starter = characterDao.getAllCharacters().first { it.id == id }
         emit(
             Character.createWithIdNameImageOnly(

@@ -1,15 +1,17 @@
 package com.example.uma.ui.screens.supportcard
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.data.repository.supportcard.SupportCardRepository
 import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "SupportCardListViewModel"
 data class SupportCardListState(
     val suportCardList: List<SupportCardListItem> = listOf(),
 )
@@ -28,7 +30,11 @@ class SupportCardListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getSupportCardsWithCharacterNameUseCase.invoke().collect { supportCards ->
+            getSupportCardsWithCharacterNameUseCase.invoke()
+                .catch { e ->
+                    Log.i(TAG, "Error calling getSupportCardsWithCharacterNameUseCase ")
+                }
+                .collect { supportCards ->
                 _supportCardList.value = SupportCardListState(supportCards)
             }
         }

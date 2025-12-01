@@ -21,7 +21,7 @@ import coil3.request.crossfade
 import com.example.uma.R
 
 @Composable
-fun SupportCardDetailsScreen(modifier: Modifier = Modifier) {
+fun SupportCardDetailsScreen(supportCardId: Int, modifier: Modifier = Modifier) {
     val viewModel: SupportCardDetailsViewModel = hiltViewModel()
     val supportCardDetailsState by viewModel.state.collectAsState()
 

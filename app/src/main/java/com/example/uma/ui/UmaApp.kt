@@ -17,8 +17,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
-import com.example.uma.ui.screens.umalist.Profile
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
+import com.example.uma.ui.screens.umalist.Profile
 import com.example.uma.ui.screens.umalist.UmaListScreen
 import kotlinx.serialization.Serializable
 
@@ -87,7 +87,7 @@ private fun NavGraph(
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             val supportCard: UmaNavigables.SupportCardDetails = backStackEntry.toRoute()
 //            TODO: Pass in id by injection or savedstate?
-            SupportCardDetailsScreen()
+            SupportCardDetailsScreen(supportCard.id)
         }
     }
 }

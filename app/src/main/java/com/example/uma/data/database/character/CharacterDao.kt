@@ -4,12 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharacterDao {
     @Query("SELECT * from characters ORDER BY name ASC")
     suspend fun getAllCharacters(): List<CharacterEntity>
+//    @Query("SELECT * from characters WHERE id = :id")
+//    suspend fun getCharacterById(id: Int): CharacterEntity
 
     @Query("SELECT * from characterDetails WHERE id = :id")
     suspend fun getCharacterDetailsById(id: Int): CharacterDetailEntity?

@@ -1,8 +1,11 @@
 package com.example.uma.ui.screens.supportcard
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.uma.data.repository.supportcard.SupportCardRepository
+import com.example.uma.ui.UmaNavigables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,14 +18,12 @@ sealed interface SupportCardDetailsScreenUiState {
     data class Error(val error: String) : SupportCardDetailsScreenUiState
 }
 
-//TODO: Try getting id from savestatebundle?
 @HiltViewModel
 class SupportCardDetailsViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val supportCardRepo: SupportCardRepository
 ) : ViewModel() {
-    //TODO: Delete
-    private val testId = 0
-
+    private val supportCardId = savedStateHandle.toRoute<UmaNavigables.SupportCardDetails>().id
     private val _state: MutableStateFlow<SupportCardDetailsScreenUiState> = MutableStateFlow(
         SupportCardDetailsScreenUiState.Loading
     )
@@ -34,7 +35,7 @@ class SupportCardDetailsViewModel @Inject constructor(
                 _state.value =
                     SupportCardDetailsScreenUiState.Success(
                         supportCardRepo.getSupportCardById(
-                            testId
+                            supportCardId
                         )
                     )
             } catch (e: Throwable) {
