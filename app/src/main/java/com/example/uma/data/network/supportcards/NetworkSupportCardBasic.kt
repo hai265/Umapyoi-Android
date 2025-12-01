@@ -3,6 +3,7 @@ package com.example.uma.data.network.supportcards
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+//https://umapyoi.net/api/v1/support
 @Serializable
 data class NetworkSupportCardBasic(
     @SerialName("chara_id") val characterId: Int,

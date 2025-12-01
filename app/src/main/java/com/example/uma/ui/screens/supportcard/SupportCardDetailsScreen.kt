@@ -44,7 +44,6 @@ fun SuccessScreen(supportCard: SupportCard, modifier: Modifier = Modifier) {
         )
         AsyncImage(
             error = painterResource(R.drawable.ic_connection_error),
-            placeholder = painterResource(R.drawable.specialweek_icon),
             model = ImageRequest.Builder(LocalContext.current)
                 .data(supportCard.imageUrl)
                 .crossfade(true)
