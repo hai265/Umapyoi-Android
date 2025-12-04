@@ -6,14 +6,8 @@ import com.example.uma.data.database.supportcard.SupportCardEntity
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
 import com.example.uma.ui.screens.supportcard.SupportCard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import okio.IOException
 import javax.inject.Inject
 
@@ -36,22 +30,21 @@ class SupportCardRepositoryImpl @Inject constructor(
     }
 
     override fun getAllSupportCards(): Flow<List<SupportCardBasic>> =
-        supportCardDao.getAllSupportCards()
-            .onStart {
-                // This block is executed when a collector starts listening.
-                // It's a great place to trigger a one-time refresh.
-                try {
-                    val apiCards = umaApiService.getAllSupportCards()
-                    supportCardDao.insertAllIgnoreExisting(apiCards.map { it.toSupportCardEntity() })
-                } catch (e: IOException) {
-                    // Handle potential network or API errors, e.g., log them.
-                    // The Flow from the DAO will continue to emit the existing cached data.
-                    Log.e("SupportCardRepo", "Error connecting to API", e)
-                }
-            }.map { entityList ->
-                entityList.map { it.toSupportCardBasic() }
-            }
-            .flowOn(Dispatchers.IO)
+        supportCardDao.getAllSupportCards().map { supportCardEntities ->
+            supportCardEntities.map { it.toSupportCardBasic() }
+        }
+
+//    Ideally we want to call this in some syncer class on startup
+    override suspend fun sync(): Boolean {
+        try {
+            val apiCards = umaApiService.getAllSupportCards()
+            supportCardDao.insertAllIgnoreExisting(apiCards.map { it.toSupportCardEntity() })
+        } catch (e: IOException) {
+            Log.e("SupportCardRepo", "Error connecting to API", e)
+            return false
+        }
+        return true
+}
 
     override suspend fun getSupportCardById(id: Int): SupportCard =
         umaApiService.getSupportCardById(id).toSupportCard()
