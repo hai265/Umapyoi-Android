@@ -52,4 +52,7 @@ class CharacterRepositoryImpl @Inject constructor(
         }
 
     }
+    override suspend fun sync(): Boolean {
+        TODO("Not yet implemented")
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.uma.data
+package com.example.uma.data.sync
 
 interface Syncable {
     /**
