@@ -19,7 +19,7 @@ import androidx.navigation.toRoute
 import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
 import com.example.uma.ui.screens.umalist.Profile
-import com.example.uma.ui.screens.umalist.UmaListScreen
+import com.example.uma.ui.screens.umalist.CharacterListScreen
 import kotlinx.serialization.Serializable
 
 
@@ -70,7 +70,7 @@ private fun NavGraph(
         modifier = Modifier.padding(top = values.calculateTopPadding())
     ) {
         composable<UmaNavigables.UmaList> {
-            UmaListScreen(onTapCharacter = { id: Int ->
+            CharacterListScreen(onTapCharacter = { id: Int ->
                 navController.navigateSingleTopTo(UmaNavigables.Character(id))
             })
         }

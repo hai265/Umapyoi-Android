@@ -12,11 +12,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.ui.screens.common.ImageWithBottomText
 
 @Composable
-fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
+fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: UmaListViewModel = hiltViewModel()
     val umaListState by viewModel.umaList.collectAsState()
 
-    UmaColumn(
+    CharacterColumn(
         characters = umaListState.umaList,
         onTapCharacter = onTapCharacter,
         modifier = modifier
@@ -24,7 +24,7 @@ fun UmaListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) 
 }
 
 @Composable
-fun UmaColumn(
+fun CharacterColumn(
     characters: List<Character>,
     onTapCharacter: (Int) -> Unit,
     modifier: Modifier = Modifier,
@@ -42,12 +42,12 @@ fun UmaColumn(
 
 @Preview
 @Composable
-fun UmaColumnPreview() {
-    val umaList =
+fun CharacterColumnPreview() {
+    val characterList =
         listOf<Character>(
             Character.createWithIdNameImageOnly(1, 1, "Special Week", ""),
             Character.createWithIdNameImageOnly(2,2, "Tokai Teio", ""),
             Character.createWithIdNameImageOnly(3,2, "Silence Suzuka", ""),
         )
-    UmaColumn(umaList, onTapCharacter = {})
+    CharacterColumn(characterList, onTapCharacter = {})
 }

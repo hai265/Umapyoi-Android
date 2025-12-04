@@ -3,15 +3,11 @@ package com.example.uma.ui.screens.umalist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uma.data.repository.character.CharacterRepository
-import com.example.uma.data.sync.SyncManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 //TODO: Make this a sealed class so we can show blank screen, loading, normal screen
@@ -23,7 +19,6 @@ data class UmaListState(
  TODO Features
  1. Allow user to filter, sort (ascending, descending, filter based on some criteria
 */
-//TODO: Rename to CharacterList
 @HiltViewModel
 class UmaListViewModel @Inject constructor(
     characterRepository: CharacterRepository,
