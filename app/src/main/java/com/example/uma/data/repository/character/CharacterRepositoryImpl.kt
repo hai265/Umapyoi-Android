@@ -13,6 +13,7 @@ import com.example.uma.ui.screens.umalist.Character
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import okio.IOException
 import javax.inject.Inject
 
@@ -23,16 +24,10 @@ class CharacterRepositoryImpl @Inject constructor(
     private val characterDao: CharacterDao,
 ) : CharacterRepository {
 
-    override fun getAllCharacters(): Flow<List<Character>> = flow {
-        emit(characterDao.getAllCharacters().map { it.toUmaCharacter() })
-        try {
-            val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
-            characterDao.insertAllIgnoreExisting(characters)
-            emit(characters.map { it.toUmaCharacter() })
-        } catch (e: IOException) {
-            Log.e(TAG, "Error connecting $e")
+    override fun getAllCharacters(): Flow<List<Character>> =
+        characterDao.getAllCharacters().map { characters ->
+            characters.map { it.toUmaCharacter() }
         }
-    }
 
     override fun getCharacterDetailsById(id: Int): Flow<Character> = flow {
         val starter = characterDao.getCharacterById(id)
@@ -52,7 +47,15 @@ class CharacterRepositoryImpl @Inject constructor(
         }
 
     }
+
     override suspend fun sync(): Boolean {
-        TODO("Not yet implemented")
+        try {
+            val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
+            characterDao.insertAllIgnoreExisting(characters)
+        } catch (e: IOException) {
+            Log.e(TAG, "Error connecting $e")
+            return false
+        }
+        return true
     }
 }

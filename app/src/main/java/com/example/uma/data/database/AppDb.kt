@@ -8,7 +8,7 @@ import com.example.uma.data.database.character.CharacterEntity
 import com.example.uma.data.database.supportcard.SupportCardDao
 import com.example.uma.data.database.supportcard.SupportCardEntity
 
-@Database(entities = [CharacterEntity::class, CharacterDetailEntity::class, SupportCardEntity::class], version = 1)
+@Database(entities = [CharacterEntity::class, CharacterDetailEntity::class, SupportCardEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun characterDao(): CharacterDao
     abstract fun supportCardDao(): SupportCardDao

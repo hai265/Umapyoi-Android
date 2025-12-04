@@ -7,12 +7,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SyncManagerImpl @Inject constructor(
-    private val supportCardRepository: SupportCardRepository
+    private val supportCardRepository: SupportCardRepository,
+    private val characterRepository: CharacterRepository,
 ): SyncManager {
     override suspend fun syncAll() {
         coroutineScope {
             launch {
                 supportCardRepository.sync()
+            }
+            launch {
+                characterRepository.sync()
             }
         }
     }
