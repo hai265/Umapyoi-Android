@@ -1,11 +1,4 @@
-package com.example.uma.ui.screens.supportcard
-
-data class SupportCardListItem(
-    val id: Int,
-    val characterId: Int,
-    val imageUrl: String,
-    val characterName: String,
-)
+package com.example.uma.data.repository.supportcard
 
 data class SupportCard(
     val id: Int,

@@ -2,8 +2,8 @@ package com.example.uma.data.database.supportcard
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.uma.ui.screens.supportcard.CardRarity
-import com.example.uma.ui.screens.supportcard.CardType
+import com.example.uma.data.repository.supportcard.CardRarity
+import com.example.uma.data.repository.supportcard.CardType
 
 @Entity(tableName = "support_cards")
 data class SupportCardEntity(

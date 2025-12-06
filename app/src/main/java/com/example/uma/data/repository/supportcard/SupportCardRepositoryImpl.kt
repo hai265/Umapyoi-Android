@@ -5,9 +5,12 @@ import com.example.uma.data.database.supportcard.SupportCardDao
 import com.example.uma.data.database.supportcard.SupportCardEntity
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
-import com.example.uma.ui.screens.supportcard.SupportCard
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.take
 import okio.IOException
 import javax.inject.Inject
 
@@ -45,12 +48,25 @@ class SupportCardRepositoryImpl @Inject constructor(
         }
         return true
 }
+    override fun getSupportCardById(id: Int): Flow<SupportCardDetailed> = flow {
+        supportCardDao.getSupportCardById(id)
+            .filterNotNull()
+            .take(1)
+            .collect {
+                emit(it.toSupportCard())
+            }
 
-    override suspend fun getSupportCardById(id: Int): SupportCard =
-        umaApiService.getSupportCardById(id).toSupportCard()
+        try {
+            umaApiService.getSupportCardById(id).toSupportCard()
+        } catch (e: IOException) {
+            Log.e("SupportCardRepo", "Error connecting to API", e)
+        }
+        emitAll(supportCardDao.getSupportCardById(id).map { it.toSupportCard() })
+
+    }
 
 
-    override suspend fun getSupportCardsByCharacterId(characterId: Int): SupportCard {
+    override suspend fun getSupportCardsByCharacterId(characterId: Int): SupportCardDetailed {
         TODO("Not yet implemented")
 //        return SupportCard(
 //            1, 1,

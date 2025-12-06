@@ -19,6 +19,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
+import com.example.uma.data.repository.supportcard.SupportCardDetailed
 
 @Composable
 fun SupportCardDetailsScreen(supportCardId: Int, modifier: Modifier = Modifier) {
@@ -33,15 +34,17 @@ fun SupportCardDetailsScreen(supportCardId: Int, modifier: Modifier = Modifier) 
 }
 
 @Composable
-fun SuccessScreen(supportCard: SupportCard, modifier: Modifier = Modifier) {
+fun SuccessScreen(supportCard: SupportCardDetailed, modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
 //        TODO: Get character name
         Text(supportCard.id.toString(), fontSize = 32.sp)
         Text("character id: ${supportCard.characterId}")
-        Text(
-            supportCard.titleEn,
-            textAlign = TextAlign.Center
-        )
+        supportCard.titleEn?.let {
+            Text(
+                supportCard.titleEn,
+                textAlign = TextAlign.Center
+            )
+        }
         AsyncImage(
             error = painterResource(R.drawable.ic_connection_error),
             model = ImageRequest.Builder(LocalContext.current)

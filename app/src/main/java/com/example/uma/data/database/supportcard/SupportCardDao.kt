@@ -11,6 +11,9 @@ interface SupportCardDao {
     @Query("SELECT * from support_cards ORDER BY id ASC")
     fun getAllSupportCards(): Flow<List<SupportCardEntity>>
 
+    @Query("SELECT * from support_cards WHERE id = :id")
+    fun  getSupportCardById(id: Int): Flow<SupportCardEntity>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllIgnoreExisting(supportCards: List<SupportCardEntity>)
 }

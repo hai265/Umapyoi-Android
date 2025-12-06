@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
  *
  * */
 @Serializable
-data class SupportCardDetailed(
+data class NetworkSupportCardDetailed(
     @SerialName("chara_id") val characterId: Int,
     @SerialName("gametora") val gametoraPath: String,
     val id: Int,

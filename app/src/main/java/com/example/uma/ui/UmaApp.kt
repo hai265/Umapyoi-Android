@@ -84,9 +84,9 @@ private fun NavGraph(
             val character: UmaNavigables.Character = backStackEntry.toRoute()
             Profile(character.id)
         }
+        //TODO: Pressing back on support card detials nagivates back to character screen
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             val supportCard: UmaNavigables.SupportCardDetails = backStackEntry.toRoute()
-//            TODO: Pass in id by injection or savedstate?
             SupportCardDetailsScreen(supportCard.id)
         }
     }

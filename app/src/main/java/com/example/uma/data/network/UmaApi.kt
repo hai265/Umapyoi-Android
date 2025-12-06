@@ -3,7 +3,7 @@ package com.example.uma.data.network
 import com.example.uma.data.network.character.NetworkCharacterDetails
 import com.example.uma.data.network.character.NetworkListCharacter
 import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
-import com.example.uma.data.network.supportcards.SupportCardDetailed
+import com.example.uma.data.network.supportcards.NetworkSupportCardDetailed
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import kotlinx.serialization.json.Json
@@ -30,10 +30,10 @@ interface UmaApiService {
     suspend fun getAllSupportCards(): List<NetworkSupportCardBasic>
 
     @GET("support/{id}")
-    suspend fun getSupportCardById(@Path("id") supportCardId: Int): SupportCardDetailed
+    suspend fun getSupportCardById(@Path("id") supportCardId: Int): NetworkSupportCardDetailed
 
     @GET("support/character/{id}")
-    suspend fun getSupportCardByCharacterId(characterId: Int): SupportCardDetailed
+    suspend fun getSupportCardByCharacterId(characterId: Int): NetworkSupportCardDetailed
 }
 
 @Module
