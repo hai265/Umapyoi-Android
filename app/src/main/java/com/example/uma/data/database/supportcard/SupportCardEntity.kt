@@ -13,7 +13,7 @@ data class SupportCardEntity(
 
     // Detailed fields are nullable
     val rarity: CardRarity?,
-    val dateAdded: Long?,
+    val dateAddedMs: Long?,
     val titleEn: String?,
     val titleJp: String?,
     val cardType: CardType?,

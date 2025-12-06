@@ -16,4 +16,7 @@ interface SupportCardDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllIgnoreExisting(supportCards: List<SupportCardEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAndReplace(supportCard: SupportCardEntity)
 }

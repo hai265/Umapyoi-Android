@@ -75,7 +75,6 @@ private fun NavGraph(
             })
         }
         composable<UmaNavigables.SupportCards> {
-            //TODO: Navigate to support card screen
             SupportCardListScreen(onTapSupportCard = { id: Int ->
                 navController.navigate(UmaNavigables.SupportCardDetails(id))
             })
@@ -85,8 +84,7 @@ private fun NavGraph(
             Profile(character.id)
         }
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
-            val supportCard: UmaNavigables.SupportCardDetails = backStackEntry.toRoute()
-            SupportCardDetailsScreen(supportCard.id)
+            SupportCardDetailsScreen()
         }
     }
 }

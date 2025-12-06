@@ -11,7 +11,7 @@ data class SupportCardDetailed(
     val characterId: Int,
     val imageUrl: String,
     val rarity: CardRarity?,
-    val dateAdded: Long?,
+    val dateAddedMs: Long?,
     val titleEn: String?,
     val titleJp: String?,
     val cardType: CardType?,

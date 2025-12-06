@@ -1,6 +1,7 @@
 package com.example.uma.data.repository.supportcard
 
 import com.example.uma.data.database.supportcard.SupportCardEntity
+import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
 import com.example.uma.data.network.supportcards.NetworkSupportCardDetailed
 
 private const val GAMETORA_IMAGE_URL =
@@ -23,31 +24,49 @@ fun SupportCardEntity.toSupportCardBasic(): SupportCardBasic {
     )
 }
 
-fun NetworkSupportCardDetailed.toSupportCard(): SupportCard {
-    return SupportCard(
+fun NetworkSupportCardBasic.toSupportCardEntity(): SupportCardEntity {
+    return SupportCardEntity(
         id = id,
         characterId = characterId,
-        imageUrl = buildGameToraImageUrl(id), // Use the builder function
-        rarity = CardRarity.fromInt(rarity),
-        dateAdded = startDate.toLong(),
         titleEn = titleEn,
+        gametoraPath = gametoraPath,
+        rarity = null,
+        dateAddedMs = null,
+        titleJp = null,
+        cardType = null,
+        typeIconUrl = null
+    )
+}
+
+fun NetworkSupportCardDetailed.toSupportCardEntity(): SupportCardEntity {
+    return SupportCardEntity(
+        id = id,
+        characterId = characterId,
+        titleEn = titleEn,
+        gametoraPath = gametoraPath,
+        rarity = CardRarity.fromInt(rarity),
+        dateAddedMs = startDateSeconds.toMilliseconds(),
         titleJp = titleJp,
         cardType = CardType.fromString(type),
         typeIconUrl = typeIconUrl
     )
 }
 
-fun SupportCardEntity.toSupportCard(): com.example.uma.data.repository.supportcard.SupportCardDetailed {
+fun SupportCardEntity.toSupportCard(): SupportCardDetailed {
     return SupportCardDetailed(
         id = id,
         characterId = characterId,
         imageUrl = buildGameToraImageUrl(id),
         //TODO: Make SupportCardDetailed's fields nullable as well
         rarity = rarity,
-        dateAdded = dateAdded,
+        dateAddedMs = dateAddedMs,
         titleEn = titleEn,
         titleJp = titleJp,
         cardType = cardType,
         typeIconUrl = typeIconUrl
     )
+}
+
+private fun Int.toMilliseconds(): Long {
+    return this * 1000L
 }

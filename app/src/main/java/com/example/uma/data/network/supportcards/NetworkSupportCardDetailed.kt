@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 /**
  * https://umapyoi.net/api/v1/support/10001 for example
  * @param rarity 1 -> R, 2 -> SR, 3 -> SSR
- *
+ * @param startDateSeconds time in seconds from jan 1, 1970
  * */
 @Serializable
 data class NetworkSupportCardDetailed(
@@ -15,7 +15,7 @@ data class NetworkSupportCardDetailed(
     val id: Int,
     val rarity: Int,
     @SerialName("rarity_string") val rarityString: String,
-    @SerialName("start_date") val startDate: Int,
+    @SerialName("start_date") val startDateSeconds: Int,
     @SerialName("title") val titleJp: String,
     @SerialName("title_en") val titleEn: String,
     @SerialName("type") val type: String,

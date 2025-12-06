@@ -1,8 +1,14 @@
 package com.example.uma.ui.screens.supportcard
 
+import android.icu.text.DateFormat
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,20 +28,21 @@ import com.example.uma.R
 import com.example.uma.data.repository.supportcard.SupportCardDetailed
 
 @Composable
-fun SupportCardDetailsScreen(supportCardId: Int, modifier: Modifier = Modifier) {
+fun SupportCardDetailsScreen(modifier: Modifier = Modifier) {
     val viewModel: SupportCardDetailsViewModel = hiltViewModel()
     val supportCardDetailsState by viewModel.state.collectAsState()
 
     when (val state = supportCardDetailsState) {
         is SupportCardDetailsScreenUiState.Error -> Text("Error: $state")
         SupportCardDetailsScreenUiState.Loading -> Text("Loading...")
-        is SupportCardDetailsScreenUiState.Success -> SuccessScreen(supportCard = state.supportCard)
+        is SupportCardDetailsScreenUiState.Success -> SuccessScreen(supportCard = state.supportCard,
+            modifier = Modifier.padding(start = 20.dp, end = 20.dp))
     }
 }
 
 @Composable
 fun SuccessScreen(supportCard: SupportCardDetailed, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
 //        TODO: Get character name
         Text(supportCard.id.toString(), fontSize = 32.sp)
         Text("character id: ${supportCard.characterId}")
@@ -53,14 +60,39 @@ fun SuccessScreen(supportCard: SupportCardDetailed, modifier: Modifier = Modifie
                 .build(),
             contentDescription = null,
             modifier = modifier
-                .height(300.dp)
+                .fillMaxWidth()
         )
-//        TODO: Add Japanese name, voice actor, birthday, school, dorm
-//        TODO: Add slogan with profile picture
-//        TODO: Add measurements
-//        TODO: Add profile (strong / weak points, ears, tail, family
-//        TODO: Add secret facts
-//        TODO: Add Character Versions/ Outfits
-//        TODO: Add support cards
+        supportCard.rarity?.let {
+            Text(
+                supportCard.rarity.name,
+                textAlign = TextAlign.Center
+            )
+        }
+        supportCard.cardType?.let {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    supportCard.cardType.name,
+                    textAlign = TextAlign.Center
+                )
+                Spacer(Modifier.size(4.dp))
+                AsyncImage(
+                    error = painterResource(R.drawable.ic_connection_error),
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(supportCard.typeIconUrl)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(30.dp)
+                )
+            }
+        }
+        supportCard.dateAddedMs?.let {
+            Row {
+                Text(
+                    "Date added: ${DateFormat.getDateInstance().format(supportCard.dateAddedMs)}",
+                )
+            }
+        }
     }
 }

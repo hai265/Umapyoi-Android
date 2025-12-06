@@ -26,7 +26,7 @@ sealed interface SupportCardDetailsScreenUiState {
 @HiltViewModel
 class SupportCardDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val supportCardRepo: SupportCardRepository
+    supportCardRepo: SupportCardRepository
 ) : ViewModel() {
     private val supportCardId = savedStateHandle.toRoute<UmaNavigables.SupportCardDetails>().id
     private val _state: MutableStateFlow<SupportCardDetailsScreenUiState> = MutableStateFlow(

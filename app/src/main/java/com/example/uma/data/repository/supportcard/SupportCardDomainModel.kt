@@ -35,7 +35,9 @@ enum class CardType{
     POWER,
     STAMINA,
     GUTS,
-    WIT;
+    WIT,
+    PAL;
+
 
     companion object {
         fun fromString(typeString: String): CardType {
