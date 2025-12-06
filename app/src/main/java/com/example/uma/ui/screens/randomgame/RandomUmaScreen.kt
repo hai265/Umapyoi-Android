@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.uma.ui.screens.umalist.Character
+import com.example.uma.data.models.Character
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable

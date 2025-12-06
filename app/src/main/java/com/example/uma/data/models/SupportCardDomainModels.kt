@@ -1,4 +1,11 @@
-package com.example.uma.data.repository.supportcard
+package com.example.uma.data.models
+
+data class SupportCardListItem(
+    val id: Int,
+    val characterId: Int,
+    val imageUrl: String,
+    val characterName: String,
+)
 
 data class SupportCard(
     val id: Int,
@@ -37,7 +44,6 @@ enum class CardType{
     GUTS,
     WIT,
     PAL;
-
 
     companion object {
         fun fromString(typeString: String): CardType {

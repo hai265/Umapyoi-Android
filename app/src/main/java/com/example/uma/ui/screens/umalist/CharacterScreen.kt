@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
+import com.example.uma.data.models.Character
 
 @Composable
 fun Profile(id: Int, modifier: Modifier = Modifier) {

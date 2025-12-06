@@ -1,6 +1,5 @@
-package com.example.uma.ui.screens.umalist
+package com.example.uma.data.models
 
-//TODO: Move to data module
 data class Character(
     val id: Int,
     val gameId: Int?,

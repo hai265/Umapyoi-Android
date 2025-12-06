@@ -9,7 +9,7 @@ import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.character.toCharacter
 import com.example.uma.data.network.character.toCharacterEntity
 import com.example.uma.data.network.character.toDetailedCharacterEntity
-import com.example.uma.ui.screens.umalist.Character
+import com.example.uma.data.models.Character
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -1,9 +1,9 @@
 package com.example.uma.data.network.character
 import com.example.uma.data.database.character.CharacterDetailEntity
 import com.example.uma.data.database.character.CharacterEntity
-import com.example.uma.ui.screens.umalist.BirthDate
-import com.example.uma.ui.screens.umalist.Character
-import com.example.uma.ui.screens.umalist.CharacterProfile
+import com.example.uma.data.models.BirthDate
+import com.example.uma.data.models.Character
+import com.example.uma.data.models.CharacterProfile
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

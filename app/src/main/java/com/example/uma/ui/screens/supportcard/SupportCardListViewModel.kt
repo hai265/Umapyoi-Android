@@ -3,7 +3,7 @@ package com.example.uma.ui.screens.supportcard
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.uma.domain.SupportCardListItem
+import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,5 +1,8 @@
 package com.example.uma.data.repository.supportcard
 
+import com.example.uma.data.models.CardRarity
+import com.example.uma.data.models.CardType
+
 data class SupportCardBasic(
     val id: Int,
     val characterId: Int,

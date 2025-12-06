@@ -8,7 +8,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.uma.domain.SupportCardListItem
+import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.ui.screens.common.ImageWithBottomText
 
 @Composable
