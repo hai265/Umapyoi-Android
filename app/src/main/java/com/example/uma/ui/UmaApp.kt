@@ -71,20 +71,19 @@ private fun NavGraph(
     ) {
         composable<UmaNavigables.UmaList> {
             CharacterListScreen(onTapCharacter = { id: Int ->
-                navController.navigateSingleTopTo(UmaNavigables.Character(id))
+                navController.navigate(UmaNavigables.Character(id))
             })
         }
         composable<UmaNavigables.SupportCards> {
             //TODO: Navigate to support card screen
             SupportCardListScreen(onTapSupportCard = { id: Int ->
-                navController.navigateSingleTopTo(UmaNavigables.SupportCardDetails(id))
+                navController.navigate(UmaNavigables.SupportCardDetails(id))
             })
         }
         composable<UmaNavigables.Character> { backStackEntry ->
             val character: UmaNavigables.Character = backStackEntry.toRoute()
             Profile(character.id)
         }
-        //TODO: Pressing back on support card detials nagivates back to character screen
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             val supportCard: UmaNavigables.SupportCardDetails = backStackEntry.toRoute()
             SupportCardDetailsScreen(supportCard.id)
