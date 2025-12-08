@@ -1,6 +1,7 @@
 package com.example.uma.ui.screens.umalist
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -20,15 +21,15 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
     val viewModel: UmaListViewModel = hiltViewModel()
     val umaListState by viewModel.umaListState.collectAsState()
 
-    Column {
+    Column(modifier = modifier.fillMaxSize()) {
         CharacterSearchTextField(
-            umaListState.searchTextBoxState,
+            viewModel.searchTextBoxState,
             modifier = Modifier.fillMaxWidth()
         )
         CharacterColumn(
             characters = umaListState.umaList,
             onTapCharacter = onTapCharacter,
-            modifier = modifier
+            modifier = Modifier.weight(1f)
         )
     }
 }
@@ -39,8 +40,8 @@ fun CharacterColumn(
     onTapCharacter: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier) {
-        items(items = characters, key = { it.id }) { character ->
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = modifier) {
+        items(items = characters, key = { characters: Character -> characters.id }) { character ->
             ImageWithBottomText(
                 onClickImage = { onTapCharacter(character.id) },
                 bottomText = character.name,
