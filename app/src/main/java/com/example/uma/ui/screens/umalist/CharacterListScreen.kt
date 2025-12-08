@@ -12,14 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.Character
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.screens.umalist.sorting.CharacterSearchTextField
-import kotlinx.coroutines.flow.filter
 
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
@@ -29,13 +27,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
 
     // Scroll to top of list when search is empty
     LaunchedEffect(umaListState.umaList) {
-        snapshotFlow { viewModel.searchTextBoxState.text }
-            .filter { it.isEmpty() }
-            .collect {
-                if (umaListState.umaList.isNotEmpty()) {
-                    gridState.scrollToItem(0)
-                }
-            }
+        gridState.scrollToItem(0)
     }
 
     Column(modifier = modifier.fillMaxSize()) {
