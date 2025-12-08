@@ -48,7 +48,6 @@ class UmaListViewModel @Inject constructor(
                 initialValue = UmaListState(listOf())
             )
 
-    //TODO: Return user to their previous scroll position when they clear the search
     private fun filterCharacters(searchTerm: String, characters: List<Character>): List<Character> {
         //Trim leading spaces
         val trimmedSearchTerm = searchTerm.trimStart()
