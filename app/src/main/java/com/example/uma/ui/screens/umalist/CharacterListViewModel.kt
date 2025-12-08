@@ -1,5 +1,6 @@
 package com.example.uma.ui.screens.umalist
 
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.uma.data.models.Character
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 //TODO: Make this a sealed class so we can show blank screen, loading, normal screen
 data class UmaListState(
-    val umaList: List<Character> = listOf(),
+    val umaList: List<Character>,
+    val searchTextBoxState: TextFieldState,
 )
 
 /*
@@ -25,13 +27,15 @@ class UmaListViewModel @Inject constructor(
     characterRepository: CharacterRepository,
 ) : ViewModel() {
     // This is flow to eventually support sorting, etc
-    val umaList: StateFlow<UmaListState> = characterRepository.getAllCharacters()
+    val umaListState: StateFlow<UmaListState> = characterRepository.getAllCharacters()
         .map { characters ->
-            UmaListState(umaList = characters)
+            UmaListState(umaList = characters, umaListState.value.searchTextBoxState )
         }
         .stateIn(
             viewModelScope,
             started = SharingStarted.WhileSubscribed(5000L),
-            initialValue = UmaListState()
+            initialValue = UmaListState(listOf(), TextFieldState())
         )
+
+    //TODO: Listen for updates in searchTextBoxState to update umaList
 }
