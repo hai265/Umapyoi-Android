@@ -1,12 +1,12 @@
 package com.example.uma.ui.screens.umalist
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.uma.data.models.Character
 import com.example.uma.data.repository.character.CharacterRepository
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
+import com.example.uma.ui.UmaNavigables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 /*
@@ -26,11 +27,12 @@ sealed interface CharacterScreenUiState {
     data class Error(val error: String): CharacterScreenUiState
 }
 
-@HiltViewModel(assistedFactory = CharacterScreenViewModel.Factory::class)
-class CharacterScreenViewModel @AssistedInject constructor(
-    @Assisted private val characterId: Int,
+@HiltViewModel()
+class CharacterScreenViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val umaRepo: CharacterRepository,
 ): ViewModel() {
+    private val characterId = savedStateHandle.toRoute<UmaNavigables.Character>().id
     private val _state: MutableStateFlow<CharacterScreenUiState> = MutableStateFlow(CharacterScreenUiState.Loading)
     val state: StateFlow<CharacterScreenUiState> = _state
 
@@ -55,11 +57,6 @@ class CharacterScreenViewModel @AssistedInject constructor(
                 }
                 .collect()
         }
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(characterId: Int): CharacterScreenViewModel
     }
 }
 

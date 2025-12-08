@@ -7,29 +7,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil3.compose.AsyncImage
-import com.example.uma.ui.theme.UmaTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
 import com.example.uma.data.models.Character
+import com.example.uma.ui.theme.UmaTheme
 
 @Composable
 fun Profile(id: Int, modifier: Modifier = Modifier) {
-    val characterScreenViewModel: CharacterScreenViewModel =
-        hiltViewModel<CharacterScreenViewModel, CharacterScreenViewModel.Factory>(
-            creationCallback = { factory -> factory.create(id) }
-        )
+    val characterScreenViewModel: CharacterScreenViewModel = hiltViewModel()
 
     val umaUiState by characterScreenViewModel.state.collectAsState()
     Column(modifier = modifier) {
