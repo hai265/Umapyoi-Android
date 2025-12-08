@@ -25,7 +25,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
     val umaListState by viewModel.umaListState.collectAsState()
     val gridState = rememberLazyGridState()
 
-    // Scroll to top of list when search is empty
+    // Scroll to top of list when list changes (from search, etc.)
     LaunchedEffect(umaListState.umaList) {
         gridState.scrollToItem(0)
     }
