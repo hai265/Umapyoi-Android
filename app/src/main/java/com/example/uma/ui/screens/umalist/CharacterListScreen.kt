@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,12 +36,17 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
             viewModel.searchTextBoxState,
             modifier = Modifier.fillMaxWidth()
         )
-        CharacterColumn(
-            characters = umaListState.umaList,
-            onTapCharacter = onTapCharacter,
-            state = gridState,
-            modifier = Modifier.weight(1f)
-        )
+        PullToRefreshBox(
+            isRefreshing = umaListState.syncing,
+            onRefresh = { viewModel.refreshList() },
+            modifier = modifier
+        ) {
+            CharacterColumn(
+                characters = umaListState.umaList,
+                onTapCharacter = onTapCharacter,
+                state = gridState,
+            )
+        }
     }
 }
 
