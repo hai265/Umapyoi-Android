@@ -25,10 +25,10 @@ import com.example.uma.data.models.Character
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
-fun Profile(id: Int, modifier: Modifier = Modifier) {
-    val characterScreenViewModel: CharacterScreenViewModel = hiltViewModel()
+fun CharacterDetailsScreen(id: Int, modifier: Modifier = Modifier) {
+    val characterDetailsScreenViewModel: CharacterDetailsScreenViewModel = hiltViewModel()
 
-    val umaUiState by characterScreenViewModel.state.collectAsState()
+    val umaUiState by characterDetailsScreenViewModel.state.collectAsState()
     Column(modifier = modifier) {
         when (val state = umaUiState) {
             is CharacterScreenUiState.Error -> Text("Error: $state")
@@ -51,7 +51,7 @@ private fun SuccessScreen(
     character: Character,
     modifier: Modifier = Modifier
 ) {
-    Profile(
+    CharacterDetailsScreen(
         id = id,
         character = character,
         modifier = modifier
@@ -61,7 +61,7 @@ private fun SuccessScreen(
 
 @Composable
 //Id just for testing
-private fun Profile(id: Int = 0, character: Character, modifier: Modifier) {
+private fun CharacterDetailsScreen(id: Int = 0, character: Character, modifier: Modifier) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(character.name, fontSize = 32.sp)
         Text("id: $id")
@@ -94,8 +94,8 @@ private fun Profile(id: Int = 0, character: Character, modifier: Modifier) {
 
 @Composable
 @Preview
-private fun ProfilePreview() {
-    Profile(
+private fun CharacterDetailsScreenPreview() {
+    CharacterDetailsScreen(
         0,
         Character.createWithIdNameImageOnly(
             1,
@@ -110,6 +110,6 @@ private fun ProfilePreview() {
 @Composable
 private fun HomeScreenPreview() {
     UmaTheme {
-        Profile(1, modifier = Modifier)
+        CharacterDetailsScreen(1, modifier = Modifier)
     }
 }

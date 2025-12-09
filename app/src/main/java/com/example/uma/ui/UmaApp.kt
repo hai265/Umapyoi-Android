@@ -18,7 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
-import com.example.uma.ui.screens.umalist.Profile
+import com.example.uma.ui.screens.umalist.CharacterDetailsScreen
 import com.example.uma.ui.screens.umalist.CharacterListScreen
 import kotlinx.serialization.Serializable
 
@@ -81,7 +81,7 @@ private fun NavGraph(
         }
         composable<UmaNavigables.Character> { backStackEntry ->
             val character: UmaNavigables.Character = backStackEntry.toRoute()
-            Profile(character.id)
+            CharacterDetailsScreen(character.id)
         }
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             SupportCardDetailsScreen()

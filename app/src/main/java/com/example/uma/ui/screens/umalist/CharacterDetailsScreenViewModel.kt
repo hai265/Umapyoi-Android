@@ -28,7 +28,7 @@ sealed interface CharacterScreenUiState {
 }
 
 @HiltViewModel()
-class CharacterScreenViewModel @Inject constructor(
+class CharacterDetailsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val umaRepo: CharacterRepository,
 ): ViewModel() {
