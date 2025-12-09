@@ -59,6 +59,8 @@ fun UmaApp(navController: NavHostController = rememberNavController()) {
     }
 }
 
+//TODO: Introduct multiple back stacks for the character list and support list
+// reason: want to go  back to list page if I tap on the tab again
 @Composable
 private fun NavGraph(
     navController: NavHostController,
