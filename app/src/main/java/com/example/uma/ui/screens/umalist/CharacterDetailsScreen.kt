@@ -1,9 +1,12 @@
 package com.example.uma.ui.screens.umalist
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -22,6 +25,8 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
 import com.example.uma.data.models.Character
+import com.example.uma.data.models.SupportCardListItem
+import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
@@ -37,6 +42,7 @@ fun CharacterDetailsScreen(id: Int, modifier: Modifier = Modifier) {
                 SuccessScreen(
                     id = id,
                     character = state.character,
+                    supportCards = state.supportCards,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -49,19 +55,26 @@ fun CharacterDetailsScreen(id: Int, modifier: Modifier = Modifier) {
 private fun SuccessScreen(
     id: Int,
     character: Character,
+    supportCards: List<SupportCardListItem>,
     modifier: Modifier = Modifier
 ) {
     CharacterDetailsScreen(
         id = id,
         character = character,
-        modifier = modifier
+        modifier = modifier,
+        supportCards = supportCards,
     )
 }
 
 
 @Composable
 //Id just for testing
-private fun CharacterDetailsScreen(id: Int = 0, character: Character, modifier: Modifier) {
+private fun CharacterDetailsScreen(
+    id: Int = 0,
+    character: Character,
+    supportCards: List<SupportCardListItem>,
+    modifier: Modifier
+) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(character.name, fontSize = 32.sp)
         Text("id: $id")
@@ -89,6 +102,19 @@ private fun CharacterDetailsScreen(id: Int = 0, character: Character, modifier: 
 //        TODO: Add secret facts
 //        TODO: Add Character Versions/ Outfits
 //        TODO: Add support cards
+
+        if(supportCards.isNotEmpty()) {
+            Text("Support Cards", fontSize = 32.sp)
+            LazyRow(modifier = Modifier.fillMaxSize()) {
+                items(supportCards) { supportCard ->
+                    ImageWithBottomText(
+                        onClickImage = {}, //TODO: navigate to support card detail
+                        bottomText = "", //TODO: make bottomText nullable for no text
+                        imageUrl = supportCard.imageUrl
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -96,13 +122,8 @@ private fun CharacterDetailsScreen(id: Int = 0, character: Character, modifier: 
 @Preview
 private fun CharacterDetailsScreenPreview() {
     CharacterDetailsScreen(
-        0,
-        Character.createWithIdNameImageOnly(
-            1,
-            gameId = 1,
-            name = "Special Week",
-            image = ""
-        ), modifier = Modifier
+        id = 0,
+        modifier = Modifier
     )
 }
 

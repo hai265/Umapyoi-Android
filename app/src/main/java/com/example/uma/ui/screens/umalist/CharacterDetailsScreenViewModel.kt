@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.uma.data.models.Character
+import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.data.repository.character.CharacterRepository
+import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
 import com.example.uma.ui.UmaNavigables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,26 +24,31 @@ import javax.inject.Inject
 * Modeled off of umapyoi character page https://umapyoi.net/character/admire-vega
 * */
 sealed interface CharacterScreenUiState {
-    data class Success(val character: Character): CharacterScreenUiState
-    object Loading: CharacterScreenUiState
-    data class Error(val error: String): CharacterScreenUiState
+    data class Success(val character: Character, val supportCards: List<SupportCardListItem>) :
+        CharacterScreenUiState
+
+    object Loading : CharacterScreenUiState
+    data class Error(val error: String) : CharacterScreenUiState
 }
 
 @HiltViewModel()
 class CharacterDetailsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val umaRepo: CharacterRepository,
-): ViewModel() {
+    getSupportCardsWithCharacterNameUseCase: GetSupportCardsWithCharacterNameUseCase,
+) : ViewModel() {
     private val characterId = savedStateHandle.toRoute<UmaNavigables.Character>().id
-    private val _state: MutableStateFlow<CharacterScreenUiState> = MutableStateFlow(CharacterScreenUiState.Loading)
+    private val _state: MutableStateFlow<CharacterScreenUiState> =
+        MutableStateFlow(CharacterScreenUiState.Loading)
     val state: StateFlow<CharacterScreenUiState> = _state
 
+    //TODO: Don't remember why i did this oncompletion, can probably delete
     init {
         viewModelScope.launch {
             var emitted = false
             umaRepo.getCharacterDetailsById(characterId)
                 .onEach { character ->
-                    _state.value = CharacterScreenUiState.Success(character)
+                    _state.value = CharacterScreenUiState.Success(character, listOf())
                     emitted = true
                 }
                 .onCompletion { cause ->
