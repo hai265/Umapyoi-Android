@@ -10,13 +10,11 @@ import com.example.uma.data.repository.character.CharacterRepository
 import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
 import com.example.uma.ui.UmaNavigables
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 
@@ -34,37 +32,25 @@ sealed interface CharacterScreenUiState {
 @HiltViewModel()
 class CharacterDetailsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val umaRepo: CharacterRepository,
+    umaRepo: CharacterRepository,
     getSupportCardsWithCharacterNameUseCase: GetSupportCardsWithCharacterNameUseCase,
 ) : ViewModel() {
     private val characterId = savedStateHandle.toRoute<UmaNavigables.Character>().id
-    private val _state: MutableStateFlow<CharacterScreenUiState> =
-        MutableStateFlow(CharacterScreenUiState.Loading)
-    val state: StateFlow<CharacterScreenUiState> = _state
+    val state: StateFlow<CharacterScreenUiState> =
+        umaRepo.getCharacterDetailsById(characterId)
+            .map { character ->
+                CharacterScreenUiState.Success(character, listOf())
+            }
+            .catch { e ->
+                CharacterScreenUiState.Error("Error loading character $e")
+            }
+            .stateIn(
+                viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                initialValue = CharacterScreenUiState.Loading
+            )
 
     //TODO: Don't remember why i did this oncompletion, can probably delete
-    init {
-        viewModelScope.launch {
-            var emitted = false
-            umaRepo.getCharacterDetailsById(characterId)
-                .onEach { character ->
-                    _state.value = CharacterScreenUiState.Success(character, listOf())
-                    emitted = true
-                }
-                .onCompletion { cause ->
-                    if (cause != null) {
-                        return@onCompletion
-                    }
-                    if (!emitted) {
-                        _state.value = CharacterScreenUiState.Error("No characters were loaded")
-                    }
-                }
-                .catch { e ->
-                    _state.value = CharacterScreenUiState.Error("Error retrieving character $e")
-                }
-                .collect()
-        }
-    }
 }
 
 
