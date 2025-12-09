@@ -3,8 +3,9 @@ package com.example.uma.ui
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarDefaults
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,13 +23,35 @@ import com.example.uma.ui.screens.umalist.CharacterDetailsScreen
 import com.example.uma.ui.screens.umalist.CharacterListScreen
 import kotlinx.serialization.Serializable
 
-
 sealed class UmaNavigables {
+    open fun label(): String {
+        return ""
+    }
+
+    @Composable
+    open fun icon() {
+    }
+
+    //TODO: Move to separate sealed class?
     @Serializable
-    data object SupportCards : UmaNavigables()
+    data object SupportCards : UmaNavigables() {
+        override fun label(): String = "Support Cards"
+
+        @Composable
+        override fun icon() {
+
+        }
+    }
 
     @Serializable
-    data object UmaList : UmaNavigables()
+    data object UmaList : UmaNavigables() {
+        override fun label(): String = "Characters"
+
+        @Composable
+        override fun icon() {
+            //TODO
+        }
+    }
 
     @Serializable
     data class Character(val id: Int) : UmaNavigables()
@@ -42,13 +65,9 @@ sealed class UmaNavigables {
 fun UmaApp(navController: NavHostController = rememberNavController()) {
     Scaffold(
         bottomBar = {
-            BottomBar(
-                onClickCharacters = {
-                    navController.navigateSingleTopTo(UmaNavigables.UmaList)
-                },
-                onClickSupportCards = {
-                    navController.navigateSingleTopTo(UmaNavigables.SupportCards)
-                })
+            BottomBar({
+                navController.navigate(it)
+            })
         },
         modifier = Modifier
     ) {
@@ -72,7 +91,10 @@ private fun NavGraph(
     NavHost(
         navController = navController,
         startDestination = UmaNavigables.UmaList,
-        modifier = Modifier.padding(top = values.calculateTopPadding())
+        modifier = Modifier.padding(
+            top = values.calculateTopPadding(),
+            bottom = values.calculateBottomPadding()
+        )
     ) {
         composable<UmaNavigables.UmaList> {
             CharacterListScreen(onTapCharacter = { id: Int ->
@@ -84,7 +106,7 @@ private fun NavGraph(
         }
         composable<UmaNavigables.Character> { backStackEntry ->
             val character: UmaNavigables.Character = backStackEntry.toRoute()
-            CharacterDetailsScreen( id = character.id, onTapSupportCard = onTapSupportCard)
+            CharacterDetailsScreen(id = character.id, onTapSupportCard = onTapSupportCard)
         }
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             SupportCardDetailsScreen()
@@ -93,18 +115,23 @@ private fun NavGraph(
 }
 
 //TODO: Better icons
+//TODO: Selected
 @Composable
-fun BottomBar(onClickCharacters: () -> Unit, onClickSupportCards: () -> Unit) {
-    BottomAppBar(
-        actions = {
-            IconButton(onClick = onClickCharacters) {
-                Text("Characters")
-            }
-            IconButton(onClick = onClickSupportCards) {
-                Text("Support Cards")
-            }
-        }
+fun BottomBar(onTabSelected: (UmaNavigables) -> Unit) {
+    val bottomBarTabs = listOf(
+        UmaNavigables.UmaList,
+        UmaNavigables.SupportCards
     )
+    NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
+        bottomBarTabs.forEach { tab ->
+            NavigationBarItem(
+                onClick = { onTabSelected(tab) },
+                selected = false,
+                icon = { tab.icon() },
+                label = { Text(tab.label()) }
+            )
+        }
+    }
 }
 
 fun NavHostController.navigateSingleTopTo(route: UmaNavigables) =
