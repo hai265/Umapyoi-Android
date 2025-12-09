@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.uma.data.models.Character
-import com.example.uma.data.models.SupportCardListItem
+import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.data.repository.character.CharacterRepository
-import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
+import com.example.uma.data.repository.supportcard.SupportCardRepository
 import com.example.uma.ui.UmaNavigables
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,7 +22,7 @@ import javax.inject.Inject
 * Modeled off of umapyoi character page https://umapyoi.net/character/admire-vega
 * */
 sealed interface CharacterScreenUiState {
-    data class Success(val character: Character, val supportCards: List<SupportCardListItem>) :
+    data class Success(val character: Character, val supportCards: List<SupportCardBasic>) :
         CharacterScreenUiState
 
     object Loading : CharacterScreenUiState
@@ -33,13 +33,17 @@ sealed interface CharacterScreenUiState {
 class CharacterDetailsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     umaRepo: CharacterRepository,
-    getSupportCardsWithCharacterNameUseCase: GetSupportCardsWithCharacterNameUseCase,
+    //TODO: I want to show the support card types in the list (like in gametora) so might replace with a usecase
+    // https://gametora.com/umamusume/characters/tamamo-cross
+    supportCardRepository: SupportCardRepository,
 ) : ViewModel() {
-    private val characterId = savedStateHandle.toRoute<UmaNavigables.Character>().id
+    private val id = savedStateHandle.toRoute<UmaNavigables.Character>().id
     val state: StateFlow<CharacterScreenUiState> =
-        umaRepo.getCharacterDetailsById(characterId)
+        umaRepo.getCharacterDetailsById(id)
             .map { character ->
-                CharacterScreenUiState.Success(character, listOf())
+                val supportCards =
+                    supportCardRepository.getSupportCardsByCharacterId(character.gameId)
+                CharacterScreenUiState.Success(character, supportCards)
             }
             .catch { e ->
                 CharacterScreenUiState.Error("Error loading character $e")

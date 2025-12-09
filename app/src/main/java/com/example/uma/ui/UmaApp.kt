@@ -64,6 +64,9 @@ private fun NavGraph(
     navController: NavHostController,
     values: PaddingValues
 ) {
+    val onTapSupportCard: (Int) -> Unit = { id: Int ->
+        navController.navigate(UmaNavigables.SupportCardDetails(id))
+    }
     NavHost(
         navController = navController,
         startDestination = UmaNavigables.UmaList,
@@ -75,13 +78,11 @@ private fun NavGraph(
             })
         }
         composable<UmaNavigables.SupportCards> {
-            SupportCardListScreen(onTapSupportCard = { id: Int ->
-                navController.navigate(UmaNavigables.SupportCardDetails(id))
-            })
+            SupportCardListScreen(onTapSupportCard = onTapSupportCard)
         }
         composable<UmaNavigables.Character> { backStackEntry ->
             val character: UmaNavigables.Character = backStackEntry.toRoute()
-            CharacterDetailsScreen(character.id)
+            CharacterDetailsScreen( id = character.id, onTapSupportCard = onTapSupportCard)
         }
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             SupportCardDetailsScreen()

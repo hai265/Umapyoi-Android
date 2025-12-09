@@ -27,7 +27,7 @@ import com.example.uma.ui.screens.umalist.sorting.CharacterSearchTextField
 //TODO: Pressing back after tapping character details go back to top of list insteaad of previous position
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
-    val viewModel: UmaListViewModel = hiltViewModel()
+    val viewModel: CharacterListViewModel = hiltViewModel()
     val umaListState by viewModel.umaListState.collectAsState()
     val gridState = rememberLazyGridState()
 

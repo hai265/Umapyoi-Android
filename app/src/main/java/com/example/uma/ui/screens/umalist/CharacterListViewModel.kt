@@ -32,7 +32,7 @@ data class UmaListState(
  1. Allow user to filter, sort (ascending, descending, filter based on some criteria
 */
 @HiltViewModel
-class UmaListViewModel @Inject constructor(
+class CharacterListViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
 ) : ViewModel() {
     // This is flow to eventually support sorting, etc

@@ -3,6 +3,8 @@ package com.example.uma.data.repository.supportcard
 import com.example.uma.data.database.supportcard.SupportCardEntity
 import com.example.uma.data.models.CardRarity
 import com.example.uma.data.models.CardType
+import com.example.uma.data.models.SupportCardBasic
+import com.example.uma.data.models.SupportCardDetailed
 import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
 import com.example.uma.data.network.supportcards.NetworkSupportCardDetailed
 

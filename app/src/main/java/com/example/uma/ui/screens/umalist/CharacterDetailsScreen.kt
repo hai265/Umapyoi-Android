@@ -25,12 +25,16 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
 import com.example.uma.data.models.Character
-import com.example.uma.data.models.SupportCardListItem
+import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
-fun CharacterDetailsScreen(id: Int, modifier: Modifier = Modifier) {
+fun CharacterDetailsScreen(
+    id: Int,
+    onTapSupportCard: (supportCardId: Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val characterDetailsScreenViewModel: CharacterDetailsScreenViewModel = hiltViewModel()
 
     val umaUiState by characterDetailsScreenViewModel.state.collectAsState()
@@ -43,6 +47,7 @@ fun CharacterDetailsScreen(id: Int, modifier: Modifier = Modifier) {
                     id = id,
                     character = state.character,
                     supportCards = state.supportCards,
+                    onTapSupportCard = onTapSupportCard,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
@@ -55,14 +60,16 @@ fun CharacterDetailsScreen(id: Int, modifier: Modifier = Modifier) {
 private fun SuccessScreen(
     id: Int,
     character: Character,
-    supportCards: List<SupportCardListItem>,
-    modifier: Modifier = Modifier
+    supportCards: List<SupportCardBasic>,
+    modifier: Modifier = Modifier,
+    onTapSupportCard: (Int) -> Unit
 ) {
     CharacterDetailsScreen(
         id = id,
         character = character,
         modifier = modifier,
         supportCards = supportCards,
+        onTapSupportCard = onTapSupportCard
     )
 }
 
@@ -72,7 +79,8 @@ private fun SuccessScreen(
 private fun CharacterDetailsScreen(
     id: Int = 0,
     character: Character,
-    supportCards: List<SupportCardListItem>,
+    supportCards: List<SupportCardBasic>,
+    onTapSupportCard: (supportCardId: Int) -> Unit,
     modifier: Modifier
 ) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -103,12 +111,12 @@ private fun CharacterDetailsScreen(
 //        TODO: Add Character Versions/ Outfits
 //        TODO: Add support cards
 
-        if(supportCards.isNotEmpty()) {
+        if (supportCards.isNotEmpty()) {
             Text("Support Cards", fontSize = 32.sp)
             LazyRow(modifier = Modifier.fillMaxSize()) {
                 items(supportCards) { supportCard ->
                     ImageWithBottomText(
-                        onClickImage = {}, //TODO: navigate to support card detail
+                        onClickImage = {onTapSupportCard(supportCard.id)}, //TODO: navigate to support card detail
                         bottomText = "", //TODO: make bottomText nullable for no text
                         imageUrl = supportCard.imageUrl
                     )
@@ -123,6 +131,7 @@ private fun CharacterDetailsScreen(
 private fun CharacterDetailsScreenPreview() {
     CharacterDetailsScreen(
         id = 0,
+        onTapSupportCard = {},
         modifier = Modifier
     )
 }
@@ -131,6 +140,6 @@ private fun CharacterDetailsScreenPreview() {
 @Composable
 private fun HomeScreenPreview() {
     UmaTheme {
-        CharacterDetailsScreen(1, modifier = Modifier)
+        CharacterDetailsScreen(1, onTapSupportCard = {}, modifier = Modifier)
     }
 }

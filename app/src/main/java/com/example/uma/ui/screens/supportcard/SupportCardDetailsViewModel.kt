@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.uma.data.repository.supportcard.SupportCardDetailed
+import com.example.uma.data.models.SupportCardDetailed
 import com.example.uma.data.repository.supportcard.SupportCardRepository
 import com.example.uma.ui.UmaNavigables
 import dagger.hilt.android.lifecycle.HiltViewModel

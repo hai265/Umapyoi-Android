@@ -17,6 +17,7 @@ data class NetworkSupportCardDetailed(
     @SerialName("rarity_string") val rarityString: String,
     @SerialName("start_date") val startDateSeconds: Int,
     @SerialName("title") val titleJp: String,
+    //TODO: Make this nullable
     @SerialName("title_en") val titleEn: String,
     @SerialName("type") val type: String,
     @SerialName("type_icon_url") val typeIconUrl: String,
