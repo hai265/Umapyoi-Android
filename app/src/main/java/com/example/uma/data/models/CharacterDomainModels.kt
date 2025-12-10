@@ -5,6 +5,8 @@ data class Character(
     val gameId: Int?,
     val name: String,
     val image: String,
+    val colorMain: String,
+    val colorSub: String,
 
     val birthDate: BirthDate?,
     val profile: CharacterProfile?,
@@ -12,9 +14,18 @@ data class Character(
 //    val metadata: CharacterMetadata?,
 ) {
     companion object {
-        fun createWithIdNameImageOnly(id: Int, gameId: Int?, name: String, image: String): Character {
+        fun createWithIdNameImageOnly(
+            id: Int,
+            gameId: Int?,
+            name: String,
+            image: String,
+            primaryColor: String = "",
+            secondaryColor: String = ""
+        ): Character {
             return Character(
                 id, gameId, name, image,
+                colorMain = primaryColor,
+                colorSub = secondaryColor,
                 birthDate = null,
                 profile = null,
             )

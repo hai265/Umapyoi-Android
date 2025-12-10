@@ -105,6 +105,8 @@ fun NetworkCharacterDetails.toCharacter(): Character {
         name = nameEn,
         image = thumbImg,
         birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
+        colorMain = colorMain,
+        colorSub = colorSub,
         profile = CharacterProfile(
             slogan = slogan,
             category = categoryLabelEn

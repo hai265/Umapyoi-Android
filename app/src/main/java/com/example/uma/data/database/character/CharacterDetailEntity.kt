@@ -64,6 +64,8 @@ fun CharacterDetailEntity.toCharacter(): Character {
         name = nameEn,
         image = thumbImg ?: "",
         birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
+        colorMain = colorMain,
+        colorSub = colorSub,
         profile = CharacterProfile(
             slogan = slogan,
             category = category
@@ -72,9 +74,14 @@ fun CharacterDetailEntity.toCharacter(): Character {
 }
 
 
-fun CharacterEntity.toUmaCharacter() = Character.createWithIdNameImageOnly(
+fun CharacterEntity.toUmaCharacter() = Character(
     id = id,
     gameId = gameId,
     name = name,
-    image = image
+    image = image,
+    colorMain = colorMain,
+    colorSub = colorSub,
+    //TODO
+    birthDate = null,
+    profile = null
 )

@@ -33,8 +33,8 @@ fun ImageWithBottomText(
     bottomText: String,
     imageUrl: String,
     //TODO: Change to empty, add colors to network
-    primaryColorHex: String = "#EE6DCB",
-    secondaryColorHex: String = "#FFDEF9",
+    primaryColorHex: String,
+    secondaryColorHex: String,
 ) {
     val primaryColor = try {
         Color(android.graphics.Color.parseColor(primaryColorHex))
@@ -52,6 +52,16 @@ fun ImageWithBottomText(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .clickable(enabled = true, onClick = onClickImage)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.Transparent,
+                            Color.Transparent,
+                            secondaryColor.copy(alpha = 0.3f), // Fade in secondary color
+                            primaryColor.copy(alpha = 0.7f)     // End with primary color
+                        ),
+                    )
+                )
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -64,16 +74,7 @@ fun ImageWithBottomText(
                 //TODO: Only for preview delete when done
                 error = painterResource(R.drawable.specialweek_icon),
                 modifier = Modifier
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Transparent,
-                                secondaryColor.copy(alpha = 0.3f), // Fade in secondary color
-                                primaryColor.copy(alpha = 0.7f)     // End with primary color
-                            ),
-                        )
-                    )
+
                     .fillMaxWidth()
 
             )

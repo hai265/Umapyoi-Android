@@ -118,7 +118,9 @@ private fun CharacterDetailsScreen(
                     ImageWithBottomText(
                         onClickImage = {onTapSupportCard(supportCard.id)}, //TODO: navigate to support card detail
                         bottomText = "", //TODO: make bottomText nullable for no text
-                        imageUrl = supportCard.imageUrl
+                        imageUrl = supportCard.imageUrl,
+                        primaryColorHex = "",
+                        secondaryColorHex = "",
                     )
                 }
             }

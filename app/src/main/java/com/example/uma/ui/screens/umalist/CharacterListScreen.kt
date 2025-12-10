@@ -64,6 +64,8 @@ fun CharacterColumn(
                 onClickImage = { onTapCharacter(character.id) },
                 bottomText = character.name,
                 imageUrl = character.image,
+                primaryColorHex = character.colorMain,
+                secondaryColorHex = character.colorSub,
             )
         }
     }
