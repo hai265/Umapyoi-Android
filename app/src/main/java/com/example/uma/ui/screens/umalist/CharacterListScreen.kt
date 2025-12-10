@@ -1,30 +1,22 @@
 package com.example.uma.ui.screens.umalist
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.Character
 import com.example.uma.ui.screens.common.ImageWithBottomText
-import com.example.uma.ui.screens.umalist.sorting.CharacterSearchTextField
+import com.example.uma.ui.screens.common.ScreenWithSearchBar
 
-//TODO: Pressing back after tapping character details go back to top of list insteaad of previous position
+//TODO: Pressing back after tapping character details go back to top of list instead of previous position
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: CharacterListViewModel = hiltViewModel()
@@ -36,32 +28,18 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
         gridState.scrollToItem(0)
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        CharacterSearchTextField(
-            viewModel.searchTextBoxState,
-            modifier = Modifier.fillMaxWidth()
+    ScreenWithSearchBar(
+        textFieldState = viewModel.searchTextBoxState,
+        onRefresh = { viewModel.refreshList() },
+        contentEmpty = umaListState.list.isEmpty(),
+        searchBoxLabel = "Search Character",
+        syncing = umaListState.syncing,
+    ) {
+        CharacterColumn(
+            characters = umaListState.list,
+            onTapCharacter = onTapCharacter,
+            state = gridState,
         )
-        PullToRefreshBox(
-            isRefreshing = umaListState.syncing,
-            onRefresh = { viewModel.refreshList() },
-            modifier = modifier
-        ) {
-            if (umaListState.list.isEmpty()) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    item { Box(Modifier
-                        .fillMaxWidth()
-                        .height(500.dp)) }
-                }
-            } else {
-                CharacterColumn(
-                    characters = umaListState.list,
-                    onTapCharacter = onTapCharacter,
-                    state = gridState,
-                )
-            }
-        }
     }
 }
 
