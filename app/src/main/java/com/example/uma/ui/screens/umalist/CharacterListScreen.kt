@@ -28,11 +28,11 @@ import com.example.uma.ui.screens.umalist.sorting.CharacterSearchTextField
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: CharacterListViewModel = hiltViewModel()
-    val umaListState by viewModel.umaListState.collectAsState()
+    val umaListState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
     // Scroll to top of list when list changes (from search, etc.)
-    LaunchedEffect(umaListState.umaList) {
+    LaunchedEffect(umaListState.list) {
         gridState.scrollToItem(0)
     }
 
@@ -46,7 +46,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
             onRefresh = { viewModel.refreshList() },
             modifier = modifier
         ) {
-            if (umaListState.umaList.isEmpty()) {
+            if (umaListState.list.isEmpty()) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
@@ -56,7 +56,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
                 }
             } else {
                 CharacterColumn(
-                    characters = umaListState.umaList,
+                    characters = umaListState.list,
                     onTapCharacter = onTapCharacter,
                     state = gridState,
                 )
