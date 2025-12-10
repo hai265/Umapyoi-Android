@@ -1,8 +1,11 @@
 package com.example.uma.ui
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
@@ -10,13 +13,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.uma.R
 import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
 import com.example.uma.ui.screens.umalist.CharacterDetailsScreen
@@ -24,34 +34,11 @@ import com.example.uma.ui.screens.umalist.CharacterListScreen
 import kotlinx.serialization.Serializable
 
 sealed class UmaNavigables {
-    open fun label(): String {
-        return ""
-    }
-
-    @Composable
-    open fun icon() {
-    }
-
-    //TODO: Move to separate sealed class?
     @Serializable
-    data object SupportCards : UmaNavigables() {
-        override fun label(): String = "Support Cards"
-
-        @Composable
-        override fun icon() {
-
-        }
-    }
+    object SupportCards : UmaNavigables()
 
     @Serializable
-    data object UmaList : UmaNavigables() {
-        override fun label(): String = "Characters"
-
-        @Composable
-        override fun icon() {
-            //TODO
-        }
-    }
+    object UmaList : UmaNavigables()
 
     @Serializable
     data class Character(val id: Int) : UmaNavigables()
@@ -60,13 +47,30 @@ sealed class UmaNavigables {
     data class SupportCardDetails(val id: Int) : UmaNavigables()
 }
 
+enum class NavigationBarNavigables(
+    val route: UmaNavigables,
+    val label: String,
+    //TODO: Add icon
+    @DrawableRes
+    val icon: Int // drawable
+
+) {
+    UmaList(
+        UmaNavigables.UmaList,
+        "Characters",
+        //Icons taken from flaticon.com
+        R.drawable.black_head_horse_side_view_with_horsehair
+    ),
+    SupportCards(UmaNavigables.SupportCards, "Support Cards", R.drawable.support_card)
+}
+
 //TODO: Add a top bar and buttons to navigate to different screens
 @Composable
 fun UmaApp(navController: NavHostController = rememberNavController()) {
     Scaffold(
         bottomBar = {
-            BottomBar({
-                navController.navigate(it)
+            BottomBar(onTabSelected = {
+                navController.navigate(it.route)
             })
         },
         modifier = Modifier
@@ -115,20 +119,26 @@ private fun NavGraph(
 }
 
 //TODO: Better icons
-//TODO: Selected
 @Composable
-fun BottomBar(onTabSelected: (UmaNavigables) -> Unit) {
-    val bottomBarTabs = listOf(
-        UmaNavigables.UmaList,
-        UmaNavigables.SupportCards
-    )
+fun BottomBar(onTabSelected: (NavigationBarNavigables) -> Unit) {
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(NavigationBarNavigables.UmaList.ordinal) }
+
     NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-        bottomBarTabs.forEach { tab ->
+        NavigationBarNavigables.entries.forEachIndexed { index, tab ->
             NavigationBarItem(
-                onClick = { onTabSelected(tab) },
-                selected = false,
-                icon = { tab.icon() },
-                label = { Text(tab.label()) }
+                onClick = {
+                    onTabSelected(tab)
+                    selectedTabIndex = index
+                },
+                selected = index == selectedTabIndex,
+                icon = {
+                    Image(
+                        painter = painterResource(tab.icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                label = { Text(tab.label) }
             )
         }
     }
