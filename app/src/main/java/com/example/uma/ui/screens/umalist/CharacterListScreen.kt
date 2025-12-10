@@ -1,5 +1,6 @@
 package com.example.uma.ui.screens.umalist
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -11,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.Character
 import com.example.uma.ui.screens.common.ImageWithBottomText
@@ -50,7 +52,13 @@ fun CharacterColumn(
     modifier: Modifier = Modifier,
     state: LazyGridState,
 ) {
-    LazyVerticalGrid(columns = GridCells.Fixed(3), state = state, modifier = modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3),
+        state = state,
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         items(items = characters, key = { characters: Character -> characters.id }) { character ->
             ImageWithBottomText(
                 onClickImage = { onTapCharacter(character.id) },
