@@ -14,9 +14,9 @@ import com.example.uma.ui.screens.common.ImageWithBottomText
 @Composable
 fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int) -> Unit) {
     val viewModel: SupportCardListViewModel = hiltViewModel()
-    val umaListState by viewModel.supportCardList.collectAsState()
+    val umaListState by viewModel.uiState.collectAsState()
 
-    SupportCardGrid(umaListState.suportCardList, onTapSupportCard)
+    SupportCardGrid(umaListState.list, onTapSupportCard)
 }
 
 @Composable

@@ -1,21 +1,18 @@
 package com.example.uma.ui.screens.supportcard
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
+import com.example.uma.ui.screens.common.BaseListViewModel
+import com.example.uma.ui.screens.common.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 private const val TAG = "SupportCardListViewModel"
 data class SupportCardListState(
-    val suportCardList: List<SupportCardListItem> = listOf(),
-)
+    override val list : List<SupportCardListItem> = emptyList(),
+    override val syncing: Boolean = false
+): UiState<SupportCardListItem>
 
 /*
  TODO Features
@@ -24,20 +21,43 @@ data class SupportCardListState(
 @HiltViewModel
 class SupportCardListViewModel @Inject constructor(
     private val getSupportCardsWithCharacterNameUseCase: GetSupportCardsWithCharacterNameUseCase
-) : ViewModel() {
+) : BaseListViewModel<SupportCardListItem, SupportCardListState>(initialState = SupportCardListState()) {
     // This is flow to eventually support sorting, etc
-    private val _supportCardList = MutableStateFlow(SupportCardListState())
-    val supportCardList: StateFlow<SupportCardListState> = _supportCardList
 
     init {
-        viewModelScope.launch {
-            getSupportCardsWithCharacterNameUseCase.invoke()
-                .catch { e ->
-                    Log.i(TAG, "Error calling getSupportCardsWithCharacterNameUseCase ")
-                }
-                .collect { supportCards ->
-                _supportCardList.value = SupportCardListState(supportCards)
-            }
+        start()
+    }
+
+    override fun getAllItems(): Flow<List<SupportCardListItem>> =
+        getSupportCardsWithCharacterNameUseCase.invoke()
+
+    override fun filterItems(
+        searchTerm: String,
+        items: List<SupportCardListItem>
+    ): List<SupportCardListItem> {
+        //Trim leading spaces
+        val trimmedSearchTerm = searchTerm.trimStart()
+        if (trimmedSearchTerm.isEmpty()) {
+            return items
         }
+        return items.filter { it.characterName.contains(searchTerm, ignoreCase = true) }
+    }
+
+    override suspend fun syncData() {
+        getSupportCardsWithCharacterNameUseCase.sync()
+    }
+
+    override fun SupportCardListState.copy(
+        list: List<SupportCardListItem>?,
+        syncing: Boolean?
+    ): SupportCardListState {
+        return this.copy(
+            list = list ?: this.list,
+            syncing = syncing ?: this.syncing
+        )
+    }
+
+    init {
+        start()
     }
 }

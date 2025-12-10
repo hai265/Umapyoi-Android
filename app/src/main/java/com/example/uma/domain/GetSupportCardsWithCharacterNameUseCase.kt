@@ -28,4 +28,9 @@ class GetSupportCardsWithCharacterNameUseCase @Inject constructor(
                     )
                 }
             }
+
+    suspend fun sync() {
+        supportCardRepository.sync()
+        characterRepository.sync()
+    }
 }

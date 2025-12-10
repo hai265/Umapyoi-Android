@@ -47,6 +47,7 @@ abstract class BaseListViewModel<T, S : UiState<T>>(
 
     /**
      * The logic to filter the list based on a search term.
+     * TODO: Make a comparator instead?
      */
     protected abstract fun filterItems(searchTerm: String, items: List<T>): List<T>
 
