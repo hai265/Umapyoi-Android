@@ -1,4 +1,4 @@
-package com.example.uma.data.fakes
+package com.example.uma.data.fakes.repository
 
 import com.example.uma.data.database.character.CharacterEntity
 

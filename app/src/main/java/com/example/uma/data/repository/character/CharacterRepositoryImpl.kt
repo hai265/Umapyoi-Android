@@ -29,7 +29,9 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override fun getCharacterDetailsById(id: Int): Flow<CharacterDetailed> = flow {
         val starter = characterDao.getCharacterById(id)
-        emit(starter.toCharacterDetailed())
+        starter?.let {
+            emit(starter.toCharacterDetailed())
+        }
 
         coroutineScope {
             characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacterDetailed()) }

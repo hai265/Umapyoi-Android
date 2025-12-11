@@ -1,9 +1,10 @@
 package com.example.uma.data
 
 import com.example.uma.data.database.character.CharacterDao
-import com.example.uma.data.fakes.fakeCharacterEntity1
-import com.example.uma.data.fakes.fakeCharacterEntity2
-import com.example.uma.data.fakes.fakeNetworkCharacterList
+import com.example.uma.data.fakes.network.fakeNetworkCharacterDetails
+import com.example.uma.data.fakes.network.fakeNetworkCharacterList
+import com.example.uma.data.fakes.repository.fakeCharacterEntity1
+import com.example.uma.data.fakes.repository.fakeCharacterEntity2
 import com.example.uma.data.models.CharacterBasic
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.character.toCharacterEntity
@@ -16,6 +17,7 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +30,9 @@ class CharacterRepositoryImplTest {
 
     @Before
     fun setup() {
+        coJustRun { characterDao.updateOrInsertCharacterDetail(any()) }
+        coJustRun { characterDao.insertAllIgnoreExisting(any()) }
+
         subject = CharacterRepositoryImpl(umaApiService, characterDao)
     }
 
@@ -50,7 +55,6 @@ class CharacterRepositoryImplTest {
         // 1. Mock the dependencies that will be called.
         coEvery { umaApiService.getAllCharacters() } returns fakeNetworkCharacterList
         // We need to mock upsertAll because it will be called. `justRun` means "expect a call but do nothing".
-        coJustRun { characterDao.insertAllIgnoreExisting(any()) }
 
         subject.sync()
 
@@ -62,8 +66,6 @@ class CharacterRepositoryImplTest {
 
     @Test
     fun `sync then getAllCharacters, returns newly synced data`() = runTest {
-        // ARRANGE
-        // 1. Mock the API to return the fake network list when called
         coEvery { umaApiService.getAllCharacters() } returns fakeNetworkCharacterList
 
         val expectedEntitiesAfterSync = fakeNetworkCharacterList.map { it.toCharacterEntity() }
@@ -72,22 +74,30 @@ class CharacterRepositoryImplTest {
         coJustRun { characterDao.insertAllIgnoreExisting(any()) }
         coEvery { characterDao.getAllCharacters() } returns flowOf(expectedEntitiesAfterSync)
 
-        // ACT
-        // 3. First, run the sync process to fetch from network and save to DAO
         subject.sync()
 
-        // 4. Then, get the characters, which should now read from the DAO
         val result = subject.getAllCharacters().first()
 
-        // ASSERT
-        // 5. The result from the repository should match the data that came from the network,
-        // after being mapped to the UI model.
         val expected = expectedEntitiesAfterSync.map { it.toCharacterBasic() }
         assertEquals(expected, result)
 
-        // Optional: Also verify that the sync process actually happened
         coVerify(exactly = 1) { umaApiService.getAllCharacters() }
         coVerify(exactly = 1) { characterDao.insertAllIgnoreExisting(expectedEntitiesAfterSync) }
     }
+
+    @Test
+    fun getCharacterDetailsById_fetchFromNetworkOnly() = runTest {
+        coEvery { umaApiService.getCharacterById(any()) } returns fakeNetworkCharacterDetails
+        coEvery { characterDao.getCharacterById(any()) } returns null
+        coEvery { characterDao.getCharacterDetailsById(any()) } returns null
+
+        val characters = subject.getCharacterDetailsById(1).toList()
+
+        assertEquals(1, characters.size)
+        assertEquals(characters.first().characterBasic.id, fakeNetworkCharacterDetails.id)
+    }
+
+    //TODO: Test get starter from characterDao
+    //TODO: Test getCharacterDetailsById already exists
 }
 
