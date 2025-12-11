@@ -5,20 +5,20 @@ import com.example.uma.data.network.character.NetworkListCharacter
 
 val fakeNetworkCharacterList = listOf(
     NetworkListCharacter(
-        id = 1, gameId = 1, nameEn = "Special Week", image = "",
-        nameJp = "スペシャルウィーク",
-        categoryLabelJp = "ウマ",
-        categoryLabelEn = "Uma",
-        colorMain = "",
-        colorSub = ""
+        id = 1, gameId = 1, nameEn = "Special Week", image = "image",
+        nameJp = "nameJp",
+        categoryLabelJp = "categoryLabelJp",
+        categoryLabelEn = "categoryLabelEn",
+        colorMain = "colorMain",
+        colorSub = "colorSub"
     ),
     NetworkListCharacter(
-        id = 2, gameId = 2, nameEn = "Tokai Teio", image = "",
-        nameJp = "トウカイテイオー",
-        categoryLabelJp = "ウマ",
-        categoryLabelEn = "Uma",
-        colorMain = "",
-        colorSub = ""
+        id = 2, gameId = 2, nameEn = "Tokai Teio", image = "image",
+        nameJp = "nameJp",
+        categoryLabelJp = "categoryLabelJp",
+        categoryLabelEn = "categoryLabelEn",
+        colorMain = "colorMain",
+        colorSub = "colorSub"
     )
 )
 
