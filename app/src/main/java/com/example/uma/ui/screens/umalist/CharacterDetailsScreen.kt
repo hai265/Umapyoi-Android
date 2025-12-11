@@ -92,6 +92,7 @@ private fun CharacterDetailsScreen(
                 textAlign = TextAlign.Center
             )
         }
+        //TODO: When add outfits, let user pick outfit, and this image changes to that outfit
         AsyncImage(
             error = painterResource(R.drawable.ic_connection_error),
             placeholder = painterResource(R.drawable.specialweek_icon),

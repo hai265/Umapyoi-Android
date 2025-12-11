@@ -55,9 +55,10 @@ fun ImageWithBottomText(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
+                            primaryColor.copy(alpha = 0.7f),     // End with primary color
                             Color.Transparent,
                             Color.Transparent,
-                            primaryColor.copy(alpha = 0.7f)     // End with primary color
+
                         ),
                     )
                 )
