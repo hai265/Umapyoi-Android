@@ -1,4 +1,4 @@
-package com.example.uma.fakes
+package com.example.uma.data.fakes
 
 import com.example.uma.data.network.character.NetworkListCharacter
 
