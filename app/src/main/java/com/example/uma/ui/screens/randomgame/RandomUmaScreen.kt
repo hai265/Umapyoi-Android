@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
-import com.example.uma.data.models.Character
+import com.example.uma.data.models.CharacterBasic
 import com.example.uma.ui.theme.UmaTheme
 
 @Composable
@@ -21,7 +21,7 @@ fun RandomUmaScreen(modifier: Modifier = Modifier) {
         when (umaUiState) {
             is RandomUmaUiState.Error -> Text("Error: ${umaUiState.error}")
             RandomUmaUiState.Loading -> Text("Loading...")
-            is RandomUmaUiState.Success -> SuccessScreen(umaUiState.character)
+            is RandomUmaUiState.Success -> SuccessScreen(umaUiState.characterBasic)
 
             RandomUmaUiState.Initial -> Text("Do you want an Uma?")
         }
@@ -36,21 +36,21 @@ fun RandomUmaScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun SuccessScreen(character: Character, modifier: Modifier = Modifier) {
+private fun SuccessScreen(characterBasic: CharacterBasic, modifier: Modifier = Modifier) {
     CharacterScreen(
-        character,
+        characterBasic,
         modifier = modifier
     )
 }
 
 
 @Composable
-private fun CharacterScreen(character: Character, modifier: Modifier) {
+private fun CharacterScreen(characterBasic: CharacterBasic, modifier: Modifier) {
     Column(modifier = modifier) {
-        Text(character.name)
+        Text(characterBasic.name)
         //TODO: Imagebuilder
         AsyncImage(
-            model = character.image, contentDescription = null,
+            model = characterBasic.image, contentDescription = null,
             modifier
                 .height(300.dp)
         )
@@ -61,11 +61,13 @@ private fun CharacterScreen(character: Character, modifier: Modifier) {
 @Preview
 private fun CharacterScreenPreview() {
     CharacterScreen(
-        Character.createWithIdNameImageOnly(
+        CharacterBasic(
             1,
             gameId = 1,
             name = "Special Week",
-            image = ""
+            image = "",
+            "",
+            "",
         ), modifier = Modifier
     )
 }

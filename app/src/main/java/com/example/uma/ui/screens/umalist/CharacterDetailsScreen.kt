@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,7 +23,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
-import com.example.uma.data.models.Character
+import com.example.uma.data.models.CharacterBasic
 import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.theme.UmaTheme
@@ -45,7 +44,7 @@ fun CharacterDetailsScreen(
             is CharacterScreenUiState.Success -> {
                 SuccessScreen(
                     id = id,
-                    character = state.character,
+                    characterBasic = state.characterBasic,
                     supportCards = state.supportCards,
                     onTapSupportCard = onTapSupportCard,
                     modifier = Modifier.fillMaxWidth()
@@ -59,14 +58,14 @@ fun CharacterDetailsScreen(
 @Composable
 private fun SuccessScreen(
     id: Int,
-    character: Character,
+    characterBasic: CharacterBasic,
     supportCards: List<SupportCardBasic>,
     modifier: Modifier = Modifier,
     onTapSupportCard: (Int) -> Unit
 ) {
     CharacterDetailsScreen(
         id = id,
-        character = character,
+        characterBasic = characterBasic,
         modifier = modifier,
         supportCards = supportCards,
         onTapSupportCard = onTapSupportCard
@@ -78,26 +77,27 @@ private fun SuccessScreen(
 //Id just for testing
 private fun CharacterDetailsScreen(
     id: Int = 0,
-    character: Character,
+    characterBasic: CharacterBasic,
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,
     modifier: Modifier
 ) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(character.name, fontSize = 32.sp)
+        Text(characterBasic.name, fontSize = 32.sp)
         Text("id: $id")
-        character.profile?.slogan?.let {
-            Text(
-                character.profile.slogan,
-                textAlign = TextAlign.Center
-            )
-        }
+        //TODO: Replace with characterDetailed
+//        characterBasic.profile?.slogan?.let {
+//            Text(
+//                characterBasic.profile.slogan,
+//                textAlign = TextAlign.Center
+//            )
+//        }
         //TODO: When add outfits, let user pick outfit, and this image changes to that outfit
         AsyncImage(
             error = painterResource(R.drawable.ic_connection_error),
             placeholder = painterResource(R.drawable.specialweek_icon),
             model = ImageRequest.Builder(LocalContext.current)
-                .data(character.image)
+                .data(characterBasic.image)
                 .crossfade(true)
                 .build(),
             contentDescription = null,

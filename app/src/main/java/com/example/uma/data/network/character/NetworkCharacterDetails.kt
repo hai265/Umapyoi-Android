@@ -1,12 +1,11 @@
 package com.example.uma.data.network.character
 import com.example.uma.data.database.character.CharacterDetailEntity
 import com.example.uma.data.database.character.CharacterEntity
-import com.example.uma.data.models.BirthDate
-import com.example.uma.data.models.Character
-import com.example.uma.data.models.CharacterProfile
+import com.example.uma.data.models.CharacterBasic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+// Special Week: https://umapyoi.net/api/v1/character/1001
 @Serializable
 data class NetworkCharacterDetails(
     @SerialName("birth_day") val birthDay: Int?,
@@ -44,7 +43,7 @@ data class NetworkCharacterDetails(
     @SerialName("strengths") val strengths: String?,
     @SerialName("tail_fact") val tailFact: String?,
     @SerialName("thumb_img") val thumbImg: String,
-    @SerialName("voice") val voice: String?,
+    @SerialName("voice") val voiceUrl: String?,
     @SerialName("weaknesses") val weaknesses: String?,
     @SerialName("weight") val weight: String?,
 )
@@ -82,7 +81,7 @@ fun NetworkCharacterDetails.toDetailedCharacterEntity(): CharacterDetailEntity =
         snsIcon = null,
         strengths = null,
         tailFact = null,
-        voice = null,
+        voiceUrl = null,
         weaknesses = null,
         weight = null,
     )
@@ -98,18 +97,13 @@ fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
     colorSub = colorSub,
 )
 
-fun NetworkCharacterDetails.toCharacter(): Character {
-    return Character(
+fun NetworkCharacterDetails.toCharacter(): CharacterBasic {
+    return CharacterBasic(
         id = id,
         gameId = gameId,
         name = nameEn,
         image = thumbImg,
-        birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
         colorMain = colorMain,
         colorSub = colorSub,
-        profile = CharacterProfile(
-            slogan = slogan,
-            category = categoryLabelEn
-        ),
     )
 }

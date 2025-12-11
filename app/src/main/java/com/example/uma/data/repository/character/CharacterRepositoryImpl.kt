@@ -3,13 +3,12 @@ package com.example.uma.data.repository.character
 import android.util.Log
 import coil3.network.HttpException
 import com.example.uma.data.database.character.CharacterDao
-import com.example.uma.data.database.character.toCharacter
-import com.example.uma.data.database.character.toUmaCharacter
+import com.example.uma.data.database.character.toCharacterBasic
+import com.example.uma.data.models.CharacterBasic
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.network.character.toCharacter
 import com.example.uma.data.network.character.toCharacterEntity
 import com.example.uma.data.network.character.toDetailedCharacterEntity
-import com.example.uma.data.models.Character
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,17 +23,17 @@ class CharacterRepositoryImpl @Inject constructor(
     private val characterDao: CharacterDao,
 ) : CharacterRepository {
 
-    override fun getAllCharacters(): Flow<List<Character>> =
+    override fun getAllCharacters(): Flow<List<CharacterBasic>> =
         characterDao.getAllCharacters().map { characters ->
-            characters.map { it.toUmaCharacter() }
+            characters.map { it.toCharacterBasic() }
         }
 
-    override fun getCharacterDetailsById(id: Int): Flow<Character> = flow {
+    override fun getCharacterDetailsById(id: Int): Flow<CharacterBasic> = flow {
         val starter = characterDao.getCharacterById(id)
-        emit(starter.toUmaCharacter())
+        emit(starter.toCharacterBasic())
 
         coroutineScope {
-            characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacter()) }
+            characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacterBasic()) }
             try {
                 val result = umaApiService.getCharacterById(id)
                 characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())

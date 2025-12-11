@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.uma.data.models.Character
+import com.example.uma.data.models.CharacterBasic
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 
@@ -38,7 +38,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
         syncing = umaListState.syncing,
     ) {
         CharacterColumn(
-            characters = umaListState.list,
+            characterBasics = umaListState.list,
             onTapCharacter = onTapCharacter,
             state = gridState,
         )
@@ -47,7 +47,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
 
 @Composable
 fun CharacterColumn(
-    characters: List<Character>,
+    characterBasics: List<CharacterBasic>,
     onTapCharacter: (Int) -> Unit,
     modifier: Modifier = Modifier,
     state: LazyGridState,
@@ -59,7 +59,7 @@ fun CharacterColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(items = characters, key = { characters: Character -> characters.id }) { character ->
+        items(items = characterBasics, key = { characters: CharacterBasic -> characters.id }) { character ->
             ImageWithBottomText(
                 onClickImage = { onTapCharacter(character.id) },
                 bottomText = character.name,
@@ -74,11 +74,11 @@ fun CharacterColumn(
 @Preview
 @Composable
 fun CharacterColumnPreview() {
-    val characterList =
-        listOf<Character>(
-            Character.createWithIdNameImageOnly(1, 1, "Special Week", ""),
-            Character.createWithIdNameImageOnly(2, 2, "Tokai Teio", ""),
-            Character.createWithIdNameImageOnly(3, 2, "Silence Suzuka", ""),
+    val characterBasicLists =
+        listOf<CharacterBasic>(
+            CharacterBasic(1, 1, "Special Week", "", "", ""),
+            CharacterBasic(2, 2, "Tokai Teio", "", "", ""),
+            CharacterBasic(3, 2, "Silence Suzuka", "", "", ""),
         )
-    CharacterColumn(characterList, onTapCharacter = {}, state = rememberLazyGridState())
+    CharacterColumn(characterBasicLists, onTapCharacter = {}, state = rememberLazyGridState())
 }

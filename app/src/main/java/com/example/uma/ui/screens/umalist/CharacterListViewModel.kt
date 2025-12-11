@@ -1,7 +1,7 @@
 package com.example.uma.ui.screens.umalist
 
 import android.util.Log
-import com.example.uma.data.models.Character
+import com.example.uma.data.models.CharacterBasic
 import com.example.uma.data.repository.character.CharacterRepository
 import com.example.uma.ui.screens.common.BaseListViewModel
 import com.example.uma.ui.screens.common.UiState
@@ -12,9 +12,9 @@ private const val TAG = "UmaListViewModel"
 
 //TODO: Make this a sealed class so we can show blank screen, loading, normal screen
 data class UmaListState(
-    override val list: List<Character> = emptyList(),
+    override val list: List<CharacterBasic> = emptyList(),
     override val syncing: Boolean = false
-) : UiState<Character>
+) : UiState<CharacterBasic>
 
 /*
  TODO Features
@@ -23,7 +23,7 @@ data class UmaListState(
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
-) : BaseListViewModel<Character, UmaListState>(initialState = UmaListState()) {
+) : BaseListViewModel<CharacterBasic, UmaListState>(initialState = UmaListState()) {
 
     init {
         start()
@@ -32,8 +32,8 @@ class CharacterListViewModel @Inject constructor(
 
     override fun filterItems(
         searchTerm: String,
-        items: List<Character>
-    ): List<Character> {
+        items: List<CharacterBasic>
+    ): List<CharacterBasic> {
         //Trim leading spaces
         val trimmedSearchTerm = searchTerm.trimStart()
         if (trimmedSearchTerm.isEmpty()) {
@@ -48,7 +48,7 @@ class CharacterListViewModel @Inject constructor(
     }
 
     override fun UmaListState.copy(
-        list: List<Character>?,
+        list: List<CharacterBasic>?,
         syncing: Boolean?
     ): UmaListState {
         return this.copy(

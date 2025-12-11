@@ -1,37 +1,22 @@
 package com.example.uma.data.models
 
-data class Character(
+import android.net.Uri
+
+//TODO: Split between CharacterBasic and
+data class CharacterBasic(
     val id: Int,
     val gameId: Int?,
     val name: String,
     val image: String,
     val colorMain: String,
     val colorSub: String,
+)
 
-    val birthDate: BirthDate?,
-    val profile: CharacterProfile?,
-//    val physicalTraits: PhysicalTraits?,
-//    val metadata: CharacterMetadata?,
-) {
-    companion object {
-        fun createWithIdNameImageOnly(
-            id: Int,
-            gameId: Int?,
-            name: String,
-            image: String,
-            primaryColor: String = "",
-            secondaryColor: String = ""
-        ): Character {
-            return Character(
-                id, gameId, name, image,
-                colorMain = primaryColor,
-                colorSub = secondaryColor,
-                birthDate = null,
-                profile = null,
-            )
-        }
-    }
-}
+data class CharacterDetailed(
+    val characterBasic: CharacterBasic,
+    val voiceUrl: Uri,
+    val profile: CharacterProfile
+)
 
 data class BirthDate(
     val day: Int,

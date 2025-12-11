@@ -4,7 +4,7 @@ import com.example.uma.data.database.character.CharacterDao
 import com.example.uma.data.repository.character.CharacterRepositoryImpl
 import com.example.uma.fakes.umaList
 import com.example.uma.data.network.UmaApiService
-import com.example.uma.data.models.Character
+import com.example.uma.data.models.CharacterBasic
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -20,7 +20,7 @@ class NetworkUmaRepositoryTest {
 
     @Before
     fun setup() {
-        coEvery { umaApiService.getAllCharacters()} returns umaList
+        coEvery { umaApiService.getAllCharacters() } returns umaList
         subject = CharacterRepositoryImpl(umaApiService, characterDao)
     }
 
@@ -28,11 +28,11 @@ class NetworkUmaRepositoryTest {
     fun callgetAllCharacters_getCharacters() = runTest {
         val umaList = subject.getAllCharacters()
 
-        coVerify(exactly = 1) { umaApiService.getAllCharacters()}
+        coVerify(exactly = 1) { umaApiService.getAllCharacters() }
         assertEquals(
-            umaList, listOf<Character>(
-                Character.createWithIdNameImageOnly (1, "Special Week", ""),
-                Character.createWithIdNameImageOnly(2, "Tokai Teio", "")
+            umaList, listOf<CharacterBasic>(
+                CharacterBasic(1, 1, "Special Week", "", "", ""),
+                CharacterBasic(2, 1, "Tokai Teio", "", "", "")
             )
         )
     }

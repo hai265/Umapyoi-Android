@@ -2,9 +2,7 @@ package com.example.uma.data.database.character
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.uma.data.models.BirthDate
-import com.example.uma.data.models.Character
-import com.example.uma.data.models.CharacterProfile
+import com.example.uma.data.models.CharacterBasic
 
 @Entity(tableName = "characterDetails")
 data class CharacterDetailEntity(
@@ -51,37 +49,30 @@ data class CharacterDetailEntity(
     val strengths: String?,
     val tailFact: String?,
     val thumbImg: String?,
-    val voice: String?,
+    val voiceUrl: String?,
     val weaknesses: String?,
 
     val weight: String?
 )
 
-fun CharacterDetailEntity.toCharacter(): Character {
-    return Character(
+fun CharacterDetailEntity.toCharacterBasic(): CharacterBasic {
+    return CharacterBasic(
         id = id,
         gameId = gameId,
         name = nameEn,
         image = thumbImg ?: "",
-        birthDate = BirthDate.createBirthDate(birthDay, birthMonth),
         colorMain = colorMain,
         colorSub = colorSub,
-        profile = CharacterProfile(
-            slogan = slogan,
-            category = category
-        ),
     )
 }
 
 
-fun CharacterEntity.toUmaCharacter() = Character(
+fun CharacterEntity.toCharacterBasic() = CharacterBasic(
     id = id,
     gameId = gameId,
     name = name,
     image = image,
     colorMain = colorMain,
-    colorSub = colorSub,
+    colorSub = colorSub
     //TODO
-    birthDate = null,
-    profile = null
 )
