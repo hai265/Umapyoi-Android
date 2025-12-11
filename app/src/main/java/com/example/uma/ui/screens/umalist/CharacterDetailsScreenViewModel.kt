@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.uma.data.models.CharacterBasic
+import com.example.uma.data.models.CharacterDetailed
 import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.data.repository.character.CharacterRepository
 import com.example.uma.data.repository.supportcard.SupportCardRepository
@@ -22,7 +22,10 @@ import javax.inject.Inject
 * Modeled off of umapyoi character page https://umapyoi.net/character/admire-vega
 * */
 sealed interface CharacterScreenUiState {
-    data class Success(val characterBasic: CharacterBasic, val supportCards: List<SupportCardBasic>) :
+    data class Success(
+        val characterDetailed: CharacterDetailed,
+        val supportCards: List<SupportCardBasic>
+    ) :
         CharacterScreenUiState
 
     object Loading : CharacterScreenUiState
@@ -43,7 +46,7 @@ class CharacterDetailsScreenViewModel @Inject constructor(
             .map { character ->
                 val supportCards =
                     supportCardRepository.getSupportCardsByCharacterId(character.characterBasic.gameId)
-                CharacterScreenUiState.Success(character.characterBasic, supportCards)
+                CharacterScreenUiState.Success(character, supportCards)
             }
             .catch { e ->
                 CharacterScreenUiState.Error("Error loading character $e")

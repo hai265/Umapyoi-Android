@@ -16,9 +16,6 @@
       <SelectionState runConfigName="Uninstall then install">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MenuWithTextPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="AnotherDropDownPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>

@@ -1,10 +1,10 @@
 package com.example.uma
 
 import com.example.uma.data.database.character.CharacterDao
+import com.example.uma.data.models.CharacterBasic
+import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.repository.character.CharacterRepositoryImpl
 import com.example.uma.fakes.umaList
-import com.example.uma.data.network.UmaApiService
-import com.example.uma.data.models.CharacterBasic
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
