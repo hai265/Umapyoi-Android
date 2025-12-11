@@ -1,5 +1,8 @@
 package com.example.uma.data
 
+import android.util.Log
+import coil3.network.HttpException
+import coil3.network.NetworkResponse
 import com.example.uma.data.database.character.CharacterDao
 import com.example.uma.data.fakes.network.fakeNetworkCharacterDetails
 import com.example.uma.data.fakes.network.fakeNetworkCharacterList
@@ -13,7 +16,9 @@ import com.example.uma.data.repository.character.toCharacterBasic
 import io.mockk.coEvery
 import io.mockk.coJustRun
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -32,6 +37,10 @@ class CharacterRepositoryImplTest {
     fun setup() {
         coJustRun { characterDao.updateOrInsertCharacterDetail(any()) }
         coJustRun { characterDao.insertAllIgnoreExisting(any()) }
+
+        mockkStatic(Log::class)
+        every { Log.e(any(), any<String>()) } returns 0
+        every { Log.e(any(), any<String>(), any()) } returns 0 // For logs with exceptions
 
         subject = CharacterRepositoryImpl(umaApiService, characterDao)
     }
@@ -97,7 +106,37 @@ class CharacterRepositoryImplTest {
         assertEquals(characters.first().characterBasic.id, fakeNetworkCharacterDetails.id)
     }
 
-    //TODO: Test get starter from characterDao
+    @Test
+    fun getCharacterDetailsById_fetchStarterFromDaoOnly() = runTest {
+        coEvery { characterDao.getCharacterById(any()) } returns fakeCharacterEntity1
+        coEvery { umaApiService.getCharacterById(any()) } throws HttpException(
+            response = NetworkResponse(
+                code = 404
+            )
+        )
+        coEvery { characterDao.getCharacterDetailsById(any()) } returns null
+
+        val characters = subject.getCharacterDetailsById(1).toList()
+
+        assertEquals(1, characters.size)
+        assertEquals(characters.first().characterBasic.id, fakeNetworkCharacterDetails.id)
+    }
+
     //TODO: Test getCharacterDetailsById already exists
+    @Test
+    fun getCharacterDetailsById_fetchfromBothDaoandNetwork() = runTest {
+        coEvery { characterDao.getCharacterById(any()) } returns fakeCharacterEntity1
+        coEvery { umaApiService.getCharacterById(any()) } throws HttpException(
+            response = NetworkResponse(
+                code = 404
+            )
+        )
+        coEvery { characterDao.getCharacterDetailsById(any()) } returns fakeCharacterEntity1
+
+        val characters = subject.getCharacterDetailsById(1).toList()
+
+        assertEquals(3, characters.size)
+        assert(characters.all { it.characterBasic.id == fakeNetworkCharacterDetails.id })
+    }
 }
 

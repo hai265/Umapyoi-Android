@@ -58,4 +58,6 @@ class CharacterRepositoryImpl @Inject constructor(
         }
         return true
     }
+
+    //TODO: Add a syncCharacterDetails to pull character details
 }
