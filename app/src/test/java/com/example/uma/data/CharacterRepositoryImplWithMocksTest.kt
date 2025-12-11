@@ -27,8 +27,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-//TODO: Replace mocks with fakes? Have to test emit from dao and network and how it works on fakes vs mocks
-class CharacterRepositoryImplTest {
+class CharacterRepositoryImplWithMocksTest {
     private val umaApiService: UmaApiService = mockk()
     private val characterDao: CharacterDao = mockk()
     private lateinit var subject: CharacterRepositoryImpl
