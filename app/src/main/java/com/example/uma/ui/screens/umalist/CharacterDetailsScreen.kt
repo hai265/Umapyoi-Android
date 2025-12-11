@@ -77,6 +77,7 @@ private fun SuccessScreen(
 //Id just for testing
 private fun CharacterDetailsScreen(
     id: Int = 0,
+    //TODO: Replace with characterDetailed
     characterBasic: CharacterBasic,
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,

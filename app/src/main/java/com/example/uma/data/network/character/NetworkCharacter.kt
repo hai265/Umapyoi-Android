@@ -11,7 +11,7 @@ data class NetworkListCharacter(
     @SerialName("game_id")
     val gameId: Int?,
     @SerialName("name_en")
-    val name: String,
+    val nameEn: String,
     @SerialName("thumb_img")
     val image: String,
     @SerialName("name_jp")

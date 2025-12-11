@@ -42,8 +42,8 @@ class CharacterDetailsScreenViewModel @Inject constructor(
         umaRepo.getCharacterDetailsById(id)
             .map { character ->
                 val supportCards =
-                    supportCardRepository.getSupportCardsByCharacterId(character.gameId)
-                CharacterScreenUiState.Success(character, supportCards)
+                    supportCardRepository.getSupportCardsByCharacterId(character.characterBasic.gameId)
+                CharacterScreenUiState.Success(character.characterBasic, supportCards)
             }
             .catch { e ->
                 CharacterScreenUiState.Error("Error loading character $e")

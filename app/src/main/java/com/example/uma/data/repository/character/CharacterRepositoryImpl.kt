@@ -3,10 +3,9 @@ package com.example.uma.data.repository.character
 import android.util.Log
 import coil3.network.HttpException
 import com.example.uma.data.database.character.CharacterDao
-import com.example.uma.data.database.character.toCharacterBasic
 import com.example.uma.data.models.CharacterBasic
+import com.example.uma.data.models.CharacterDetailed
 import com.example.uma.data.network.UmaApiService
-import com.example.uma.data.network.character.toCharacter
 import com.example.uma.data.network.character.toCharacterEntity
 import com.example.uma.data.network.character.toDetailedCharacterEntity
 import kotlinx.coroutines.coroutineScope
@@ -28,16 +27,16 @@ class CharacterRepositoryImpl @Inject constructor(
             characters.map { it.toCharacterBasic() }
         }
 
-    override fun getCharacterDetailsById(id: Int): Flow<CharacterBasic> = flow {
+    override fun getCharacterDetailsById(id: Int): Flow<CharacterDetailed> = flow {
         val starter = characterDao.getCharacterById(id)
-        emit(starter.toCharacterBasic())
+        emit(starter.toCharacterDetailed())
 
         coroutineScope {
-            characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacterBasic()) }
+            characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacterDetailed()) }
             try {
                 val result = umaApiService.getCharacterById(id)
                 characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
-                emit(result.toCharacter())
+                emit(result.toCharacterDetailed())
             } catch (e: IOException) {
                 Log.e(TAG, "Error connecting $e")
             } catch (e: HttpException) {

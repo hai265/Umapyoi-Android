@@ -1,7 +1,5 @@
 package com.example.uma.data.models
 
-import android.net.Uri
-
 //TODO: Split between CharacterBasic and
 data class CharacterBasic(
     val id: Int,
@@ -14,8 +12,7 @@ data class CharacterBasic(
 
 data class CharacterDetailed(
     val characterBasic: CharacterBasic,
-    val voiceUrl: Uri,
-    val profile: CharacterProfile
+    val characterProfile: CharacterProfile
 )
 
 data class BirthDate(
