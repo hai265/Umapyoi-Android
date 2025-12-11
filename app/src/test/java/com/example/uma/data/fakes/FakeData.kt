@@ -2,7 +2,7 @@ package com.example.uma.data.fakes
 
 import com.example.uma.data.network.character.NetworkListCharacter
 
-val umaList = listOf(
+val fakeNetworkCharacterList = listOf(
     NetworkListCharacter(
         id = 1, gameId = 1, nameEn = "Special Week", image = "",
         nameJp = "スペシャルウィーク",
