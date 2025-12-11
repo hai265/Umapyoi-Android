@@ -57,7 +57,6 @@ fun ImageWithBottomText(
                         colors = listOf(
                             Color.Transparent,
                             Color.Transparent,
-                            secondaryColor.copy(alpha = 0.3f), // Fade in secondary color
                             primaryColor.copy(alpha = 0.7f)     // End with primary color
                         ),
                     )
