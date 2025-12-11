@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.cash.turbine.test
 import com.example.uma.data.database.AppDatabase
 import com.example.uma.data.database.character.CharacterDao
 import com.example.uma.data.models.CharacterBasic
@@ -57,5 +58,21 @@ class CharacterRepositoryImplWithFakesTest {
         )
         assertEquals(expected, character)
     }
+
+    //TODO: fix no emission in 3s
+    @Test
+    fun syncTwice_getAllCharactersEmitsOne() = runTest {
+        subject.getAllCharacters().test {
+            subject.sync()
+            val firstEmission = awaitItem()
+            assertEquals(2, firstEmission.size)
+
+            subject.sync()
+            val secondEmission = awaitItem()
+            assertEquals(2, secondEmission.size)
+        }
+    }
+
+    //TODO: Add test directly adding to dao
 
 }

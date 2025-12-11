@@ -19,7 +19,16 @@
       <SelectionState runConfigName="CharacterRepositoryImplWithFakesTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="Tests in 'com.example.uma'">
+      <SelectionState runConfigName="sync_fetchesFromNetworkAndSavesToDao()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="syncTwice_DaoEmitsTwice()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="syncTwice_getAllCharactersEmitsTwice()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="syncTwice_getAllCharactersEmitsOne()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
