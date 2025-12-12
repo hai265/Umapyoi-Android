@@ -29,23 +29,20 @@ class CharacterRepositoryImplWithFakesTest {
 
     private lateinit var db: AppDatabase
     @Before
-    fun createDb() {
+    fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, AppDatabase::class.java)
             .allowMainThreadQueries()
             .build()
         characterDao = db.characterDao()
+
+        subject = CharacterRepositoryImpl(umaApiService, characterDao)
     }
 
     @After
     fun tearDown() {
         db.close()
-    }
-
-    @Before
-    fun setup() {
-        subject = CharacterRepositoryImpl(umaApiService, characterDao)
     }
 
     @Test
@@ -85,7 +82,7 @@ class CharacterRepositoryImplWithFakesTest {
             //No slogan since slogan since slogan field doesn't yet
             //TODO: Move category to characterBasic
             assertNull(starterCharacter.characterProfile.slogan)
-            
+
             val detailedCharacter = awaitItem()
             assertEquals("Detailed character ID should be correct", 1, detailedCharacter.characterBasic.id)
             assertEquals("Detailed character should now have a slogan", "I'll be the number one horse girl in Japan!", detailedCharacter.characterProfile.slogan)
