@@ -14,7 +14,7 @@ interface CharacterDao {
 
     //TODO: Make flow
     @Query("SELECT * from characters WHERE id = :id")
-    suspend fun getCharacterById(id: Int): CharacterEntity?
+    fun getCharacterById(id: Int): Flow<CharacterEntity>
 
     @Upsert
     suspend fun upsertAll(characters: List<CharacterEntity>)
