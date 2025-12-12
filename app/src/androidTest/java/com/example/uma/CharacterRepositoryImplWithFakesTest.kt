@@ -72,7 +72,6 @@ class CharacterRepositoryImplWithFakesTest {
             assertEquals(2, secondEmission.size)
         }
     }
-
     //TODO: Add test directly adding to dao
 
 }

@@ -51,7 +51,7 @@ class CharacterRepositoryImpl @Inject constructor(
     override suspend fun sync(): Boolean {
         try {
             val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
-            characterDao.insertAllIgnoreExisting(characters)
+            characterDao.upsertAll(characters)
         } catch (e: IOException) {
             Log.e(TAG, "Error connecting $e")
             return false
