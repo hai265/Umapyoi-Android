@@ -97,7 +97,7 @@ class CharacterRepositoryImplWithMocksTest {
     fun getCharacterDetailsById_fetchFromNetworkOnly() = runTest {
         coEvery { umaApiService.getCharacterById(any()) } returns fakeNetworkCharacterDetails
         coEvery { characterDao.getCharacterById(any()) } returns null
-        coEvery { characterDao.getCharacterDetailsById(any()) } returns null
+        coEvery { characterDao.getCharacter(any()) } returns null
 
         val characters = subject.getCharacterDetailsById(1).toList()
 
@@ -113,7 +113,7 @@ class CharacterRepositoryImplWithMocksTest {
                 code = 404
             )
         )
-        coEvery { characterDao.getCharacterDetailsById(any()) } returns null
+        coEvery { characterDao.getCharacter(any()) } returns null
 
         val characters = subject.getCharacterDetailsById(1).toList()
 
@@ -130,7 +130,7 @@ class CharacterRepositoryImplWithMocksTest {
                 code = 404
             )
         )
-        coEvery { characterDao.getCharacterDetailsById(any()) } returns fakeCharacterEntity1
+        coEvery { characterDao.getCharacter(any()) } returns fakeCharacterEntity1
 
         val characters = subject.getCharacterDetailsById(1).toList()
 

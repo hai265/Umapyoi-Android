@@ -19,9 +19,6 @@
       <SelectionState runConfigName="CharacterRepositoryImplWithFakesTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="sync_fetchesFromNetworkAndSavesToDao()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="syncTwice_DaoEmitsTwice()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -29,6 +26,9 @@
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="syncTwice_getAllCharactersEmitsOne()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="getCharacterDetailsById_getStarter_thenGetNetworkDetailed()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

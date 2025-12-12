@@ -28,13 +28,9 @@ class CharacterRepositoryImpl @Inject constructor(
         }
 
     override fun getCharacterDetailsById(id: Int): Flow<CharacterDetailed> = flow {
-        val starter = characterDao.getCharacterById(id)
-        starter?.let {
-            emit(starter.toCharacterDetailed())
-        }
+        characterDao.getCharacterById(id)?.let { emit(it.toCharacterDetailed()) }
 
         coroutineScope {
-            characterDao.getCharacterDetailsById(id)?.let { emit(it.toCharacterDetailed()) }
             try {
                 val result = umaApiService.getCharacterById(id)
                 characterDao.updateOrInsertCharacterDetail(result.toDetailedCharacterEntity())
@@ -45,7 +41,6 @@ class CharacterRepositoryImpl @Inject constructor(
                 Log.e(TAG, "HTTP error fetcing details: ${e.cause}")
             }
         }
-
     }
 
     override suspend fun sync(): Boolean {

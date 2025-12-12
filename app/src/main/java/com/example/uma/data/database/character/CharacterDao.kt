@@ -11,11 +11,10 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterDao {
     @Query("SELECT * from characters ORDER BY nameEn ASC")
     fun getAllCharacters(): Flow<List<CharacterEntity>>
+
+    //TODO: Make flow
     @Query("SELECT * from characters WHERE id = :id")
     suspend fun getCharacterById(id: Int): CharacterEntity?
-
-    @Query("SELECT * from characters WHERE id = :id")
-    suspend fun getCharacterDetailsById(id: Int): CharacterEntity?
 
     @Upsert
     suspend fun upsertAll(characters: List<CharacterEntity>)

@@ -11,10 +11,12 @@ import com.example.uma.data.models.CharacterBasic
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.repository.character.CharacterRepositoryImpl
 import com.example.uma.fakes.FakeUmaApiService
+import com.example.uma.fakes.fakeCharacterBasic
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -70,6 +72,25 @@ class CharacterRepositoryImplWithFakesTest {
             subject.sync()
             val secondEmission = awaitItem()
             assertEquals(2, secondEmission.size)
+        }
+    }
+
+    @Test
+    fun getCharacterDetailsById_getStarter_thenGetNetworkDetailed() = runTest {
+        subject.getCharacterDetailsById(1).test {
+            subject.sync()
+
+            val starterCharacter = awaitItem()
+            assertEquals(fakeCharacterBasic, starterCharacter.characterBasic)
+            //No slogan since slogan since slogan field doesn't yet
+            //TODO: Move category to characterBasic
+            assertNull(starterCharacter.characterProfile.slogan)
+            
+            val detailedCharacter = awaitItem()
+            assertEquals("Detailed character ID should be correct", 1, detailedCharacter.characterBasic.id)
+            assertEquals("Detailed character should now have a slogan", "I'll be the number one horse girl in Japan!", detailedCharacter.characterProfile.slogan)
+
+            cancelAndIgnoreRemainingEvents()
         }
     }
     //TODO: Add test directly adding to dao
