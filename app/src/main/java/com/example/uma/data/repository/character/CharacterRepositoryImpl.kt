@@ -10,8 +10,6 @@ import com.example.uma.data.network.character.toCharacterEntity
 import com.example.uma.data.network.character.toDetailedCharacterEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import okio.IOException
 import javax.inject.Inject
@@ -29,24 +27,25 @@ class CharacterRepositoryImpl @Inject constructor(
             characters.map { it.toCharacterBasic() }
         }
 
-    override fun getCharacterDetailsById(id: Int): Flow<CharacterDetailed> = flow {
-        emitAll(
-            characterDao.getCharacterById(id)
-                .map { it.toCharacterDetailed() }
-                .distinctUntilChanged() // Only emit if the data has actually changed.
-        )
+    override fun getCharacterDetailsById(id: Int): Flow<CharacterDetailed> =
+        characterDao.getCharacterById(id)
+            .map { it.toCharacterDetailed() }
+            .distinctUntilChanged() // Only emit if the data has actually changed.
 
-        // --- Step 2: Fetch fresh data from network in the background ---
+    override suspend fun syncCharacterDetails(id: Int): Boolean {
         try {
-            Log.d(TAG, "Fetching network character with id: $id")
+            Log.i(TAG, "Fetching network character with id: $id")
             val networkResult = umaApiService.getCharacterById(id)
-            Log.d(TAG, "Retrieved network character with name: ${networkResult.nameEn}")
+            Log.i(TAG, "Retrieved network character with name: ${networkResult.nameEn}")
             characterDao.updateOrInsertCharacterDetail(networkResult.toDetailedCharacterEntity())
         } catch (e: IOException) {
             Log.e(TAG, "Network error fetching details. $e")
+            return false
         } catch (e: HttpException) {
             Log.e(TAG, "HTTP error fetching details: ${e.cause}")
+            return false
         }
+        return true
     }
 
     override suspend fun sync(): Boolean {
@@ -62,5 +61,5 @@ class CharacterRepositoryImpl @Inject constructor(
         return true
     }
 
-    //TODO: Add a syncCharacterDetails to pull character details
+//TODO: Add a syncCharacterDetails to pull character details
 }

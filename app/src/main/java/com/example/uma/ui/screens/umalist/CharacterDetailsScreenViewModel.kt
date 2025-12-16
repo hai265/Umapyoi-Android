@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -57,7 +58,11 @@ class CharacterDetailsScreenViewModel @Inject constructor(
                 initialValue = CharacterScreenUiState.Loading
             )
 
-    //TODO: Don't remember why i did this oncompletion, can probably delete
+    init {
+        viewModelScope.launch {
+            umaRepo.syncCharacterDetails(id)
+        }
+    }
 }
 
 

@@ -8,4 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterRepository: Syncable {
     fun getAllCharacters(): Flow<List<CharacterBasic>>
     fun getCharacterDetailsById(id: Int) : Flow<CharacterDetailed>
+    suspend fun syncCharacterDetails(id: Int) : Boolean
 }
