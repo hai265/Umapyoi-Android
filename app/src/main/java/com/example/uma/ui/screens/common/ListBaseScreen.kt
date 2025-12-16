@@ -11,7 +11,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.uma.ui.screens.umalist.sorting.SearchTextField
+import com.example.uma.ui.screens.character.sorting.SearchTextField
 
 @Composable
 fun ScreenWithSearchBar(

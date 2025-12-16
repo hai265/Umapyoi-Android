@@ -27,10 +27,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.uma.R
+import com.example.uma.ui.screens.character.CharacterDetailsScreen
+import com.example.uma.ui.screens.character.CharacterListScreen
 import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
-import com.example.uma.ui.screens.umalist.CharacterDetailsScreen
-import com.example.uma.ui.screens.umalist.CharacterListScreen
 import kotlinx.serialization.Serializable
 
 sealed class UmaNavigables {
@@ -38,7 +38,7 @@ sealed class UmaNavigables {
     object SupportCards : UmaNavigables()
 
     @Serializable
-    object UmaList : UmaNavigables()
+    object CharacterList : UmaNavigables()
 
     @Serializable
     data class Character(val id: Int) : UmaNavigables()
@@ -55,8 +55,8 @@ enum class NavigationBarNavigables(
     val icon: Int // drawable
 
 ) {
-    UmaList(
-        UmaNavigables.UmaList,
+    CharacterList(
+        UmaNavigables.CharacterList,
         "Characters",
         //Icons taken from flaticon.com
         R.drawable.black_head_horse_side_view_with_horsehair
@@ -94,13 +94,13 @@ private fun NavGraph(
     }
     NavHost(
         navController = navController,
-        startDestination = UmaNavigables.UmaList,
+        startDestination = UmaNavigables.CharacterList,
         modifier = Modifier.padding(
             top = values.calculateTopPadding(),
             bottom = values.calculateBottomPadding()
         )
     ) {
-        composable<UmaNavigables.UmaList> {
+        composable<UmaNavigables.CharacterList> {
             CharacterListScreen(onTapCharacter = { id: Int ->
                 navController.navigate(UmaNavigables.Character(id))
             })
@@ -121,7 +121,7 @@ private fun NavGraph(
 //TODO: Better icons
 @Composable
 fun BottomBar(onTabSelected: (NavigationBarNavigables) -> Unit) {
-    var selectedTabIndex by rememberSaveable { mutableIntStateOf(NavigationBarNavigables.UmaList.ordinal) }
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(NavigationBarNavigables.CharacterList.ordinal) }
 
     NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
         NavigationBarNavigables.entries.forEachIndexed { index, tab ->

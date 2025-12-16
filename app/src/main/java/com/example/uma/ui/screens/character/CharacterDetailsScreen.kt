@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.umalist
+package com.example.uma.ui.screens.character
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

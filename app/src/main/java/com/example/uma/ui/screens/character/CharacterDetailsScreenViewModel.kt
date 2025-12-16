@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.umalist
+package com.example.uma.ui.screens.character
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

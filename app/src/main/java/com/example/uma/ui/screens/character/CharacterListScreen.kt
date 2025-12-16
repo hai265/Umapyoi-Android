@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.umalist
+package com.example.uma.ui.screens.character
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -22,23 +22,23 @@ import com.example.uma.ui.screens.common.ScreenWithSearchBar
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: CharacterListViewModel = hiltViewModel()
-    val umaListState by viewModel.uiState.collectAsState()
+    val characterListState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
     // Scroll to top of list when list changes (from search, etc.)
-    LaunchedEffect(umaListState.list) {
+    LaunchedEffect(characterListState.list) {
         gridState.scrollToItem(0)
     }
 
     ScreenWithSearchBar(
         textFieldState = viewModel.searchTextBoxState,
         onRefresh = { viewModel.refreshList() },
-        contentEmpty = umaListState.list.isEmpty(),
+        contentEmpty = characterListState.list.isEmpty(),
         searchBoxLabel = "Search Character",
-        syncing = umaListState.syncing,
+        syncing = characterListState.syncing,
     ) {
         CharacterColumn(
-            characterBasics = umaListState.list,
+            characterBasics = characterListState.list,
             onTapCharacter = onTapCharacter,
             state = gridState,
         )

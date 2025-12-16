@@ -19,16 +19,7 @@
       <SelectionState runConfigName="CharacterRepositoryImplWithFakesTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="syncTwice_getAllCharactersEmitsTwice()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="syncTwice_getAllCharactersEmitsOne()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="getCharacterDetailsById_getStarter_thenGetNetworkDetailed()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="SupportCardRepositoryImplTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

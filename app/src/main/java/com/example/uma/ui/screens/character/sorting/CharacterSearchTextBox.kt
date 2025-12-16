@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.umalist.sorting
+package com.example.uma.ui.screens.character.sorting
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

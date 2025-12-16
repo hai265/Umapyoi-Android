@@ -18,24 +18,24 @@ import com.example.uma.ui.screens.common.ScreenWithSearchBar
 @Composable
 fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int) -> Unit) {
     val viewModel: SupportCardListViewModel = hiltViewModel()
-    val umaListState by viewModel.uiState.collectAsState()
+    val supportCardListState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
     // Scroll to top of list when list changes (from search, etc.)
     //TODO: This now causes a bug where if a user backs out from the support card detailed page the list scrolls back to the first position
     //TODO: Also refactor this and list to a separate component
-    LaunchedEffect(umaListState.list) {
+    LaunchedEffect(supportCardListState.list) {
         gridState.scrollToItem(0)
     }
 
     ScreenWithSearchBar(
         textFieldState = viewModel.searchTextBoxState,
         onRefresh = { viewModel.refreshList() },
-        contentEmpty = umaListState.list.isEmpty(),
+        contentEmpty = supportCardListState.list.isEmpty(),
         searchBoxLabel = "Search Support Card",
-        syncing = umaListState.syncing
+        syncing = supportCardListState.syncing
     ) {
-        SupportCardGrid(umaListState.list, onTapSupportCard, gridState = gridState)
+        SupportCardGrid(supportCardListState.list, onTapSupportCard, gridState = gridState)
     }
 }
 

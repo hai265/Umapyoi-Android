@@ -1,4 +1,4 @@
-package com.example.uma.ui.screens.umalist
+package com.example.uma.ui.screens.character
 
 import android.util.Log
 import com.example.uma.data.models.CharacterBasic
@@ -8,10 +8,10 @@ import com.example.uma.ui.screens.common.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-private const val TAG = "UmaListViewModel"
+private const val TAG = "CharacterListViewModel"
 
 //TODO: Make this a sealed class so we can show blank screen, loading, normal screen
-data class UmaListState(
+data class CharacterListState(
     override val list: List<CharacterBasic> = emptyList(),
     override val syncing: Boolean = false
 ) : UiState<CharacterBasic>
@@ -23,7 +23,7 @@ data class UmaListState(
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
-) : BaseListViewModel<CharacterBasic, UmaListState>(initialState = UmaListState()) {
+) : BaseListViewModel<CharacterBasic, CharacterListState>(initialState = CharacterListState()) {
 
     init {
         start()
@@ -47,10 +47,10 @@ class CharacterListViewModel @Inject constructor(
         characterRepository.sync()
     }
 
-    override fun UmaListState.copy(
+    override fun CharacterListState.copy(
         list: List<CharacterBasic>?,
         syncing: Boolean?
-    ): UmaListState {
+    ): CharacterListState {
         return this.copy(
             list = list ?: this.list,
             syncing = syncing ?: this.syncing
