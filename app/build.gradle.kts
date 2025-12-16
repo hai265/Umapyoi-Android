@@ -64,6 +64,8 @@ dependencies {
     implementation (libs.androidx.material.icons.extended)
     implementation(libs.core.ktx)
     implementation(libs.androidx.junit.ktx)
+    implementation("androidx.fragment:fragment-ktx:1.8.2")
+    implementation(libs.androidx.fragment.compose)
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
