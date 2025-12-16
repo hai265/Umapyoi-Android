@@ -3,6 +3,7 @@ package com.example.uma.fakes.network
 import com.example.uma.data.network.character.NetworkCharacterDetails
 import com.example.uma.data.network.character.NetworkListCharacter
 import com.example.uma.data.network.supportcards.NetworkSupportCardBasic
+import com.example.uma.data.network.supportcards.NetworkSupportCardDetailed
 
 val fakeNetworkCharacterList = listOf(
     NetworkListCharacter(
@@ -69,6 +70,19 @@ val fakeNetworkSupportCardBasic = NetworkSupportCardBasic(
     gametoraPath = "gametoraPath",
     id = 1,
     titleEn = "titleEn"
+)
+
+val fakeNetworkSupportDetails = NetworkSupportCardDetailed(
+    characterId = 1,
+    gametoraPath = "gametoraPath",
+    id = 1,
+    rarity = 1,
+    rarityString = "R",
+    startDateSeconds = 0,
+    titleJp = "titleJp",
+    titleEn = "titleEn",
+    type = "GUTS",
+    typeIconUrl = "typeIconUrl"
 )
 
 val fakeNetworkSupportBasicCards: List<NetworkSupportCardBasic> = listOf(

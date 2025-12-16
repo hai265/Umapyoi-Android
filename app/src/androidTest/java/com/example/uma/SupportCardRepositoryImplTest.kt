@@ -7,9 +7,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.cash.turbine.test
 import com.example.uma.data.database.AppDatabase
 import com.example.uma.data.database.supportcard.SupportCardDao
+import com.example.uma.data.models.CardType
 import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.repository.supportcard.SupportCardRepositoryImpl
+import com.example.uma.data.repository.supportcard.toSupportCardEntity
 import com.example.uma.fakes.FakeUmaApiService
+import com.example.uma.fakes.network.fakeNetworkSupportCardBasic
+import junit.framework.Assert.assertNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -30,7 +34,8 @@ class SupportCardRepositoryImplTest {
     fun setup() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
-            context, AppDatabase::class.java)
+            context, AppDatabase::class.java
+        )
             .allowMainThreadQueries()
             .build()
         supportCardDao = db.supportCardDao()
@@ -49,7 +54,7 @@ class SupportCardRepositoryImplTest {
 
         val supportCards = subject.getAllSupportCards().first()
 
-        assertEquals(1, supportCards[0].id )
+        assertEquals(1, supportCards[0].id)
         assertEquals(2, supportCards[1].id)
     }
 
@@ -69,20 +74,27 @@ class SupportCardRepositoryImplTest {
         }
     }
 
-//    @Test
-//    fun getS_getSupportCardByIdGetStarter_thenGetNetworkDetailed() = runTest {
-//        //Populate with starter data first
-//        subject.getSupportCardById(1).test {
-//            val starterSupportCard = fakeCharacterEntity1.copy(slogan = null)
-//            supportCardDao.insertAllIgnoreExisting(listOf())
-//
-//            val starter = awaitItem()
-//            assertNull(starter.characterProfile.slogan)
-//            subject.syncCharacterDetails(1)
-//            val detailed = awaitItem()
-//
-//            assertEquals("I'll be the number one horse girl in Japan!", detailed.characterProfile.slogan)
-//        }
-//    }
+    @Test
+    fun getS_getSupportCardByIdGetStarter_thenGetNetworkDetailed() = runTest {
+        //Populate with starter data first
+        supportCardDao.insertAllIgnoreExisting(
+            listOf(
+                fakeNetworkSupportCardBasic.toSupportCardEntity()
+            )
+        )
+        subject.getSupportCardById(1).test {
+            val starter = awaitItem()
+
+            assertEquals(1, starter.id)
+            assertNull(starter.cardType)
+
+            val detailed = awaitItem()
+            assertEquals(1, detailed.id)
+            assertEquals(
+                CardType.GUTS,
+                detailed.cardType
+            )
+        }
+    }
 
 }

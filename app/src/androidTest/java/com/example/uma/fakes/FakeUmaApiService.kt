@@ -8,6 +8,7 @@ import com.example.uma.data.network.supportcards.NetworkSupportCardDetailed
 import com.example.uma.fakes.network.fakeNetworkCharacterDetails
 import com.example.uma.fakes.network.fakeNetworkCharacterList
 import com.example.uma.fakes.network.fakeNetworkSupportBasicCards
+import com.example.uma.fakes.network.fakeNetworkSupportDetails
 
 class FakeUmaApiService: UmaApiService {
     override suspend fun getAllCharacters(): List<NetworkListCharacter> {
@@ -23,7 +24,7 @@ class FakeUmaApiService: UmaApiService {
     }
 
     override suspend fun getSupportCardById(supportCardId: Int): NetworkSupportCardDetailed {
-        TODO("Not yet implemented")
+        return fakeNetworkSupportDetails
     }
 
     override suspend fun getSupportCardByCharacterId(characterId: Int): NetworkSupportCardDetailed {
