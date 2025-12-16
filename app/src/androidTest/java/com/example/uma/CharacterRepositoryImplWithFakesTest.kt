@@ -58,6 +58,7 @@ class CharacterRepositoryImplWithFakesTest {
         assertEquals(expected, character)
     }
 
+    //TODO: Fix to test only get one emission
     @Test
     fun syncTwice_getAllCharactersEmitsOne() = runTest {
         subject.getAllCharacters().test {
@@ -88,7 +89,6 @@ class CharacterRepositoryImplWithFakesTest {
 
             assertEquals("I'll be the number one horse girl in Japan!", detailed.characterProfile.slogan)
         }
-
     }
     //TODO: Add test directly adding to dao
 
