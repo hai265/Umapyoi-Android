@@ -35,7 +35,7 @@ class CharacterRepositoryImplWithMocksTest {
     @Before
     fun setup() {
         coJustRun { characterDao.updateOrInsertCharacterDetail(any()) }
-        coJustRun { characterDao.upsertAll(any()) }
+        coJustRun { characterDao.insertAllIgnoreExisting(any()) }
 
         mockkStatic(Log::class)
         every { Log.e(any(), any<String>()) } returns 0
@@ -70,7 +70,7 @@ class CharacterRepositoryImplWithMocksTest {
         coVerify(exactly = 1) { umaApiService.getAllCharacters() }
 
         val expectedEntitiesToSave = fakeNetworkCharacterList.map { it.toCharacterEntity() }
-        coVerify(exactly = 1) { characterDao.upsertAll(expectedEntitiesToSave) }
+        coVerify(exactly = 1) { characterDao.insertAllIgnoreExisting(expectedEntitiesToSave) }
     }
 
     @Test
@@ -80,7 +80,7 @@ class CharacterRepositoryImplWithMocksTest {
         val expectedEntitiesAfterSync = fakeNetworkCharacterList.map { it.toCharacterEntity() }
         //I don't like this mock because we don't actually test if the impl inserts the data from network
         //into dao, we just mock it and assume it happens. With a fake, it's more concrete
-        coJustRun { characterDao.upsertAll(any()) }
+        coJustRun { characterDao.insertAllIgnoreExisting(any()) }
         coEvery { characterDao.getAllCharacters() } returns flowOf(expectedEntitiesAfterSync)
 
         subject.sync()
@@ -91,7 +91,7 @@ class CharacterRepositoryImplWithMocksTest {
         assertEquals(expected, result)
 
         coVerify(exactly = 1) { umaApiService.getAllCharacters() }
-        coVerify(exactly = 1) { characterDao.upsertAll(expectedEntitiesAfterSync) }
+        coVerify(exactly = 1) { characterDao.insertAllIgnoreExisting(expectedEntitiesAfterSync) }
     }
 
     @Test

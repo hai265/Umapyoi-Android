@@ -70,8 +70,8 @@ class CharacterRepositoryImplWithFakesTest {
             assertEquals(2, firstEmission.size)
 
             subject.sync()
-            val secondEmission = awaitItem()
-            assertEquals(2, secondEmission.size)
+            expectNoEvents()
+            cancelAndIgnoreRemainingEvents()
         }
     }
 
@@ -80,7 +80,7 @@ class CharacterRepositoryImplWithFakesTest {
         //Populate with starter data first
         subject.getCharacterDetailsById(1).test {
             val starterEntity = fakeCharacterEntity1.copy(slogan = null)
-            characterDao.upsertAll(listOf(starterEntity))
+            characterDao.insertAllIgnoreExisting(listOf(starterEntity))
 
             val starter = awaitItem()
             assertNull(starter.characterProfile.slogan)

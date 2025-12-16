@@ -53,7 +53,7 @@ class CharacterRepositoryImpl @Inject constructor(
             Log.d(TAG, "Syncing all characters")
             val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
             Log.d(TAG, "Fetched ${characters.size} characters")
-            characterDao.upsertAll(characters)
+            characterDao.insertAllIgnoreExisting(characters)
         } catch (e: IOException) {
             Log.e(TAG, "Error connecting $e")
             return false
