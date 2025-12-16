@@ -12,6 +12,7 @@ import com.example.uma.data.network.UmaApiService
 import com.example.uma.data.repository.character.CharacterRepositoryImpl
 import com.example.uma.fakes.FakeUmaApiService
 import com.example.uma.fakes.fakeCharacterBasic
+import com.example.uma.fakes.repository.fakeCharacterEntity1
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -58,10 +59,12 @@ class CharacterRepositoryImplWithFakesTest {
         assertEquals(expected, character)
     }
 
-    //TODO: fix no emission in 3s
     @Test
     fun syncTwice_getAllCharactersEmitsOne() = runTest {
         subject.getAllCharacters().test {
+            val initialEmission = awaitItem()
+            assertEquals("Flow should initially be empty", 0, initialEmission.size)
+            //TODO: Replace with inserting in dao directly
             subject.sync()
             val firstEmission = awaitItem()
             assertEquals(2, firstEmission.size)
@@ -72,11 +75,14 @@ class CharacterRepositoryImplWithFakesTest {
         }
     }
 
+    //TODO: Go with onstart?
     @Test
     fun getCharacterDetailsById_getStarter_thenGetNetworkDetailed() = runTest {
-        subject.getCharacterDetailsById(1).test {
-            subject.sync()
+        //Populate with starter data first
+        val starterEntity = fakeCharacterEntity1.copy(slogan = null)
+        characterDao.upsertAll(listOf(starterEntity))
 
+        subject.getCharacterDetailsById(1).test {
             val starterCharacter = awaitItem()
             assertEquals(fakeCharacterBasic, starterCharacter.characterBasic)
             //No slogan since slogan since slogan field doesn't yet
