@@ -1,6 +1,5 @@
 package com.example.uma.ui
 
-import android.os.Bundle
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,7 +20,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.fragment.compose.AndroidFragment
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,8 +27,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.uma.R
+import com.example.uma.ui.screens.character.CharacterDetailsScreen
 import com.example.uma.ui.screens.character.CharacterListScreen
-import com.example.uma.ui.screens.character.xml.CharacterDetailsScreenFragment
 import com.example.uma.ui.screens.supportcard.SupportCardDetailsScreen
 import com.example.uma.ui.screens.supportcard.SupportCardListScreen
 import kotlinx.serialization.Serializable
@@ -113,13 +111,13 @@ private fun NavGraph(
         composable<UmaNavigables.Character> { backStackEntry ->
             val character: UmaNavigables.Character = backStackEntry.toRoute()
             //TODO: This is temporary to see what views looks like
-//            CharacterDetailsScreen(id = character.id, onTapSupportCard = onTapSupportCard)
+            CharacterDetailsScreen(id = character.id, onTapSupportCard = onTapSupportCard)
 
-            AndroidFragment(
-                clazz = CharacterDetailsScreenFragment::class.java,
-                arguments = Bundle().apply {
-                    putInt("id", character.id)
-                })
+//            AndroidFragment(
+//                clazz = CharacterDetailsScreenFragmentViewBinding::class.java,
+//                arguments = Bundle().apply {
+//                    putInt("id", character.id)
+//                })
         }
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
             SupportCardDetailsScreen()
