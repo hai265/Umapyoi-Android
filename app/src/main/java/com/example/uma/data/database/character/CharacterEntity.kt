@@ -42,5 +42,8 @@ data class CharacterEntity(
     val tailFact: String?,
     val voiceUrl: String?,
     val weaknesses: String?,
-    val weight: String?
+    val weight: String?,
+
+    //User- set fields, we just have favorites for now
+    val isFavorite: Boolean = false
 )

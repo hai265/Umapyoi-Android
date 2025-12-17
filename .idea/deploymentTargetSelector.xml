@@ -16,12 +16,6 @@
       <SelectionState runConfigName="Uninstall then install">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CharacterRepositoryImplWithFakesTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="getCharacterDetailsById_getStarter_thenGetNetworkDetailed()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
     </selectionStates>
   </component>
 </project>
