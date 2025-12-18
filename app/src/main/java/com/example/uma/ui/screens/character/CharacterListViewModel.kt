@@ -1,11 +1,13 @@
 package com.example.uma.ui.screens.character
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
 import com.example.uma.data.models.CharacterBasic
 import com.example.uma.data.repository.character.CharacterRepository
 import com.example.uma.ui.screens.common.BaseListViewModel
 import com.example.uma.ui.screens.common.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "CharacterListViewModel"
@@ -55,5 +57,11 @@ class CharacterListViewModel @Inject constructor(
             list = list ?: this.list,
             syncing = syncing ?: this.syncing
         )
+    }
+
+    fun onFavoriteCharacter(id: Int, isFavorite: Boolean) {
+        viewModelScope.launch {
+            characterRepository.setCharacterFavoriteStatus(id, isFavorite)
+        }
     }
 }

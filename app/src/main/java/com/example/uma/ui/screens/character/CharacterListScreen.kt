@@ -19,6 +19,7 @@ import com.example.uma.ui.screens.common.CardWithFavoriteButton
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 
 //TODO: Pressing back after tapping character details go back to top of list instead of previous position
+//TODO: Favoriting a character resets the list to the top
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: CharacterListViewModel = hiltViewModel()
@@ -41,6 +42,12 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
             characterBasics = characterListState.list,
             onTapCharacter = onTapCharacter,
             state = gridState,
+            onTapFavorite = { id: Int, isFavorite: Boolean ->
+                viewModel.onFavoriteCharacter(
+                    id,
+                    isFavorite
+                )
+            }
         )
     }
 }
@@ -51,6 +58,7 @@ fun CharacterColumn(
     onTapCharacter: (Int) -> Unit,
     modifier: Modifier = Modifier,
     state: LazyGridState,
+    onTapFavorite: (Int, Boolean) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -59,14 +67,16 @@ fun CharacterColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(items = characterBasics, key = { characters: CharacterBasic -> characters.id }) { character ->
+        items(
+            items = characterBasics,
+            key = { characters: CharacterBasic -> characters.id }) { character ->
             CardWithFavoriteButton(
                 onClickImage = { onTapCharacter(character.id) },
                 bottomText = character.name,
                 imageUrl = character.image,
                 primaryColorHex = character.colorMain,
                 isFavorite = character.isFavorite,
-                onTapFavorite = {}
+                onTapFavorite = { onTapFavorite(character.id, character.isFavorite.not()) }
             )
         }
     }
@@ -76,10 +86,14 @@ fun CharacterColumn(
 @Composable
 fun CharacterColumnPreview() {
     val characterBasicLists =
-        listOf<CharacterBasic>(
+        listOf(
             CharacterBasic(1, 1, "Special Week", "", "", "", false),
             CharacterBasic(2, 2, "Tokai Teio", "", "", "", false),
             CharacterBasic(3, 2, "Silence Suzuka", "", "", "", false),
         )
-    CharacterColumn(characterBasicLists, onTapCharacter = {}, state = rememberLazyGridState())
+    CharacterColumn(
+        characterBasicLists,
+        onTapCharacter = {},
+        state = rememberLazyGridState(),
+        onTapFavorite = { _, _ -> })
 }
