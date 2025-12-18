@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.CharacterBasic
-import com.example.uma.ui.screens.common.ImageWithBottomText
+import com.example.uma.ui.screens.common.CardWithFavoriteButton
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 
 //TODO: Pressing back after tapping character details go back to top of list instead of previous position
@@ -60,12 +60,13 @@ fun CharacterColumn(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(items = characterBasics, key = { characters: CharacterBasic -> characters.id }) { character ->
-            ImageWithBottomText(
+            CardWithFavoriteButton(
                 onClickImage = { onTapCharacter(character.id) },
                 bottomText = character.name,
                 imageUrl = character.image,
                 primaryColorHex = character.colorMain,
-                secondaryColorHex = character.colorSub,
+                isFavorite = character.isFavorite,
+                onTapFavorite = {}
             )
         }
     }

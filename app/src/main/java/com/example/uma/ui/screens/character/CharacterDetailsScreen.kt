@@ -30,6 +30,7 @@ import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.theme.UmaTheme
 
+//TODO: Make whole screen have gradient similar to the list image
 @Composable
 fun CharacterDetailsScreen(
     onTapSupportCard: (supportCardId: Int) -> Unit,

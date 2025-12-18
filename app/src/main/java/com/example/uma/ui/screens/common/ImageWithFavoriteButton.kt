@@ -75,6 +75,41 @@ fun ImageWithFavoriteButton(
 }
 
 @Composable
+fun CardWithFavoriteButton(
+    onClickImage: () -> Unit,
+    bottomText: String,
+    imageUrl: String,
+    primaryColorHex: String,
+    isFavorite: Boolean,
+    onTapFavorite: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        ImageWithBottomText(
+            onClickImage = onClickImage,
+            bottomText = bottomText,
+            imageUrl = imageUrl,
+            primaryColorHex = primaryColorHex,
+        )
+        val carrotIcon = if (isFavorite) R.drawable.carrot_filled else R.drawable.carrot_unfilled
+        Image(
+            painter = painterResource(id = carrotIcon), // Replace with your icon resource
+            contentDescription = "Top right icon",
+            modifier = Modifier
+                .align(Alignment.TopEnd) // Align to the top-right corner of the Box
+                .padding(0.dp) // Add some padding for better visual appearance
+                 // Set the desired size for the icon
+                .fillMaxWidth(0.2f)
+                .clickable {
+                    onTapFavorite()
+                }
+        )
+    }
+}
+
+@Composable
 @Preview
 fun ImageWithFavoriteButtonPreview(
 ) {
@@ -82,5 +117,33 @@ fun ImageWithFavoriteButtonPreview(
         onClickImage = {},
         imageUrl = "",
         primaryColorHex = "#EE6DCB",
+    )
+}
+
+@Composable
+@Preview
+fun CardWithFavoriteButtonIsFavoritedPreview(
+) {
+    CardWithFavoriteButton(
+        onClickImage = {},
+        imageUrl = "",
+        primaryColorHex = "#EE6DCB",
+        bottomText = "",
+        isFavorite = true,
+        onTapFavorite = {}
+    )
+}
+
+@Composable
+@Preview
+fun CardWithFavoriteButtonIsNotFavoritedPreview(
+) {
+    CardWithFavoriteButton(
+        onClickImage = {},
+        imageUrl = "",
+        primaryColorHex = "#EE6DCB",
+        bottomText = "",
+        isFavorite = false,
+        onTapFavorite = {}
     )
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -34,17 +35,12 @@ fun ImageWithBottomText(
     imageUrl: String,
     //TODO: Change to empty, add colors to network
     primaryColorHex: String,
-    secondaryColorHex: String,
+    secondaryColorHex: String = "",
 ) {
     val primaryColor = try {
-        Color(android.graphics.Color.parseColor(primaryColorHex))
+        Color(primaryColorHex.toColorInt())
     } catch (e: Exception) {
         Color.Gray
-    }
-    val secondaryColor = try {
-        Color(android.graphics.Color.parseColor(secondaryColorHex))
-    } catch (e: Exception) {
-        Color.LightGray
     }
 
     Card {
@@ -107,6 +103,5 @@ fun ImageWithBottomTextPreview(
         bottomText = "Special Weekfwowefofwjeiewfoijweiofwej",
         imageUrl = "",
         primaryColorHex = "#EE6DCB",
-        secondaryColorHex = "#FFDEF9"
     )
 }
