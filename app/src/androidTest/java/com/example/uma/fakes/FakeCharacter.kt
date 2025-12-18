@@ -10,7 +10,7 @@ val fakeCharacterBasic = CharacterBasic(
     name = "Special Week",
     image = "image",
     colorMain = "colorMain",
-    colorSub = "colorSub"
+    colorSub = "colorSub",
 )
 
 val fakeCharacterDetailed: CharacterDetailed = CharacterDetailed(

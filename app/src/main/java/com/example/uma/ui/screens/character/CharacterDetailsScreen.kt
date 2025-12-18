@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,7 +32,6 @@ import com.example.uma.ui.theme.UmaTheme
 
 @Composable
 fun CharacterDetailsScreen(
-    id: Int,
     onTapSupportCard: (supportCardId: Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -43,12 +43,16 @@ fun CharacterDetailsScreen(
             is CharacterScreenUiState.Error -> Text("Error: $state")
             CharacterScreenUiState.Loading -> Text("Loading...")
             is CharacterScreenUiState.Success -> {
-                SuccessScreen(
-                    id = id,
+                CharacterDetailsScreen(
                     characterDetailed = state.characterDetailed,
                     supportCards = state.supportCards,
+                    modifier = Modifier.fillMaxSize(),
                     onTapSupportCard = onTapSupportCard,
-                    modifier = Modifier.fillMaxWidth()
+                    onTapFavorite = { isFavorite ->
+                        characterDetailsScreenViewModel.onTapFavorite(
+                            isFavorite
+                        )
+                    }
                 )
             }
         }
@@ -57,38 +61,19 @@ fun CharacterDetailsScreen(
 }
 
 @Composable
-private fun SuccessScreen(
-    id: Int,
-    characterDetailed: CharacterDetailed,
-    supportCards: List<SupportCardBasic>,
-    modifier: Modifier = Modifier,
-    onTapSupportCard: (Int) -> Unit
-) {
-    CharacterDetailsScreen(
-        id = id,
-        characterDetailed = characterDetailed,
-        modifier = modifier,
-        supportCards = supportCards,
-        onTapSupportCard = onTapSupportCard
-    )
-}
-
-
-@Composable
 //Id just for testing
 private fun CharacterDetailsScreen(
-    id: Int = 0,
-    //TODO: Replace with characterDetailed
     characterDetailed: CharacterDetailed,
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,
+    onTapFavorite: (isFavorite: Boolean) -> Unit,
     modifier: Modifier
 ) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(characterDetailed.characterBasic.name, fontSize = 32.sp)
-        Text("id: $id")
+        Text("id: ${characterDetailed.characterBasic.id}")
         //TODO: Replace with characterDetailed
-            characterDetailed.characterProfile.slogan?.let { it ->
+        characterDetailed.characterProfile.slogan?.let { it ->
             Text(
                 it,
                 textAlign = TextAlign.Center
@@ -103,23 +88,15 @@ private fun CharacterDetailsScreen(
                 .crossfade(true)
                 .build(),
             contentDescription = null,
-            modifier = modifier
+            modifier = Modifier
                 .height(300.dp)
         )
-//        TODO: Add Japanese name, voice actor, birthday, school, dorm
-//        TODO: Add slogan with profile picture
-//        TODO: Add measurements
-//        TODO: Add profile (strong / weak points, ears, tail, family
-//        TODO: Add secret facts
-//        TODO: Add Character Versions/ Outfits
-//        TODO: Add support cards
-
         if (supportCards.isNotEmpty()) {
             Text("Support Cards", fontSize = 32.sp)
-            LazyRow(modifier = Modifier.fillMaxSize()) {
+            LazyRow(modifier = Modifier.fillMaxWidth()) {
                 items(supportCards) { supportCard ->
                     ImageWithBottomText(
-                        onClickImage = {onTapSupportCard(supportCard.id)}, //TODO: navigate to support card detail
+                        onClickImage = { onTapSupportCard(supportCard.id) }, //TODO: navigate to support card detail
                         bottomText = "", //TODO: make bottomText nullable for no text
                         imageUrl = supportCard.imageUrl,
                         primaryColorHex = "",
@@ -128,6 +105,16 @@ private fun CharacterDetailsScreen(
                 }
             }
         }
+        val isFavorite = characterDetailed.characterBasic.isFavorite
+        Button(onClick = { onTapFavorite(!isFavorite) }) {
+            Text("Favorited: $isFavorite")
+        }
+//        TODO: Add Japanese name, voice actor, birthday, school, dorm
+//        TODO: Add slogan with profile picture
+//        TODO: Add measurements
+//        TODO: Add profile (strong / weak points, ears, tail, family
+//        TODO: Add secret facts
+//        TODO: Add Character Versions/ Outfits
     }
 }
 
@@ -135,7 +122,6 @@ private fun CharacterDetailsScreen(
 @Preview
 private fun CharacterDetailsScreenPreview() {
     CharacterDetailsScreen(
-        id = 0,
         onTapSupportCard = {},
         modifier = Modifier
     )
@@ -145,6 +131,6 @@ private fun CharacterDetailsScreenPreview() {
 @Composable
 private fun HomeScreenPreview() {
     UmaTheme {
-        CharacterDetailsScreen(1, onTapSupportCard = {}, modifier = Modifier)
+        CharacterDetailsScreen(onTapSupportCard = {}, modifier = Modifier)
     }
 }

@@ -36,14 +36,14 @@ sealed interface CharacterScreenUiState {
 @HiltViewModel()
 class CharacterDetailsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    umaRepo: CharacterRepository,
+    private val characterRepo: CharacterRepository,
     //TODO: I want to show the support card types in the list (like in gametora) so might replace with a usecase
     // https://gametora.com/umamusume/characters/tamamo-cross
     supportCardRepository: SupportCardRepository,
 ) : ViewModel() {
     private val id = savedStateHandle.toRoute<UmaNavigables.Character>().id
     val state: StateFlow<CharacterScreenUiState> =
-        umaRepo.getCharacterDetailsById(id)
+        characterRepo.getCharacterDetailsById(id)
             .map { character ->
                 val supportCards =
                     supportCardRepository.getSupportCardsByCharacterId(character.characterBasic.gameId)
@@ -60,7 +60,16 @@ class CharacterDetailsScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            umaRepo.syncCharacterDetails(id)
+            characterRepo.syncCharacterDetails(id)
+        }
+    }
+
+    fun onTapFavorite(isFavorite: Boolean) {
+        if(state.value is CharacterScreenUiState.Success) {
+            val id = (state.value as CharacterScreenUiState.Success).characterDetailed.characterBasic.id
+            viewModelScope.launch {
+                characterRepo.setCharacterFavoriteStatus(id, isFavorite)
+            }
         }
     }
 }

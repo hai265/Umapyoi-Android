@@ -111,7 +111,7 @@ private fun NavGraph(
         composable<UmaNavigables.Character> { backStackEntry ->
             val character: UmaNavigables.Character = backStackEntry.toRoute()
             //TODO: This is temporary to see what views looks like
-            CharacterDetailsScreen(id = character.id, onTapSupportCard = onTapSupportCard)
+            CharacterDetailsScreen(onTapSupportCard = onTapSupportCard)
 
 //            AndroidFragment(
 //                clazz = CharacterDetailsScreenFragmentViewBinding::class.java,

@@ -53,8 +53,8 @@ class CharacterRepositoryImplWithMocksTest {
         val result = subject.getAllCharacters().first()
 
         val expected = listOf(
-            CharacterBasic(1, 1, "Special Week", "image", "colorMain", "colorSub"),
-            CharacterBasic(2, 2, "Tokai Teio", "image", "colorMain", "colorSub")
+            CharacterBasic(1, 1, "Special Week", "image", "colorMain", "colorSub",),
+            CharacterBasic(2, 2, "Tokai Teio", "image", "colorMain", "colorSub",)
         )
         assertEquals(expected, result)
     }

@@ -52,8 +52,8 @@ class CharacterRepositoryImplWithFakesTest {
         val character = subject.getAllCharacters().first()
 
         val expected = listOf(
-            CharacterBasic(1, 1, "Special Week", "image", "colorMain", "colorSub"),
-            CharacterBasic(2, 2, "Tokai Teio", "image", "colorMain", "colorSub")
+            CharacterBasic(1, 1, "Special Week", "image", "colorMain", "colorSub",),
+            CharacterBasic(2, 2, "Tokai Teio", "image", "colorMain", "colorSub",)
         )
         assertEquals(expected, character)
     }
@@ -90,6 +90,7 @@ class CharacterRepositoryImplWithFakesTest {
             assertEquals("I'll be the number one horse girl in Japan!", detailed.characterProfile.slogan)
         }
     }
-    //TODO: Add test directly adding to dao
+    //TODO: Add test syncwith doesn't override favorite
+    //TODO: Add test set favorite
 
 }

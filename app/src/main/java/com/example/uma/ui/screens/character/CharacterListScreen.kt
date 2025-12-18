@@ -76,9 +76,9 @@ fun CharacterColumn(
 fun CharacterColumnPreview() {
     val characterBasicLists =
         listOf<CharacterBasic>(
-            CharacterBasic(1, 1, "Special Week", "", "", ""),
-            CharacterBasic(2, 2, "Tokai Teio", "", "", ""),
-            CharacterBasic(3, 2, "Silence Suzuka", "", "", ""),
+            CharacterBasic(1, 1, "Special Week", "", "", "", false),
+            CharacterBasic(2, 2, "Tokai Teio", "", "", "", false),
+            CharacterBasic(3, 2, "Silence Suzuka", "", "", "", false),
         )
     CharacterColumn(characterBasicLists, onTapCharacter = {}, state = rememberLazyGridState())
 }

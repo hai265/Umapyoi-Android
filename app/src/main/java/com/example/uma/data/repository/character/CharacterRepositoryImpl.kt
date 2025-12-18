@@ -48,6 +48,10 @@ class CharacterRepositoryImpl @Inject constructor(
         return true
     }
 
+    override suspend fun setCharacterFavoriteStatus(id: Int, isFavorite: Boolean) {
+        characterDao.setFavorite(id, isFavorite)
+    }
+
     override suspend fun sync(): Boolean {
         try {
             Log.d(TAG, "Syncing all characters")

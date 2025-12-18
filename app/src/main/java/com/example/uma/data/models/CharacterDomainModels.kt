@@ -8,6 +8,7 @@ data class CharacterBasic(
     val image: String,
     val colorMain: String,
     val colorSub: String,
+    val isFavorite: Boolean,
 )
 
 data class CharacterDetailed(
