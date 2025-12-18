@@ -18,16 +18,16 @@ import com.example.uma.data.models.CharacterBasic
 import com.example.uma.ui.screens.common.CardWithFavoriteButton
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 
-//TODO: Pressing back after tapping character details go back to top of list instead of previous position
-//TODO: Favoriting a character resets the list to the top
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
     val viewModel: CharacterListViewModel = hiltViewModel()
     val characterListState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
-    // Scroll to top of list when list changes (from search, etc.)
-    LaunchedEffect(characterListState.list) {
+    // Scroll to top of list when list size changes (from search, etc.)
+    //TODO: Resets scroll position when list changes, this still runs when screen is composed
+    //so list scrolls back up (e.g back on details page, list scrolls all the wya back up)
+    LaunchedEffect(characterListState.list.size) {
         gridState.scrollToItem(0)
     }
 

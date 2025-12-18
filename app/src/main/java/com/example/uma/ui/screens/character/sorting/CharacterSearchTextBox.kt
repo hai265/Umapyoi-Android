@@ -36,7 +36,7 @@ fun SearchTextField(
                     },
                 )
             }
-        }
+        },
     )
 }
 
