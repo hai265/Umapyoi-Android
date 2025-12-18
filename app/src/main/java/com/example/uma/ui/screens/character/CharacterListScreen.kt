@@ -10,6 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -17,6 +21,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.CharacterBasic
 import com.example.uma.ui.screens.common.CardWithFavoriteButton
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> Unit) {
@@ -24,11 +30,17 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
     val characterListState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
-    // Scroll to top of list when list size changes (from search, etc.)
-    //TODO: Resets scroll position when list changes, this still runs when screen is composed
-    //so list scrolls back up (e.g back on details page, list scrolls all the wya back up)
+    //Keep track of previousListSize so we don't scroll back up when navigating back
+    var previousListSize by remember { mutableStateOf(characterListState.list.size) }
     LaunchedEffect(characterListState.list.size) {
-        gridState.scrollToItem(0)
+        val currentSize = characterListState.list.size
+        if(currentSize != previousListSize) {
+            snapshotFlow { gridState.layoutInfo.visibleItemsInfo.isNotEmpty() }
+                .filter { it }
+                .first()
+            gridState.scrollToItem(0)
+            previousListSize = currentSize
+        }
     }
 
     ScreenWithSearchBar(

@@ -6,13 +6,20 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int) -> Unit) {
@@ -20,8 +27,19 @@ fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int)
     val supportCardListState by viewModel.uiState.collectAsState()
     val gridState = rememberLazyGridState()
 
-    // Scroll to top of list when list changes (from search, etc.)
+    var previousListSize by remember { mutableStateOf(supportCardListState.list.size) }
+    LaunchedEffect(supportCardListState.list.size) {
+        val currentSize = supportCardListState.list.size
+        if(currentSize != previousListSize) {
+            snapshotFlow { gridState.layoutInfo.visibleItemsInfo.isNotEmpty() }
+                .filter { it }
+                .first()
+            gridState.scrollToItem(0)
+            previousListSize = currentSize
+        }
+    }
 
+    //TODO: On filter, sort characters alphabetically as well
     ScreenWithSearchBar(
         textFieldState = viewModel.searchTextBoxState,
         onRefresh = { viewModel.refreshList() },
