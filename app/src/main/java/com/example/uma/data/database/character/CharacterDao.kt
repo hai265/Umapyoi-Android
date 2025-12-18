@@ -26,10 +26,10 @@ interface CharacterDao {
      * while preserving the existing `isFavorite` status.
      */
     @Transaction
-    suspend fun syncCharacters(networkCharacters: List<CharacterEntity>) {
-        networkCharacters.forEach { networkCharacter ->
-            val currentFavoriteStatus = isFavorite(networkCharacter.id) ?: false
-            val entityToSave = networkCharacter.copy(isFavorite = currentFavoriteStatus)
+    suspend fun syncCharacters(characters: List<CharacterEntity>) {
+        characters.forEach { character ->
+            val currentFavoriteStatus = isFavorite(character.id) ?: false
+            val entityToSave = character.copy(isFavorite = currentFavoriteStatus)
             upsertAll(listOf(entityToSave))
         }
     }

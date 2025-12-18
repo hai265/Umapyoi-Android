@@ -11,6 +11,7 @@ val fakeCharacterBasic = CharacterBasic(
     image = "image",
     colorMain = "colorMain",
     colorSub = "colorSub",
+    isFavorite = false
 )
 
 val fakeCharacterDetailed: CharacterDetailed = CharacterDetailed(
