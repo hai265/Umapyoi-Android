@@ -37,7 +37,7 @@ class CharacterRepositoryImpl @Inject constructor(
             Log.i(TAG, "Fetching network character with id: $id")
             val networkResult = umaApiService.getCharacterById(id)
             Log.i(TAG, "Retrieved network character with name: ${networkResult.nameEn}")
-            characterDao.updateOrInsertCharacterDetail(networkResult.toDetailedCharacterEntity())
+            characterDao.syncCharacters(listOf(networkResult.toDetailedCharacterEntity()))
         } catch (e: IOException) {
             Log.e(TAG, "Network error fetching details. $e")
             return false
@@ -53,7 +53,7 @@ class CharacterRepositoryImpl @Inject constructor(
             Log.d(TAG, "Syncing all characters")
             val characters = umaApiService.getAllCharacters().map { it.toCharacterEntity() }
             Log.d(TAG, "Fetched ${characters.size} characters")
-            characterDao.insertAllIgnoreExisting(characters)
+            characterDao.syncCharacters(characters)
         } catch (e: IOException) {
             Log.e(TAG, "Error connecting $e")
             return false

@@ -1,8 +1,6 @@
 package com.example.uma.data.database.character
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
@@ -17,13 +15,6 @@ interface CharacterDao {
     @Query("SELECT * from characters WHERE id = :id")
     fun getCharacterById(id: Int): Flow<CharacterEntity>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAllIgnoreExisting(characters: List<CharacterEntity>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateOrInsertCharacterDetail(character: CharacterEntity)
-
-
     @Query("SELECT isFavorite FROM characters WHERE id = :id")
     suspend fun isFavorite(id: Int): Boolean? // Helper to get just the favorite status
 
@@ -34,7 +25,6 @@ interface CharacterDao {
      * A "smart sync" transaction that updates character data
      * while preserving the existing `isFavorite` status.
      */
-    //TODO: Replace usages of insertAllIgnoreExisting and updateOrInsertCharacterDetail with syncCharacters
     @Transaction
     suspend fun syncCharacters(networkCharacters: List<CharacterEntity>) {
         networkCharacters.forEach { networkCharacter ->

@@ -80,7 +80,7 @@ class CharacterRepositoryImplWithFakesTest {
         //Populate with starter data first
         subject.getCharacterDetailsById(1).test {
             val starterEntity = fakeCharacterEntity1.copy(slogan = null)
-            characterDao.insertAllIgnoreExisting(listOf(starterEntity))
+            characterDao.syncCharacters(listOf(starterEntity))
 
             val starter = awaitItem()
             assertNull(starter.characterProfile.slogan)
