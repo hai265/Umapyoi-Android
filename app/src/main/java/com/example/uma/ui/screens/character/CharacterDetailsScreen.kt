@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,9 +48,7 @@ fun CharacterDetailsScreen(
                     characterDetailed = state.characterDetailed,
                     supportCards = state.supportCards,
                     modifier = Modifier.fillMaxSize(),
-                    onTapSupportCard = onTapSupportCard,
-                    onTapFavorite = characterDetailsScreenViewModel::onTapFavorite,
-                    onPlayAudio = characterDetailsScreenViewModel::onPlayAudio
+                    onTapSupportCard = onTapSupportCard
                 )
             }
         }
@@ -65,8 +62,6 @@ private fun CharacterDetailsScreen(
     characterDetailed: CharacterDetailed,
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,
-    onTapFavorite: (isFavorite: Boolean) -> Unit,
-    onPlayAudio: (url: String) -> Unit,
     modifier: Modifier
 ) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {

@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.uma.audio.AudioPlayer
 import com.example.uma.data.models.CharacterDetailed
 import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.data.repository.character.CharacterRepository
@@ -40,8 +39,7 @@ class CharacterDetailsScreenViewModel @Inject constructor(
     private val characterRepo: CharacterRepository,
     //TODO: I want to show the support card types in the list (like in gametora) so might replace with a usecase
     // https://gametora.com/umamusume/characters/tamamo-cross
-    supportCardRepository: SupportCardRepository,
-    private val audioPlayer: AudioPlayer
+    supportCardRepository: SupportCardRepository
 ) : ViewModel() {
     private val id = savedStateHandle.toRoute<UmaNavigables.Character>().id
     val state: StateFlow<CharacterScreenUiState> =
@@ -66,18 +64,6 @@ class CharacterDetailsScreenViewModel @Inject constructor(
         }
     }
 
-    fun onTapFavorite(isFavorite: Boolean) {
-        if(state.value is CharacterScreenUiState.Success) {
-            val id = (state.value as CharacterScreenUiState.Success).characterDetailed.characterBasic.id
-            viewModelScope.launch {
-                characterRepo.setCharacterFavoriteStatus(id, isFavorite)
-            }
-        }
-    }
-
-    fun onPlayAudio(url: String) {
-        audioPlayer.playAudio(url)
-    }
 }
 
 
