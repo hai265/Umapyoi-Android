@@ -28,6 +28,7 @@ fun CharacterEntity.toCharacterDetailed(): CharacterDetailed =
         ),
         characterProfile = CharacterProfile(
             slogan = slogan,
-            category = categoryLabelEn
+            category = categoryLabelEn,
+            voice = voiceUrl,
         )
     )

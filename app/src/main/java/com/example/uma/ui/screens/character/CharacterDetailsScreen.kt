@@ -1,13 +1,13 @@
 package com.example.uma.ui.screens.character
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,6 +28,7 @@ import com.example.uma.R
 import com.example.uma.data.models.CharacterDetailed
 import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.ui.screens.common.ImageWithBottomText
+import com.example.uma.ui.screens.common.PlayAudioButton
 import com.example.uma.ui.theme.UmaTheme
 
 //TODO: Make whole screen have gradient similar to the list image
@@ -49,11 +50,8 @@ fun CharacterDetailsScreen(
                     supportCards = state.supportCards,
                     modifier = Modifier.fillMaxSize(),
                     onTapSupportCard = onTapSupportCard,
-                    onTapFavorite = { isFavorite ->
-                        characterDetailsScreenViewModel.onTapFavorite(
-                            isFavorite
-                        )
-                    }
+                    onTapFavorite = characterDetailsScreenViewModel::onTapFavorite,
+                    onPlayAudio = characterDetailsScreenViewModel::onPlayAudio
                 )
             }
         }
@@ -68,12 +66,12 @@ private fun CharacterDetailsScreen(
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,
     onTapFavorite: (isFavorite: Boolean) -> Unit,
+    onPlayAudio: (url: String) -> Unit,
     modifier: Modifier
 ) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(characterDetailed.characterBasic.name, fontSize = 32.sp)
         Text("id: ${characterDetailed.characterBasic.id}")
-        //TODO: Replace with characterDetailed
         characterDetailed.characterProfile.slogan?.let { it ->
             Text(
                 it,
@@ -92,6 +90,12 @@ private fun CharacterDetailsScreen(
             modifier = Modifier
                 .height(300.dp)
         )
+        characterDetailed.characterProfile.voice?.let {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Play Voice")
+                PlayAudioButton(characterDetailed.characterProfile.voice)
+            }
+        }
         if (supportCards.isNotEmpty()) {
             Text("Support Cards", fontSize = 32.sp)
             LazyRow(modifier = Modifier.fillMaxWidth()) {
@@ -105,10 +109,6 @@ private fun CharacterDetailsScreen(
                     )
                 }
             }
-        }
-        val isFavorite = characterDetailed.characterBasic.isFavorite
-        Button(onClick = { onTapFavorite(!isFavorite) }) {
-            Text("Favorited: $isFavorite")
         }
 //        TODO: Add Japanese name, voice actor, birthday, school, dorm
 //        TODO: Add slogan with profile picture

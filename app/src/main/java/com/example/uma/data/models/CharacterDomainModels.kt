@@ -45,7 +45,7 @@ data class CharacterProfile(
     val slogan: String?,
     val category: String,
 //    val profile: String?,
-//    val voice: String?,
+    val voice: String?,
 //    val residence: String?,
 //    val grade: String?,
 //    val strengths: String?,
