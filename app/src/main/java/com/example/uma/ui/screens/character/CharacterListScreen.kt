@@ -19,7 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.CharacterBasic
-import com.example.uma.ui.screens.common.CardWithFavoriteButton
+import com.example.uma.ui.screens.common.CardWithGradientBackground
+import com.example.uma.ui.screens.common.ImageWithFavoriteButton
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -34,7 +35,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
     var previousListSize by remember { mutableStateOf(characterListState.list.size) }
     LaunchedEffect(characterListState.list.size) {
         val currentSize = characterListState.list.size
-        if(currentSize != previousListSize) {
+        if (currentSize != previousListSize) {
             snapshotFlow { gridState.layoutInfo.visibleItemsInfo.isNotEmpty() }
                 .filter { it }
                 .first()
@@ -82,14 +83,17 @@ fun CharacterColumn(
         items(
             items = characterBasics,
             key = { characters: CharacterBasic -> characters.id }) { character ->
-            CardWithFavoriteButton(
-                onClickImage = { onTapCharacter(character.id) },
-                bottomText = character.name,
-                imageUrl = character.image,
+            CardWithGradientBackground(
                 primaryColorHex = character.colorMain,
-                isFavorite = character.isFavorite,
-                onTapFavorite = { onTapFavorite(character.id, character.isFavorite.not()) }
-            )
+            ) {
+                ImageWithFavoriteButton(
+                    onClickImage = { onTapCharacter(character.id) },
+                    bottomText = character.name,
+                    imageUrl = character.image,
+                    isFavorite = character.isFavorite,
+                    onTapFavorite = { onTapFavorite(character.id, character.isFavorite.not()) }
+                )
+            }
         }
     }
 }

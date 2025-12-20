@@ -65,6 +65,7 @@ private fun CharacterDetailsScreen(
     onTapSupportCard: (supportCardId: Int) -> Unit,
     modifier: Modifier
 ) {
+    //TODO: Wrap in card w/ color
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(characterDetailed.characterBasic.name, fontSize = 32.sp)
         Text("id: ${characterDetailed.characterBasic.id}")
@@ -100,8 +101,6 @@ private fun CharacterDetailsScreen(
                         onClickImage = { onTapSupportCard(supportCard.id) }, //TODO: navigate to support card detail
                         bottomText = "", //TODO: make bottomText nullable for no text
                         imageUrl = supportCard.imageUrl,
-                        primaryColorHex = "",
-                        secondaryColorHex = "",
                     )
                 }
             }

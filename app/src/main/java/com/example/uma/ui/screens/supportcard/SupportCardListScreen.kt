@@ -64,8 +64,6 @@ fun SupportCardGrid(
                 onClickImage = { onTapCard(card.id) },
                 bottomText = card.characterName,
                 imageUrl = card.imageUrl,
-                primaryColorHex = "",
-                secondaryColorHex = ""
             )
         }
     }

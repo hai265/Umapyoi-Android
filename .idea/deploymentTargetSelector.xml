@@ -22,7 +22,10 @@
       <SelectionState runConfigName="CharacterRepositoryImplWithFakesTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="setFavoriteCharacter_thenSync_favoriteNotOverwritten()">
+      <SelectionState runConfigName="CardWithGradientBackgroundPreview">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="ImageWithFavoriteButtonIsFavoritedPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
