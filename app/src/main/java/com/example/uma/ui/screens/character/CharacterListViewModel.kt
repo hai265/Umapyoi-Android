@@ -30,7 +30,8 @@ class CharacterListViewModel @Inject constructor(
     init {
         start()
     }
-    override fun getAllItems()  = characterRepository.getAllCharacters()
+
+    override fun getAllItems() = characterRepository.getAllCharacters()
 
     override fun filterItems(
         searchTerm: String,
@@ -59,9 +60,10 @@ class CharacterListViewModel @Inject constructor(
         )
     }
 
-    fun onFavoriteCharacter(id: Int, isFavorite: Boolean) {
+    fun onFavoriteCharacter(id: Int) {
+        val currentFavoriteStatus = uiState.value.list.find { it.id == id }?.isFavorite ?: return
         viewModelScope.launch {
-            characterRepository.setCharacterFavoriteStatus(id, isFavorite)
+            characterRepository.setCharacterFavoriteStatus(id, !currentFavoriteStatus)
         }
     }
 }

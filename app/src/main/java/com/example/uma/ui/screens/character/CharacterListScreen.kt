@@ -57,11 +57,8 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
             characterBasics = characterListState.list,
             onTapCharacter = onTapCharacter,
             state = gridState,
-            onTapFavorite = { id: Int, isFavorite: Boolean ->
-                viewModel.onFavoriteCharacter(
-                    id,
-                    isFavorite
-                )
+            onTapFavorite = { id: Int ->
+                viewModel.onFavoriteCharacter(id)
             }
         )
     }
@@ -73,7 +70,7 @@ fun CharacterColumn(
     onTapCharacter: (Int) -> Unit,
     modifier: Modifier = Modifier,
     state: LazyGridState,
-    onTapFavorite: (Int, Boolean) -> Unit,
+    onTapFavorite: (Int) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -94,7 +91,7 @@ fun CharacterColumn(
                         bottomText = character.name,
                         imageUrl = character.image,
                         isFavorite = character.isFavorite,
-                        onTapFavorite = { onTapFavorite(character.id, character.isFavorite.not()) }
+                        onTapFavorite = { onTapFavorite(character.id) }
                     )
                 }
             }
@@ -115,5 +112,5 @@ fun CharacterColumnPreview() {
         characterBasicLists,
         onTapCharacter = {},
         state = rememberLazyGridState(),
-        onTapFavorite = { _, _ -> })
+        onTapFavorite = { _ -> })
 }

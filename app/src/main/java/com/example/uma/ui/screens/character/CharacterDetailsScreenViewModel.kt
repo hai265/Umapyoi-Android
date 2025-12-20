@@ -64,6 +64,19 @@ class CharacterDetailsScreenViewModel @Inject constructor(
         }
     }
 
+    fun onFavorite() {
+        val currentState = state.value
+        if (currentState is CharacterScreenUiState.Success) {
+            viewModelScope.launch {
+                val currentFavoreiteStatus =
+                    currentState.characterDetailed.characterBasic.isFavorite
+                characterRepo.setCharacterFavoriteStatus(
+                    id,
+                    !currentFavoreiteStatus
+                )
+            }
+        }
+    }
 }
 
 

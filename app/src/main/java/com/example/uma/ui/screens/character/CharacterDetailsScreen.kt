@@ -15,21 +15,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import com.example.uma.R
 import com.example.uma.data.models.CharacterDetailed
 import com.example.uma.data.models.SupportCardBasic
 import com.example.uma.ui.screens.common.GradientBackground
 import com.example.uma.ui.screens.common.ImageWithBottomText
+import com.example.uma.ui.screens.common.ImageWithFavoriteButton
 import com.example.uma.ui.screens.common.PlayAudioButton
 import com.example.uma.ui.theme.UmaTheme
 
@@ -43,7 +38,6 @@ fun CharacterDetailsScreen(
 
     val umaUiState by characterDetailsScreenViewModel.state.collectAsState()
 
-
     when (val state = umaUiState) {
         is CharacterScreenUiState.Error -> Box(modifier = modifier) { Text("Error: $state") }
         CharacterScreenUiState.Loading -> Box(modifier = modifier) { Text("Loading...") }
@@ -56,6 +50,7 @@ fun CharacterDetailsScreen(
                     characterDetailed = state.characterDetailed,
                     supportCards = state.supportCards,
                     onTapSupportCard = onTapSupportCard,
+                    onTapFavorite = characterDetailsScreenViewModel::onFavorite,
                     modifier = modifier.fillMaxSize(),
                 )
             }
@@ -69,6 +64,7 @@ private fun CharacterDetailsScreen(
     characterDetailed: CharacterDetailed,
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,
+    onTapFavorite: () -> Unit,
     modifier: Modifier,
 ) {
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -81,14 +77,12 @@ private fun CharacterDetailsScreen(
             )
         }
         //TODO: When add outfits, let user pick outfit, and this image changes to that outfit
-        AsyncImage(
-            error = painterResource(R.drawable.ic_connection_error),
-            placeholder = painterResource(R.drawable.specialweek_icon),
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(characterDetailed.characterBasic.image)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
+        ImageWithFavoriteButton(
+            onClickImage = { },
+            bottomText = "",
+            imageUrl = characterDetailed.characterBasic.image,
+            isFavorite = characterDetailed.characterBasic.isFavorite,
+            onTapFavorite = onTapFavorite,
             modifier = Modifier
                 .height(300.dp)
         )

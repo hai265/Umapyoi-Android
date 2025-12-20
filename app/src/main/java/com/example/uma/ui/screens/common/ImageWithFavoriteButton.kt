@@ -19,12 +19,10 @@ fun ImageWithFavoriteButton(
     bottomText: String,
     imageUrl: String,
     isFavorite: Boolean,
-    onTapFavorite: () -> Unit
+    onTapFavorite: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
+    Box(modifier = modifier) {
         ImageWithBottomText(
             onClickImage = onClickImage,
             bottomText = bottomText,
