@@ -64,7 +64,7 @@ fun NetworkCharacterDetails.toDetailedCharacterEntity(): CharacterEntity =
         detailImgSp = detailImgSp,
         earsFact = earsFact,
         familyFact = familyFact,
-        gameId = gameId,
+        characterId = gameId,
         grade = grade,
         height = height,
         link = link,
@@ -86,7 +86,7 @@ fun NetworkCharacterDetails.toDetailedCharacterEntity(): CharacterEntity =
 
 fun NetworkListCharacter.toCharacterEntity() = CharacterEntity(
     id = id,
-    gameId = gameId,
+    characterId = gameId,
     nameEn = nameEn,
     image = image,
     categoryLabelJp = categoryLabelJp,

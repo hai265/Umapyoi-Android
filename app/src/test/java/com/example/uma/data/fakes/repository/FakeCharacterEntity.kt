@@ -4,7 +4,7 @@ import com.example.uma.data.database.character.CharacterEntity
 
 val fakeCharacterEntity1 = CharacterEntity(
     id = 1,
-    gameId = 1,
+    characterId = 1,
     nameEn = "Special Week",
     image = "image",
     categoryLabelJp = "categoryLabelJp",
@@ -41,7 +41,7 @@ val fakeCharacterEntity1 = CharacterEntity(
 
 val fakeCharacterEntity2 = CharacterEntity(
     id = 2,
-    gameId = 2,
+    characterId = 2,
     nameEn = "Tokai Teio",
     image = "image",
     categoryLabelJp = "categoryLabelJp",

@@ -23,7 +23,6 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.example.uma.R
-import com.example.uma.data.models.SupportCardDetailed
 
 @Composable
 fun SupportCardDetailsScreen(modifier: Modifier = Modifier) {
@@ -33,16 +32,17 @@ fun SupportCardDetailsScreen(modifier: Modifier = Modifier) {
     when (val state = supportCardDetailsState) {
         is SupportCardDetailsScreenUiState.Error -> Text("Error: $state")
         SupportCardDetailsScreenUiState.Loading -> Text("Loading...")
-        is SupportCardDetailsScreenUiState.Success -> SuccessScreen(supportCard = state.supportCard,
+        is SupportCardDetailsScreenUiState.Success -> SuccessScreen(supportCardUiModel = state.supportCard,
             modifier = Modifier.padding(start = 20.dp, end = 20.dp))
     }
 }
 
 @Composable
-fun SuccessScreen(supportCard: SupportCardDetailed, modifier: Modifier = Modifier) {
+fun SuccessScreen(supportCardUiModel: SupportCardDetailsUiModel, modifier: Modifier = Modifier) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
 //        TODO: Get character name
-        Text(supportCard.id.toString(), fontSize = 32.sp)
+        val supportCard = supportCardUiModel.details
+        Text(supportCardUiModel.characterName, fontSize = 32.sp)
         Text("character id: ${supportCard.characterId}")
         supportCard.titleEn?.let {
             Text(

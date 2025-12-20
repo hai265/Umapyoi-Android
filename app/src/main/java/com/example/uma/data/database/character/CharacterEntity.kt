@@ -7,8 +7,10 @@ import androidx.room.PrimaryKey
 data class CharacterEntity(
     // Initial values that get populate from umapyoi list call
     @PrimaryKey
+    //Id refers to a single "entity", e.g "Special Week" character and her support cards
+    // are separate entities with separate IDs, but they all share the same characterId
     val id: Int,
-    val gameId: Int?,
+    val characterId: Int?,
     val nameEn: String,
     val image: String,
     val categoryLabelJp: String,

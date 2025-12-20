@@ -7,7 +7,7 @@ import com.example.uma.data.models.CharacterProfile
 
 fun CharacterEntity.toCharacterBasic(): CharacterBasic = CharacterBasic(
     id = id,
-    gameId = gameId,
+    gameId = characterId,
     name = nameEn,
     image = image,
     colorMain = colorMain,
@@ -19,7 +19,7 @@ fun CharacterEntity.toCharacterDetailed(): CharacterDetailed =
     CharacterDetailed(
         characterBasic = CharacterBasic(
             id = id,
-            gameId = gameId,
+            gameId = characterId,
             name = nameEn,
             image = image,
             colorMain = colorMain,

@@ -11,9 +11,11 @@ interface CharacterDao {
     @Query("SELECT * from characters ORDER BY nameEn ASC")
     fun getAllCharacters(): Flow<List<CharacterEntity>>
 
-    //TODO: Make flow
     @Query("SELECT * from characters WHERE id = :id")
     fun getCharacterById(id: Int): Flow<CharacterEntity>
+
+    @Query("SELECT * from characters WHERE characterId = :characterId")
+    fun getCharacterByCharacterId(characterId: Int): Flow<CharacterEntity>
 
     @Upsert
     suspend fun upsertAll(characters: List<CharacterEntity>)

@@ -18,6 +18,7 @@ val fakeCharacterDetailed: CharacterDetailed = CharacterDetailed(
     characterBasic = fakeCharacterBasic,
     characterProfile = CharacterProfile(
         "slogan",
-        "category"
+        "category",
+        voice = "voice"
     )
 )
