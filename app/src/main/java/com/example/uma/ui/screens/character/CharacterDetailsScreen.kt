@@ -1,5 +1,6 @@
 package com.example.uma.ui.screens.character
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import coil3.request.crossfade
 import com.example.uma.R
 import com.example.uma.data.models.CharacterDetailed
 import com.example.uma.data.models.SupportCardBasic
+import com.example.uma.ui.screens.common.GradientBackground
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.screens.common.PlayAudioButton
 import com.example.uma.ui.theme.UmaTheme
@@ -40,21 +42,25 @@ fun CharacterDetailsScreen(
     val characterDetailsScreenViewModel: CharacterDetailsScreenViewModel = hiltViewModel()
 
     val umaUiState by characterDetailsScreenViewModel.state.collectAsState()
-    Column(modifier = modifier) {
-        when (val state = umaUiState) {
-            is CharacterScreenUiState.Error -> Text("Error: $state")
-            CharacterScreenUiState.Loading -> Text("Loading...")
-            is CharacterScreenUiState.Success -> {
+
+
+    when (val state = umaUiState) {
+        is CharacterScreenUiState.Error -> Box(modifier = modifier) { Text("Error: $state") }
+        CharacterScreenUiState.Loading -> Box(modifier = modifier) { Text("Loading...") }
+        is CharacterScreenUiState.Success -> {
+            GradientBackground(
+                primaryColorHex = state.characterDetailed.characterBasic.colorMain,
+                modifier = Modifier.fillMaxSize()
+            ) {
                 CharacterDetailsScreen(
                     characterDetailed = state.characterDetailed,
                     supportCards = state.supportCards,
-                    modifier = Modifier.fillMaxSize(),
-                    onTapSupportCard = onTapSupportCard
+                    onTapSupportCard = onTapSupportCard,
+                    modifier = modifier.fillMaxSize(),
                 )
             }
         }
     }
-
 }
 
 @Composable
@@ -63,9 +69,8 @@ private fun CharacterDetailsScreen(
     characterDetailed: CharacterDetailed,
     supportCards: List<SupportCardBasic>,
     onTapSupportCard: (supportCardId: Int) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
-    //TODO: Wrap in card w/ color
     Column(modifier = modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(characterDetailed.characterBasic.name, fontSize = 32.sp)
         Text("id: ${characterDetailed.characterBasic.id}")

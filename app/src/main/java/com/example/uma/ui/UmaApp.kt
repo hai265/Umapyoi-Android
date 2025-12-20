@@ -25,7 +25,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.example.uma.R
 import com.example.uma.ui.screens.character.CharacterDetailsScreen
 import com.example.uma.ui.screens.character.CharacterListScreen
@@ -96,23 +95,27 @@ private fun NavGraph(
         navController = navController,
         startDestination = UmaNavigables.CharacterList,
         modifier = Modifier.padding(
-            top = values.calculateTopPadding(),
             bottom = values.calculateBottomPadding()
         )
     ) {
         composable<UmaNavigables.CharacterList> {
             CharacterListScreen(onTapCharacter = { id: Int ->
                 navController.navigate(UmaNavigables.Character(id))
-            })
+            }, modifier = Modifier.padding(top = values.calculateTopPadding()))
         }
         composable<UmaNavigables.SupportCards> {
-            SupportCardListScreen(onTapSupportCard = onTapSupportCard)
+            SupportCardListScreen(
+                onTapSupportCard = onTapSupportCard,
+                modifier = Modifier.padding(top = values.calculateTopPadding())
+            )
         }
         composable<UmaNavigables.Character> { backStackEntry ->
-            val character: UmaNavigables.Character = backStackEntry.toRoute()
-            //TODO: This is temporary to see what views looks like
-            CharacterDetailsScreen(onTapSupportCard = onTapSupportCard)
-
+            CharacterDetailsScreen(
+                onTapSupportCard = onTapSupportCard,
+                modifier = Modifier.padding(top = values.calculateTopPadding())
+            )
+            //Compose w/ fragment integration example
+//            val character: UmaNavigables.Character = backStackEntry.toRoute()
 //            AndroidFragment(
 //                clazz = CharacterDetailsScreenFragmentViewBinding::class.java,
 //                arguments = Bundle().apply {
@@ -120,7 +123,7 @@ private fun NavGraph(
 //                })
         }
         composable<UmaNavigables.SupportCardDetails> { backStackEntry ->
-            SupportCardDetailsScreen()
+            SupportCardDetailsScreen(modifier = Modifier.padding(top = values.calculateTopPadding()))
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.uma.ui.screens.supportcard
 
 import android.icu.text.DateFormat
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,11 +30,15 @@ fun SupportCardDetailsScreen(modifier: Modifier = Modifier) {
     val viewModel: SupportCardDetailsViewModel = hiltViewModel()
     val supportCardDetailsState by viewModel.state.collectAsState()
 
-    when (val state = supportCardDetailsState) {
-        is SupportCardDetailsScreenUiState.Error -> Text("Error: $state")
-        SupportCardDetailsScreenUiState.Loading -> Text("Loading...")
-        is SupportCardDetailsScreenUiState.Success -> SuccessScreen(supportCardUiModel = state.supportCard,
-            modifier = Modifier.padding(start = 20.dp, end = 20.dp))
+    Box(modifier = modifier) {
+        when (val state = supportCardDetailsState) {
+            is SupportCardDetailsScreenUiState.Error -> Text("Error: $state")
+            SupportCardDetailsScreenUiState.Loading -> Text("Loading...")
+            is SupportCardDetailsScreenUiState.Success -> SuccessScreen(
+                supportCardUiModel = state.supportCard,
+                modifier = Modifier.padding(start = 20.dp, end = 20.dp)
+            )
+        }
     }
 }
 

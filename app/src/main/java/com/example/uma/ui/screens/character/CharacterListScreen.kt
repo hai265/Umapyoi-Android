@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -19,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.uma.data.models.CharacterBasic
-import com.example.uma.ui.screens.common.CardWithGradientBackground
+import com.example.uma.ui.screens.common.GradientBackground
 import com.example.uma.ui.screens.common.ImageWithFavoriteButton
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 import kotlinx.coroutines.flow.filter
@@ -50,6 +51,7 @@ fun CharacterListScreen(modifier: Modifier = Modifier, onTapCharacter: (Int) -> 
         contentEmpty = characterListState.list.isEmpty(),
         searchBoxLabel = "Search Character",
         syncing = characterListState.syncing,
+        modifier = modifier
     ) {
         CharacterColumn(
             characterBasics = characterListState.list,
@@ -83,16 +85,18 @@ fun CharacterColumn(
         items(
             items = characterBasics,
             key = { characters: CharacterBasic -> characters.id }) { character ->
-            CardWithGradientBackground(
-                primaryColorHex = character.colorMain,
-            ) {
-                ImageWithFavoriteButton(
-                    onClickImage = { onTapCharacter(character.id) },
-                    bottomText = character.name,
-                    imageUrl = character.image,
-                    isFavorite = character.isFavorite,
-                    onTapFavorite = { onTapFavorite(character.id, character.isFavorite.not()) }
-                )
+            Card {
+                GradientBackground(
+                    primaryColorHex = character.colorMain,
+                ) {
+                    ImageWithFavoriteButton(
+                        onClickImage = { onTapCharacter(character.id) },
+                        bottomText = character.name,
+                        imageUrl = character.image,
+                        isFavorite = character.isFavorite,
+                        onTapFavorite = { onTapFavorite(character.id, character.isFavorite.not()) }
+                    )
+                }
             }
         }
     }

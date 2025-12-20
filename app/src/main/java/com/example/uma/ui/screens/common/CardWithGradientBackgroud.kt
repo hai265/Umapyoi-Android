@@ -3,7 +3,6 @@ package com.example.uma.ui.screens.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -14,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 
 @Composable
-fun CardWithGradientBackground(
+fun GradientBackground(
     primaryColorHex: String,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
@@ -24,7 +23,6 @@ fun CardWithGradientBackground(
     } catch (e: Exception) {
         Color.Gray
     }
-    Card {
         Box(
             modifier = modifier.background(
                 Brush.verticalGradient(
@@ -39,13 +37,12 @@ fun CardWithGradientBackground(
         ) {
             content()
         }
-    }
 }
 
 @Composable
 @Preview
-private fun CardWithGradientBackgroundPreview(
+private fun GradientBackgroundPreview(
 ) {
-    CardWithGradientBackground(String.format("#%08X", Color.Red.toArgb()), Modifier.size(300.dp)) {
+    GradientBackground(String.format("#%08X", Color.Red.toArgb()), Modifier.size(300.dp)) {
     }
 }

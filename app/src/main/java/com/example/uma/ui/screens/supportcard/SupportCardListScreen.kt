@@ -30,7 +30,7 @@ fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int)
     var previousListSize by remember { mutableStateOf(supportCardListState.list.size) }
     LaunchedEffect(supportCardListState.list.size) {
         val currentSize = supportCardListState.list.size
-        if(currentSize != previousListSize) {
+        if (currentSize != previousListSize) {
             snapshotFlow { gridState.layoutInfo.visibleItemsInfo.isNotEmpty() }
                 .filter { it }
                 .first()
@@ -45,7 +45,8 @@ fun SupportCardListScreen(modifier: Modifier = Modifier, onTapSupportCard: (Int)
         onRefresh = { viewModel.refreshList() },
         contentEmpty = supportCardListState.list.isEmpty(),
         searchBoxLabel = "Search Support Card",
-        syncing = supportCardListState.syncing
+        syncing = supportCardListState.syncing,
+        modifier = modifier
     ) {
         SupportCardGrid(supportCardListState.list, onTapSupportCard, gridState = gridState)
     }
