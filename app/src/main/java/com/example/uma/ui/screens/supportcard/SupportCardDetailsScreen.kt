@@ -40,10 +40,8 @@ fun SupportCardDetailsScreen(modifier: Modifier = Modifier) {
 @Composable
 fun SuccessScreen(supportCardUiModel: SupportCardDetailsUiModel, modifier: Modifier = Modifier) {
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-//        TODO: Get character name
         val supportCard = supportCardUiModel.details
         Text(supportCardUiModel.characterName, fontSize = 32.sp)
-        Text("character id: ${supportCard.characterId}")
         supportCard.titleEn?.let {
             Text(
                 supportCard.titleEn,

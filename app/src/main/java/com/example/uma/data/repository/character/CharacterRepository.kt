@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterRepository: Syncable {
     fun getAllCharacters(): Flow<List<CharacterBasic>>
     fun getCharacterDetailsById(id: Int) : Flow<CharacterDetailed>
-    fun getCharacterDetailsByCharacterId(id: Int) : Flow<CharacterDetailed>
+    fun getCharacterDetailsByCharacterId(characterId: Int) : Flow<CharacterDetailed>
     suspend fun syncCharacterDetails(id: Int) : Boolean
 
     suspend fun setCharacterFavoriteStatus(id: Int, isFavorite: Boolean)

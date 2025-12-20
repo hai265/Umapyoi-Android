@@ -31,8 +31,8 @@ class CharacterRepositoryImpl @Inject constructor(
         characterDao.getCharacterById(id)
             .map { it.toCharacterDetailed() }
             .distinctUntilChanged() // Only emit if the data has actually changed.
-    override fun getCharacterDetailsByCharacterId(id: Int): Flow<CharacterDetailed> =
-        characterDao.getCharacterById(id)
+    override fun getCharacterDetailsByCharacterId(characterId: Int): Flow<CharacterDetailed> =
+        characterDao.getCharacterByCharacterId(characterId)
             .map { it.toCharacterDetailed() }
             .distinctUntilChanged() // Only emit if the data has actually changed.
 
