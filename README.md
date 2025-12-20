@@ -1,7 +1,8 @@
 # Umapyoi Android
 
-A simple project I built using modern Jetpack compose, Room, hilt, and data from [umapyoi.net](https://umapyoi.net/docs/index.html)  
+A project I built using modern Jetpack compose, Room, hilt, and data from [umapyoi.net](https://umapyoi.net/docs/index.html)  
 Structured based on [Google's recommended architecture](https://developer.android.com/topic/architecture).
+//TODO: Update image with color char details and favorite button
 <img width="1920" height="1080" alt="Umapyoi Github Image(1)" src="https://github.com/user-attachments/assets/8f68a078-16fa-42dd-be20-fad3a45d1f2b" />
 
 ## Download
@@ -31,7 +32,8 @@ Take the character list flow, where a user opens the list and taps the favorite 
 5. Screen sends a favorite event, viewmodel then passes it to the repository, where eventually the entry is updated in room
 6. Since Flow is being used, an updated list is emitted, and the ui receives this event to update the favorite button icon
 
-TODO: navigation?
+### The data layer is the sole source of truth, and all screens derive their UI based on this data. This ensures that when the data is shown in multiple screens, only one version of that data is shown.
+* A user is able to set a favorite character in both the list and detailed page. Changes to this are automatically reflected in both pages since the character data is modified and comes from one source
 
 
 ## Version History
