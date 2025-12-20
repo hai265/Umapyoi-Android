@@ -1,22 +1,28 @@
 # Umapyoi Android
 
-A simple project I built using modern Android Components: Jetpack Compose, Hilt, Coroutines/Flow, etc. See below for a detailed list  
+A simple project I built using modern Jetpack compose, Room, hilt, and data from [umapyoi.net](https://umapyoi.net/docs/index.html)  
 Structured based on [Google's recommended architecture](https://developer.android.com/topic/architecture).
 <img width="1920" height="1080" alt="Umapyoi Github Image" src="https://github.com/user-attachments/assets/b6bba076-8db6-491e-a07f-91f5c243e05e" />
 
 ## Download
 See releases for the latest APK
 
+## Tech Stack / Components
+* Kotlin w/ flow and coroutines for asynchronous tasks
+* Jetpack Libraries:
+   * Compose: Declarative UI
+   * ViewModel: Manage state and business logic and exposes state to the UI
+   * Compose Navigation: Navigate between screens
+   * Room: Cache data from the network for an offline-first experience
+   * Hilt: Dependency Injection
+* Retrofit: Transform Umapyoi.net's api into a java interface
+* Testing:
+   * Turbine - Framework to test kotlin flows
+   * mockk - mocking framework for kotlin
 
-### Tech Stack / Components
-
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
-
-### Installing
-
-* How/where to download your program
-
+## Architecture
+The app follows an MVVM architecture, enforced by following Google's recommendation to use a UI and data layer.
+TODO: Describe architecture
 ## Version History
 
 * 0.1
