@@ -2,7 +2,7 @@
 
 A simple project I built using modern Jetpack compose, Room, hilt, and data from [umapyoi.net](https://umapyoi.net/docs/index.html)  
 Structured based on [Google's recommended architecture](https://developer.android.com/topic/architecture).
-<img width="1920" height="1080" alt="Umapyoi Github Image" src="https://github.com/user-attachments/assets/b6bba076-8db6-491e-a07f-91f5c243e05e" />
+<img width="1920" height="1080" alt="Umapyoi Github Image(1)" src="https://github.com/user-attachments/assets/8f68a078-16fa-42dd-be20-fad3a45d1f2b" />
 
 ## Download
 See releases for the latest APK
