@@ -2,6 +2,7 @@
 
 A simple project I built using modern Android Components: Jetpack Compose, Hilt, Coroutines/Flow, etc. See below for a detailed list  
 Structured based on [Google's recommended architecture](https://developer.android.com/topic/architecture).
+<img width="1920" height="1080" alt="Umapyoi Github Image" src="https://github.com/user-attachments/assets/b6bba076-8db6-491e-a07f-91f5c243e05e" />
 
 ## Download
 See releases for the latest APK
