@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.ui.screens.common.ImageWithBottomText
 import com.example.uma.ui.screens.common.ScreenWithSearchBar
 import kotlinx.coroutines.flow.filter

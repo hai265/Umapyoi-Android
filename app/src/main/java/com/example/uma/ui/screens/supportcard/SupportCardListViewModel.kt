@@ -1,6 +1,5 @@
 package com.example.uma.ui.screens.supportcard
 
-import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.domain.GetSupportCardsWithCharacterNameUseCase
 import com.example.uma.ui.screens.common.BaseListViewModel
 import com.example.uma.ui.screens.common.UiState

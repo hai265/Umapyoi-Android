@@ -1,12 +1,5 @@
 package com.example.uma.data.models
 
-data class SupportCardListItem(
-    val id: Int,
-    val characterId: Int,
-    val imageUrl: String,
-    val characterName: String,
-)
-
 //Ideally we'd like the character name in here but api doesn't provide it, so we don't have it here
 data class SupportCardBasic(
     val id: Int,

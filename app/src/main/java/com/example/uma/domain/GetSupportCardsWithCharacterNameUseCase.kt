@@ -1,8 +1,8 @@
 package com.example.uma.domain
 
-import com.example.uma.data.models.SupportCardListItem
 import com.example.uma.data.repository.character.CharacterRepository
 import com.example.uma.data.repository.supportcard.SupportCardRepository
+import com.example.uma.ui.screens.supportcard.SupportCardListItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject

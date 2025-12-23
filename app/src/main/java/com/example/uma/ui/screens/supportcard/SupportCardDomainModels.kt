@@ -6,3 +6,10 @@ data class SupportCardDetailsUiModel(
     val details: SupportCardDetailed,
     val characterName: String,
 )
+
+data class SupportCardListItem(
+    val id: Int,
+    val characterId: Int,
+    val imageUrl: String,
+    val characterName: String,
+)

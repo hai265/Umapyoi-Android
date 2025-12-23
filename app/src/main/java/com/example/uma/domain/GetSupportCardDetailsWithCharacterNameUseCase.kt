@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+//Gut instinct tells me that the support card name should be in the support card domain model
+//but since the api doesn't include a name I can't include it
 class GetSupportCardDetailsWithCharacterNameUseCase @Inject constructor(
     private val supportCardRepository: SupportCardRepository,
     private val characterRepository: CharacterRepository,
