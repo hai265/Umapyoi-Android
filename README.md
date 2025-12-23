@@ -3,7 +3,7 @@
 A project I built using modern Jetpack compose, Room, hilt, and data from [umapyoi.net](https://umapyoi.net/docs/index.html)  
 Structured based on [Google's recommended architecture](https://developer.android.com/topic/architecture).
 //TODO: Update image with color char details and favorite button
-<img width="1920" height="1080" alt="Umapyoi Github Image(1)" src="https://github.com/user-attachments/assets/8f68a078-16fa-42dd-be20-fad3a45d1f2b" />
+<img width="1920" height="1080" alt="Umapyoi Github Image(3)" src="https://github.com/user-attachments/assets/0d6c5d9a-2ad4-441f-a715-3154f243fba2" />
 
 ## Download
 See releases for the latest APK
