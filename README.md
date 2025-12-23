@@ -46,9 +46,11 @@ Take the character list flow, where a user opens the list and taps the favorite 
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ## Acknowledgments
 Inspiration, code snippets, etc.
+* [Pokedex-Compose](https://github.com/skydoves/pokedex-compose)
+* [Now in Andorid](https://github.com/android/nowinandroid)
 * [README-Template.md](https://gist.github.com/DomPizzie/7a5ff55ffa9081f2de27c315f5018afc)
-* Icons downloaded from [flaticon.com](Icons taken from flaticon.com)
+* Icons downloaded from [flaticon.com](flaticon.com)
