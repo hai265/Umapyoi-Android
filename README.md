@@ -21,7 +21,7 @@ See releases for the latest APK
    * mockk - mocking framework for kotlin
 
 ## Architecture
-The architecture is structed so that data lives one one layer and data is exposed through Flows to be consumed by the UI layer. 
+The architecture is structed so that data lives in one layer and is exposed through Flows to be consumed by the UI layer. 
 Take the character list flow, where a user opens the list and taps the favorite button on a character
 <img width="852" height="411" alt="nPB13e8m44Jl_OeUzU0F44CmAYUDYKJlJLbYazAIxGhXxmKFM495uyLhPz_CPgU98u5qBpMxb69JgGomLXBuAkRRcq0X2V0CbNMABBOHryhHgHWanm9J8tWdRCILSO34PG3hzBTXgRRDkazS3_BUaA8sZZ_c7Zhigg0vsXnqqEgf-4uZP6AMIGGmqUin8q700ZDpUnIYjgW81dsn_6O1_oeEA9rpcIl2OttaVoLChNvgWILWyluNFm00" src="https://github.com/user-attachments/assets/71d0b2e6-6522-4e14-9d3d-6e2f90e1d9c5" />  
 1. Source of data lives in umapyoi.net, the repository calls the api to get the character list
